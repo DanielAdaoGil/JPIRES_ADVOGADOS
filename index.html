@@ -3,30 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>JPires Advogados — Rigor Jurídico. Estratégia. Confiança.</title>
+<title>JPires — Sociedade de Advogados, RL · Corporate Law para Angola que cresce</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
-:root{--gold:#d4af6e;--gold2:#ecd29b;--ivory:#f4eee2;--bg:#07090f;--line:rgba(212,175,110,.2)}
+:root{--gold:#c9a84c;--gold2:#e2c77e;--ivory:#efe8d9;--bg:#12211c;--line:rgba(201,168,76,.24)}
 *{box-sizing:border-box;margin:0}
-html{scrollbar-width:none;-ms-overflow-style:none;background:var(--bg);-webkit-text-size-adjust:100%}
+html{scrollbar-width:none;-ms-overflow-style:none;background:var(--bg)}
 html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
 body{background:var(--bg);color:var(--ivory);font-family:'Inter',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 ::selection{background:rgba(212,175,110,.3)}
 .fd{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;letter-spacing:-.015em;line-height:.98}
-.fd.fz{padding-top:.1em;padding-bottom:.1em}
 .lab{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:400;color:var(--gold)}
 .pad{padding-left:clamp(1.25rem,5vw,4.5rem);padding-right:clamp(1.25rem,5vw,4.5rem)}
-.full{min-height:100vh;min-height:100svh}
 #gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0}
-#vig{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,transparent 30%,rgba(7,9,15,.75) 100%)}
-nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-top:1.5rem;padding-bottom:1.5rem}
-nav .menu{display:none;gap:2.5rem;font-size:13px}
+#fade{position:fixed;inset:0;z-index:40;pointer-events:none;background:linear-gradient(to bottom,#07090f 0,#07090f 88px,rgba(7,9,15,.85) 118px,rgba(7,9,15,.5) 155px,rgba(7,9,15,.2) 190px,rgba(7,9,15,0) 230px,rgba(7,9,15,0) calc(100% - 150px),rgba(7,9,15,.35) calc(100% - 100px),rgba(7,9,15,.8) calc(100% - 50px),#07090f calc(100% - 22px))}
+#vig{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,transparent 30%,rgba(18,33,28,.78) 100%)}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;padding-bottom:1.5rem;mix-blend-mode:normal}
+nav .menu{display:none;gap:2.2rem;font-size:13px}
 @media(min-width:768px){nav .menu{display:flex}}
 nav a{transition:color .4s}nav a:hover{color:var(--gold)}
-.logo{font-size:1.9rem}
-.cta{border:1px solid var(--line);padding:.6rem 1.2rem;font-size:12px;letter-spacing:.08em;transition:all .5s;white-space:nowrap}
+.cta{border:1px solid var(--line);padding:.6rem 1.2rem;font-size:12px;letter-spacing:.08em;transition:all .5s}
 .cta:hover{background:var(--gold);color:#16100a;border-color:var(--gold)}
 #bar{position:fixed;top:0;left:0;height:1px;width:100%;background:var(--gold);transform-origin:0 0;transform:scaleX(0);z-index:60}
 main{position:relative;z-index:2}
@@ -36,139 +34,148 @@ main{position:relative;z-index:2}
 .sw{opacity:.14;transition:none}
 .row{display:flex;align-items:baseline;gap:1.5rem;border-top:1px solid var(--line);padding:1.6rem 0;will-change:transform,opacity}
 .row:last-child{border-bottom:1px solid var(--line)}
-.row h3{transition:transform .7s cubic-bezier(.16,1,.3,1),color .5s;min-width:0}
+.row h3{transition:transform .7s cubic-bezier(.16,1,.3,1),color .5s}
 .row:hover h3{transform:translateX(14px);color:var(--gold2)}
-.row .ar{margin-left:auto;flex:none;transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .5s;opacity:.4;color:var(--gold)}
+.row .ar{margin-left:auto;transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .5s;opacity:.4;color:var(--gold)}
 .row:hover .ar{transform:translateX(8px);opacity:1}
 .btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--gold);color:#16100a;padding:.95rem 1.7rem;font-size:13px;font-weight:500;letter-spacing:.04em;transition:all .5s}
 .btn:hover{background:var(--gold2);gap:1rem}
 .hint{width:1px;height:56px;background:linear-gradient(var(--gold),transparent);transform-origin:top;animation:hint 2.4s ease-in-out infinite}
 @keyframes hint{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
-
-/* colunas de texto: largura limitada para sobrar espaço livre à balança */
-.col{width:100%;max-width:min(38rem,54vw)}
-.col.r{margin-left:auto}
-#h1{width:max-content;max-width:100%;font-size:clamp(3.2rem,9.2vw,9.5rem)}
-#stmt{font-size:clamp(1.7rem,5.2vw,5rem);max-width:68rem;line-height:1.08}
-.h2a{font-size:clamp(2.4rem,5vw,5rem);margin-bottom:3rem}
-.h2c{font-size:clamp(2.6rem,8vw,8rem);max-width:60rem}
-.row h3.ta{font-size:clamp(1.9rem,4vw,3.6rem)}
-.row h3.tv{font-size:clamp(1.7rem,3vw,2.6rem)}
-.heroRow{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;margin-top:3.5rem;flex-wrap:wrap}
-.heroList{list-style:none;padding:0;line-height:2.1;color:var(--ivory);opacity:.75}
-.foot{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:1.5rem;font-size:12px;opacity:.55}
-
-@media(max-width:767px){
-  .col,.col.r{max-width:100%}
-  nav{padding-top:1.1rem;padding-bottom:1.1rem}
-  .logo{font-size:1.6rem}
-  .cta{padding:.5rem .9rem;font-size:11px}
-  .row{gap:1rem;padding:1.3rem 0}
-  .h2a{margin-bottom:2.2rem}
-  .heroRow{margin-top:2rem;gap:1.2rem}
-  .heroList{display:flex;flex-wrap:wrap;gap:0 1.2rem;line-height:1.9;font-size:10px}
-  .hint{display:none}
-  .btn{padding:.85rem 1.4rem}
-  .sec3,.sec4{padding-top:16vh!important;padding-bottom:16vh!important}
-}
-@media(max-height:480px) and (orientation:landscape){
-  .heroRow{margin-top:1.5rem}
-  .hint{display:none}
-}
-@media(min-width:2000px){
-  html{font-size:18px}
-}
+.col{max-width:46vw}@media(max-width:900px){.col{max-width:100%}}
+.card{border:1px solid var(--line);background:rgba(239,232,217,.04);padding:2rem 1.8rem;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.card.rec{border-color:var(--gold);background:rgba(201,168,76,.08)}
+.card li{list-style:none;font-size:14px;line-height:1.6;opacity:.75;padding:.45rem 0;border-top:1px solid var(--line)}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.2rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
+@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}}
+.info{border:1px solid var(--line);padding:1.3rem 1.5rem;margin-top:1rem}
+.info p{font-size:15px;line-height:1.7;opacity:.8;margin-top:.5rem}
+.row.sm{padding:1.05rem 0}
 </style>
 </head>
 <body>
 <div id="bar"></div>
-<canvas id="gl"></canvas><div id="vig"></div>
+<canvas id="gl"></canvas><div id="vig"></div><div id="fade"></div>
 
 <nav class="pad">
-  <a href="#" data-go="s1" class="fd logo">JPires</a>
-  <div class="menu"><a href="#" data-go="s4">Áreas de Atuação</a><a href="#" data-go="s3">Valores</a><a href="#" data-go="s5">Contacto</a></div>
-  <a href="#" data-go="s5" class="cta">Consulta Jurídica</a>
+  <a href="#" data-go="s1" style="display:flex;align-items:center;gap:.7rem"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg><span style="font-weight:500;letter-spacing:.12em;font-size:15px">JPIRES</span><span class="menu" style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.55;border-left:1px solid var(--line);padding-left:.8rem">Sociedade de Advogados, RL</span></a>
+  <div class="menu"><a href="#" data-go="s3">Sobre</a><a href="#" data-go="s4">Áreas de Prática</a><a href="#" data-go="s5">Sectores</a><a href="#" data-go="s6">Equipa</a><a href="#" data-go="s8">Contacto</a></div>
+  <a href="#" data-go="s8" class="cta">Marcar Sessão</a>
 </nav>
 
 <main>
 <!-- 1 · Hero -->
-<section id="s1" data-mode="right,above,dim" data-yb="150" class="pad full" style="display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:4rem;padding-top:7rem">
-  <div id="hero" class="fz">
-    <p class="lab" style="margin-bottom:1.6rem">Sociedade de Advogados</p>
-    <h1 id="h1" data-t class="fd"></h1>
-  </div>
-  <div class="heroRow fz">
-    <p style="max-width:22rem;font-size:15px;line-height:1.7;opacity:.7">Prestamos assessoria jurídica estratégica para proteger interesses, resolver desafios e apoiar decisões com segurança e precisão.</p>
-    <div style="display:flex;align-items:flex-end;gap:2.5rem">
-      <ul class="lab heroList"><li>Direito Empresarial</li><li>Direito Civil</li><li>Direito Laboral</li></ul>
-      <div class="hint"></div>
+<section id="s1" data-sx="1" data-so="1" class="pad" style="min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:3.5rem;padding-top:7rem">
+  <div class="col">
+    <p class="lab fl" style="margin-bottom:1.6rem">Escritório de Advocacia · Angola</p>
+    <h1 id="h1" class="fd" style="font-size:clamp(2.8rem,5.4vw,6rem)"></h1>
+    <p class="fl" style="margin-top:1.6rem;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.25rem;opacity:.55">Sociedade de Advogados, RL · Luanda, Angola</p>
+    <p class="fl" style="margin-top:1.2rem;max-width:34rem;font-size:15px;line-height:1.7;opacity:.72">Assessoria jurídica especializada em direito empresarial e corporativo — para grupos angolanos e investidores internacionais que crescem com segurança e confiança jurídica em Angola.</p>
+    <div class="stats fl" style="margin-top:3rem;border-top:1px solid var(--line);padding-top:1.5rem">
+      <div><div class="fd" style="font-style:italic;font-size:clamp(1.5rem,2.4vw,2.4rem)">Corporate</div><div class="lab" style="font-size:9.5px;opacity:.7;margin-top:.4rem">Especialização</div></div>
+      <div><div class="fd" style="font-style:italic;font-size:clamp(1.5rem,2.4vw,2.4rem)">7+</div><div class="lab" style="font-size:9.5px;opacity:.7;margin-top:.4rem">Sectores servidos</div></div>
+      <div><div class="fd" style="font-style:italic;font-size:clamp(1.5rem,2.4vw,2.4rem)">Angola</div><div class="lab" style="font-size:9.5px;opacity:.7;margin-top:.4rem">Mercado principal</div></div>
+      <div><div class="fd" style="font-style:italic;font-size:clamp(1.5rem,2.4vw,2.4rem)">RL</div><div class="lab" style="font-size:9.5px;opacity:.7;margin-top:.4rem">Escritório registado</div></div>
     </div>
   </div>
 </section>
 
-<!-- 2 · Declaração (texto acende palavra a palavra) -->
-<section id="s2" data-mode="center" data-so=".14" style="height:320vh;position:relative">
-  <div class="pad" style="position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;justify-content:center">
-    <p class="lab fz" style="margin-bottom:2.2rem">Estratégia Jurídica</p>
-    <p id="stmt" class="fd fz"></p>
+<!-- 2 · Abordagem (palavras acendem) -->
+<section id="s2" data-sx="1" data-so="1" style="height:320vh;position:relative">
+  <div class="pad" style="position:sticky;top:0;height:100svh;display:flex;flex-direction:column;justify-content:center">
+    <div class="col">
+      <p class="lab fl" style="margin-bottom:2.2rem">A nossa abordagem</p>
+      <p id="stmt" class="fd" style="font-size:clamp(1.8rem,3.5vw,3.4rem);line-height:1.1"></p>
+    </div>
   </div>
 </section>
 
-<!-- 3 · Valores (texto à direita → balança à esquerda) -->
-<section id="s3" data-mode="left,dim" class="pad sec3" style="padding-top:22vh;padding-bottom:22vh">
-  <div class="col r" data-t>
-    <p class="lab fl" style="margin-bottom:1.6rem">O que nos define</p>
-    <h2 class="fd fl h2a">Decisões mais <em style="color:var(--gold2)">seguras.</em></h2>
-    <div id="vals"></div>
+<!-- 3 · Sobre + valores -->
+<section id="s3" data-sx="-1" data-so="1" class="pad" style="padding-top:20vh;padding-bottom:20vh">
+  <div class="col" style="margin-left:auto">
+    <p class="lab fl" style="margin-bottom:1.6rem">Sobre o escritório</p>
+    <h2 class="fd fl" style="font-size:clamp(2.4rem,4.6vw,4.8rem);margin-bottom:2.5rem">Rigor jurídico com <em style="color:var(--gold2)">visão de negócio.</em></h2>
+    <p class="fl" style="font-size:15px;line-height:1.8;opacity:.72;max-width:36rem">JPires – Sociedade de Advogados, RL é um escritório especializado em direito empresarial e corporativo, com actuação focada no mercado angolano e nas suas interfaces com o investimento e o negócio internacional.</p>
+    <p class="fl" style="margin-top:1.2rem;font-size:15px;line-height:1.8;opacity:.72;max-width:36rem">Servimos grupos empresariais angolanos, investidores estrangeiros e empresas em crescimento — nos sectores de Oil &amp; Gás, Mineração, Banca, Seguros e muito mais.</p>
+    <div id="vals" style="margin-top:3.5rem"></div>
+    <p class="fl fd" style="margin-top:3rem;font-style:italic;font-size:clamp(1.6rem,2.4vw,2.4rem);color:var(--gold2)">“Onde o direito serve o negócio.”</p>
   </div>
 </section>
 
-<!-- 4 · Áreas (texto à esquerda → balança à direita) -->
-<section id="s4" data-mode="right,dim" class="pad sec4" style="padding-top:18vh;padding-bottom:22vh">
-  <div class="col" data-t>
-    <p class="lab fl" style="margin-bottom:1.6rem">Áreas de Atuação</p>
-    <div id="areas" style="margin-top:2rem"></div>
+<!-- 4 · Áreas de prática -->
+<section id="s4" data-sx="1" data-so="1" class="pad" style="padding-top:16vh;padding-bottom:20vh">
+  <div class="col">
+    <p class="lab fl" style="margin-bottom:1.6rem">Áreas de prática</p>
+    <h2 class="fd fl" style="font-size:clamp(2.6rem,5vw,5rem);margin-bottom:3rem">O que <em style="color:var(--gold2)">fazemos.</em></h2>
+    <div id="areas"></div>
   </div>
 </section>
 
-<!-- 5 · Contacto -->
-<section id="s5" data-mode="center" data-so=".18" class="pad full" style="display:flex;flex-direction:column;justify-content:space-between;padding-top:22vh;padding-bottom:2.5rem">
-  <div>
-    <p class="lab fl" style="margin-bottom:1.8rem">Contacto</p>
-    <h2 class="fd fl h2c">Fale com a nossa <em style="color:var(--gold2)">equipa.</em></h2>
-    <p class="fl" style="margin-top:2rem;max-width:26rem;font-size:15px;line-height:1.7;opacity:.7">Da análise inicial à resolução do caso, transformamos questões jurídicas complexas em estratégias claras.</p>
-    <div class="fl" style="margin-top:2.6rem"><a href="#" class="btn">Agendar consulta <span>→</span></a></div>
+<!-- 5 · Sectores -->
+<section id="s5" data-sx="-1" data-so="1" class="pad" style="padding-top:16vh;padding-bottom:20vh">
+  <div class="col" style="margin-left:auto">
+    <p class="lab fl" style="margin-bottom:1.6rem">Sectores</p>
+    <h2 class="fd fl" style="font-size:clamp(2.6rem,5vw,5rem)">Onde <em style="color:var(--gold2)">actuamos.</em></h2>
+    <p class="fl" style="margin:1.6rem 0 3rem;max-width:30rem;font-size:15px;line-height:1.7;opacity:.7">Conhecimento sectorial profundo — porque em Angola o contexto é determinante para a qualidade da assessoria jurídica.</p>
+    <div id="sect"></div>
   </div>
-  <div class="foot fz" style="margin-top:3rem">
-    <span>© 2026 JPires Advogados. Todos os direitos reservados.</span><span>Rigor. Estratégia. Confiança.</span>
+</section>
+
+<!-- 6 · Equipa -->
+<section id="s6" data-sx="1" data-so="1" class="pad" style="padding-top:16vh;padding-bottom:26vh">
+  <div class="col">
+    <p class="lab fl" style="margin-bottom:1.6rem">Liderança e equipa</p>
+    <h2 class="fd fl" style="font-size:clamp(2.6rem,5vw,5rem);margin-bottom:3rem">A <em style="color:var(--gold2)">equipa.</em></h2>
+    <div id="team"></div>
+  </div>
+</section>
+
+<!-- 7 · Honorários (largura total · sem balança) -->
+<section id="s7" data-sx="0" data-so="0" class="pad" style="padding-top:12vh;padding-bottom:20vh">
+  <p class="lab fl" style="margin-bottom:1.6rem">Modelos de colaboração</p>
+  <h2 class="fd fl" style="font-size:clamp(2.6rem,5.4vw,5.4rem)">Honorários <em style="color:var(--gold2)">transparentes.</em></h2>
+  <p class="fl" style="margin:1.6rem 0 1rem;max-width:44rem;font-size:15px;line-height:1.8;opacity:.72">Os nossos honorários são definidos em função do perfil do cliente, da complexidade do mandato e das condições do mercado. Prezamos pela transparência, equilíbrio e valor real entregue — sempre com abertura para negociação.</p>
+  <p class="lab fl" style="margin:3rem 0 1.2rem;color:var(--ivory);opacity:.6">Avença mensal</p>
+  <div class="grid3" id="plans"></div>
+  <p class="fl" style="margin-top:2.2rem;font-size:12.5px;letter-spacing:.04em;opacity:.55;line-height:1.7">Sessão de diagnóstico inicial gratuita incluída · Confidencialidade garantida · Honorários negociados em função do cliente e do mercado</p>
+</section>
+
+<!-- 8 · Contacto -->
+<section id="s8" data-sx="-1" data-so="1" class="pad" style="min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;padding-top:14vh;padding-bottom:2.5rem">
+  <div class="col" style="margin-left:auto">
+    <p class="lab fl" style="margin-bottom:1.6rem">Fale connosco</p>
+    <h2 class="fd fl" style="font-size:clamp(2.6rem,5.2vw,5.2rem)">Comece com uma <em style="color:var(--gold2)">conversa.</em></h2>
+    <p class="fl" style="margin-top:1.6rem;max-width:30rem;font-size:15px;line-height:1.7;opacity:.72">Sessão de diagnóstico inicial gratuita — 60 minutos, sem compromisso. Avaliamos como podemos ser úteis ao seu negócio.</p>
+    <div class="info fl" style="margin-top:2.4rem"><div class="lab">Endereço</div><p>Av. 4 de Fevereiro<br>15.º Andar, N.º 227<br>Luanda, Angola</p></div>
+    <div class="info fl"><div class="lab">Telefone</div><p><a href="tel:+244933364301">+244 933 364 301</a><br><a href="tel:+244923514369">+244 923 514 369</a></p></div>
+    <div class="info fl"><div class="lab">Email</div><p><a href="mailto:jpires@jpires-advogados.ao">jpires@jpires-advogados.ao</a></p></div>
+    <div class="fl" style="margin-top:2.2rem"><a href="mailto:jpires@jpires-advogados.ao?subject=Sess%C3%A3o%20de%20diagn%C3%B3stico" class="btn">Marcar sessão de diagnóstico <span>→</span></a></div>
+  </div>
+  <div style="display:flex;justify-content:center;border-top:1px solid var(--line);padding-top:1.5rem;margin-top:4rem;font-size:11px;letter-spacing:.12em;opacity:.5;text-align:center;line-height:1.8">
+    <span>JPires – Sociedade de Advogados, RL · Corporate Law · Luanda, Angola · Confidencial</span>
   </div>
 </section>
 </main>
 
 <script>
-/* ---------- utilitários ---------- */
-const cl=(v,a,b)=>Math.max(a,Math.min(b,v));
-const maxS=()=>Math.max(0,document.documentElement.scrollHeight-innerHeight);
-
 /* ---------- conteúdo ---------- */
 const arrow='<svg class="ar" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 const SP=(t,s=0)=>{let n=s;return t.split(' ').map(w=>`<span class="w">${[...w].map(c=>`<span class="ch" style="--i:${n++}">${c}</span>`).join('')}</span>`).join(' ')};
-document.getElementById('h1').innerHTML=SP('Rigor.')+'<br>'+SP('Estratégia.',6)+'<br><em style="color:var(--gold2)">'+SP('Confiança.',17)+'</em>';
-document.getElementById('stmt').innerHTML='Da análise inicial à resolução do caso, a JPires Advogados transforma questões jurídicas complexas em estratégias claras, fundamentadas e orientadas para proteger os interesses dos seus clientes.'.split(' ').map(w=>`<span class="sw">${w}</span>`).join(' ');
+document.getElementById('h1').innerHTML=`<span class="fl" style="display:block">${SP('Corporate Law para')}</span><span class="fl" style="display:block"><em style="color:var(--gold2)">${SP('Angola que cresce',19)}</em></span>`;
+document.getElementById('stmt').innerHTML='A nossa abordagem combina rigor jurídico com compreensão profunda da realidade económica angolana — traduzindo complexidade legal em soluções práticas que protegem e potenciam os nossos clientes.'.split(' ').map(w=>`<span class="sw">${w}</span>`).join(' ');
 const stW=[...document.querySelectorAll('.sw')];
-const vals=[["01","Análise estratégica","Estudamos cada questão jurídica no seu contexto para identificar riscos, oportunidades e os caminhos mais seguros."],["02","Precisão jurídica","Fundamentamos cada orientação com rigor técnico, clareza e atenção aos detalhes que podem determinar uma decisão."],["03","Defesa de interesses","Atuamos de forma próxima e estratégica para proteger os interesses dos nossos clientes em cada etapa."]];
-document.getElementById('vals').innerHTML=vals.map(v=>`<div class="row fl"><span class="lab">${v[0]}</span><div><h3 class="fd tv">${v[1]}</h3><p style="margin-top:.7rem;font-size:14px;line-height:1.7;opacity:.6;max-width:30rem">${v[2]}</p></div></div>`).join('');
-document.getElementById('areas').innerHTML=['Direito Empresarial','Direito Civil','Direito Laboral'].map((a,i)=>`<a href="#" class="row fl"><span class="lab">0${i+1}</span><h3 class="fd ta">${a}</h3>${arrow}</a>`).join('');
-requestAnimationFrame(()=>setTimeout(()=>document.getElementById('h1').classList.add('go'),100));
+const row=(n,t,d,big)=>`<div class="row fl ${big?'':'sm'}"><span class="lab">${n}</span><div><h3 class="fd" style="font-size:${big?'clamp(1.7rem,2.8vw,2.6rem)':'clamp(1.35rem,2.1vw,1.9rem)'}">${t}</h3>${d?`<p style="margin-top:.6rem;font-size:14px;line-height:1.7;opacity:.62;max-width:30rem">${d}</p>`:''}</div></div>`;
+document.getElementById('vals').innerHTML=[["Rigor","Excelência técnica em cada mandato."],["Confiança","Confidencialidade e integridade."],["Pragmatismo","Soluções práticas e accionáveis."],["Parceria","Relações de longo prazo."]].map((v,i)=>row('0'+(i+1),v[0],v[1],true)).join('');
+document.getElementById('areas').innerHTML=['Direito Societário & Governance','Fusões, Aquisições & Privatizações','Investimento Estrangeiro & JV','Contratos Comerciais & Regulação','Financiamento & Reestruturação','Resolução de Conflitos'].map((a,i)=>`<a href="#" class="row fl sm"><span class="lab">0${i+1}</span><h3 class="fd" style="font-size:clamp(1.5rem,2.6vw,2.4rem)">${a.replace('&','&amp;')}</h3>${arrow}</a>`).join('');
+document.getElementById('sect').innerHTML=['Oil & Gás e Energia','Mineração e Recursos Naturais','Banca e Serviços Financeiros','Seguros e Resseguros','Instituições Públicas e Estado','Recursos Humanos e Laboral','Segurança Privada','Imobiliário e Construção'].map((a,i)=>row('0'+(i+1),a.replace('&','&amp;'),'',false)).join('');
+document.getElementById('team').innerHTML=[["Dr. José Pires","CEO · Managing Partner"],["Dr. Isaac Gil","Associate Partner"]].map(m=>`<div class="row fl"><div><h3 class="fd" style="font-size:clamp(2rem,3.6vw,3.4rem)">${m[0]}</h3><p class="lab" style="margin-top:.8rem;color:var(--ivory);opacity:.6;font-size:10.5px">${m[1]}</p></div></div>`).join('');
+const plan=(tag,name,items,rec)=>`<div class="card fl ${rec?'rec':''}"><div class="lab" style="min-height:1.2em;font-size:10px">${tag||''}</div><h3 class="fd" style="font-size:2.4rem;margin-top:.6rem">${name}</h3><p class="fd" style="font-style:italic;font-size:1.4rem;color:var(--gold2);margin-top:1.2rem">Sob Consulta</p><p style="font-size:13px;opacity:.6;margin:.3rem 0 1.4rem">Adaptado ao cliente e ao mercado</p><ul style="padding:0">${items.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
+document.getElementById('plans').innerHTML=plan('','Essencial',['Até 8h de assessoria mensal','Revisão de contratos','Consultas urgentes incluídas','Relatório mensal de risco jurídico'])+plan('★ Recomendado','Estratégico',[],true)+plan('Dedicação parcial','Premium',['Presença regular na empresa','Representação em negociações','Gestão jurídica completa','Acesso directo e prioritário','Relatórios executivos mensais']);
 
-/* ---------- referências ---------- */
-const bar=document.getElementById('bar'),hero=document.getElementById('hero'),navEl=document.querySelector('nav');
-const fl=[...document.querySelectorAll('.fl')];
-const fz=[...document.querySelectorAll('.fl,.fz')];
-const secs=[...document.querySelectorAll('main section')];
-
-/* ---------- scroll fluido (só com rato; em toque usa o scroll nativo) ---------- */
+/* ---------- scroll fluido (sem barra) ---------- */
 const fine=matchMedia('(pointer:fine)').matches;
+const maxS=()=>document.documentElement.scrollHeight-innerHeight,cl=(v,a,b)=>Math.max(a,Math.min(b,v));
 let cur=scrollY,tgt=cur;
 if(fine){
   addEventListener('wheel',e=>{if(e.ctrlKey)return;e.preventDefault();tgt=cl(tgt+e.deltaY*(e.deltaMode?32:1),0,maxS())},{passive:false});
@@ -178,99 +185,67 @@ if(fine){
 addEventListener('scroll',()=>{if(Math.abs(scrollY-cur)>3){cur=tgt=scrollY}},{passive:true});
 document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const el=document.getElementById(a.dataset.go);tgt=cl(el.offsetTop,0,maxS());if(!fine)scrollTo({top:tgt,behavior:'smooth'})}));
 
-/* ---------- posição da balança: sempre no lado livre de texto ---------- */
-let T=[];
-function layout(){
-  const w=innerWidth,h=innerHeight,m=12,P=h/8.2;               // P = pixels por unidade 3D
-  const nb=navEl.getBoundingClientRect().bottom+10;
-  const ht=hero.style.transform;hero.style.transform='none';
-  const fit=(r,cap)=>{
-    const raw=Math.min((r.x1-r.x0)*.94/(5.9*P),(r.y1-r.y0)/(4.45*P),cap);
-    const S=Math.max(raw,.15);
-    return{raw,S,x:((r.x0+r.x1)/2-w/2)/P,y:-((r.y0+r.y1)/2-h/2)/P-2.15*S};
-  };
-  T=secs.map(s=>{
-    const ref=s.querySelector('[data-t]'),rr=ref&&ref.getBoundingClientRect(),yb=+(s.dataset.yb||0);
-    let best=null;
-    for(const mode of s.dataset.mode.split(',')){
-      let r,min=.5,cap=1.4,o=1;
-      if(mode==='left'&&rr)r={x0:m,x1:rr.left-24,y0:nb,y1:h-m-yb};
-      else if(mode==='right'&&rr)r={x0:rr.right+24,x1:w-m,y0:nb,y1:h-m-yb};
-      else if(mode==='above'){const hr=hero.getBoundingClientRect();r={x0:m,x1:w-m,y0:nb,y1:hr.top+scrollY-16};min=.4}
-      else if(mode==='center'){r={x0:m,x1:w-m,y0:nb,y1:h-m};min=0;cap=1.2;o=+s.dataset.so}
-      else if(mode==='dim'){r={x0:m,x1:w-m,y0:nb,y1:h-m};min=0;cap=1;o=.12}
-      else continue;
-      if(r.x1-r.x0<40||r.y1-r.y0<40)continue;
-      const f=fit(r,cap);
-      if(f.raw>=min){best={...f,o};break}
-    }
-    return best||{...fit({x0:m,x1:w-m,y0:nb,y1:h-m},1),o:.12};
-  });
-  hero.style.transform=ht;
-}
-
 /* ---------- balança 3D ---------- */
 let px=-999,py=-999;addEventListener('pointermove',e=>{px=e.clientX;py=e.clientY});
-const glc=document.getElementById('gl');let gx=0,gy=0,gS=1,go=0,rot=0;
+const glc=document.getElementById('gl');let gx=0,go=0,gtx=3,gto=1,rot=0,dim=1;
 let gl=null;
 if(window.THREE){try{gl=(function(){
-const T3=THREE,R=new T3.WebGLRenderer({canvas:glc,antialias:true,alpha:true});
-R.setPixelRatio(Math.min(devicePixelRatio,2));R.toneMapping=T3.ACESFilmicToneMapping;R.toneMappingExposure=1.1;R.outputEncoding=T3.sRGBEncoding;
-const sc=new T3.Scene(),cam=new T3.PerspectiveCamera(35,1,.1,100);cam.position.set(0,0,13);
-const es=new T3.Scene();es.add(new T3.Mesh(new T3.BoxGeometry(60,60,60),new T3.MeshBasicMaterial({color:0x0a1022,side:T3.BackSide})));
-[[[0,20,0],[-1.57,0,0],[30,30],[3,2.7,2.2]],[[-18,2,6],[0,1.2,0],[8,30],[2.6,2.2,1.6]],[[18,3,-8],[0,-1.2,0],[8,30],[.7,1.1,2.6]],[[0,-3,16],[0,3.14,0],[30,6],[1.4,1.2,.9]]].forEach(([p,r,s,c])=>{const m=new T3.MeshBasicMaterial({side:T3.DoubleSide});m.color.setRGB(...c);const q=new T3.Mesh(new T3.PlaneGeometry(...s),m);q.position.set(...p);q.rotation.set(...r);es.add(q)});
-sc.environment=new T3.PMREMGenerator(R).fromScene(es,.02).texture;
-const d1=new T3.DirectionalLight(0xffe9c4,1.2);d1.position.set(-5,8,8);sc.add(d1);
-const d2=new T3.DirectionalLight(0x7f9bff,.8);d2.position.set(6,3,-8);sc.add(d2);sc.add(new T3.AmbientLight(0xffffff,.12));
-const gold=new T3.MeshStandardMaterial({color:0xd9b46c,metalness:1,roughness:.24,side:T3.DoubleSide});
-const soft=new T3.MeshStandardMaterial({color:0xbf9446,metalness:1,roughness:.4});
-const V=(a,b,c)=>new T3.Vector3(a,b,c);
-function limb(a,b,r,m){const A=V(...a),B=V(...b),d=B.clone().sub(A),g=new T3.Mesh(new T3.CylinderGeometry(r,r,d.length(),8),m);g.position.copy(A).add(B).multiplyScalar(.5);g.quaternion.setFromUnitVectors(V(0,1,0),d.normalize());return g}
-const root=new T3.Group();sc.add(root);const g=new T3.Group();root.add(g);
+const T=THREE,R=new T.WebGLRenderer({canvas:glc,antialias:true,alpha:true});
+R.setPixelRatio(Math.min(devicePixelRatio,2));R.toneMapping=T.ACESFilmicToneMapping;R.toneMappingExposure=1.1;R.outputEncoding=T.sRGBEncoding;
+const sc=new T.Scene(),cam=new T.PerspectiveCamera(35,1,.1,100);cam.position.set(0,0,13);
+const es=new T.Scene();es.add(new T.Mesh(new T.BoxGeometry(60,60,60),new T.MeshBasicMaterial({color:0x0c1a15,side:T.BackSide})));
+[[[0,20,0],[-1.57,0,0],[30,30],[3,2.7,2.2]],[[-18,2,6],[0,1.2,0],[8,30],[2.6,2.2,1.6]],[[18,3,-8],[0,-1.2,0],[8,30],[.7,1.1,2.6]],[[0,-3,16],[0,3.14,0],[30,6],[1.4,1.2,.9]]].forEach(([p,r,s,c])=>{const m=new T.MeshBasicMaterial({side:T.DoubleSide});m.color.setRGB(...c);const q=new T.Mesh(new T.PlaneGeometry(...s),m);q.position.set(...p);q.rotation.set(...r);es.add(q)});
+sc.environment=new T.PMREMGenerator(R).fromScene(es,.02).texture;
+const d1=new T.DirectionalLight(0xffe9c4,1.2);d1.position.set(-5,8,8);sc.add(d1);
+const d2=new T.DirectionalLight(0x9fc9b2,.8);d2.position.set(6,3,-8);sc.add(d2);sc.add(new T.AmbientLight(0xffffff,.12));
+const gold=new T.MeshStandardMaterial({color:0xd9b46c,metalness:1,roughness:.24,side:T.DoubleSide});
+const soft=new T.MeshStandardMaterial({color:0xbf9446,metalness:1,roughness:.4});
+const V=(a,b,c)=>new T.Vector3(a,b,c);
+function limb(a,b,r,m){const A=V(...a),B=V(...b),d=B.clone().sub(A),g=new T.Mesh(new T.CylinderGeometry(r,r,d.length(),8),m);g.position.copy(A).add(B).multiplyScalar(.5);g.quaternion.setFromUnitVectors(V(0,1,0),d.normalize());return g}
+const root=new T.Group();sc.add(root);const g=new T.Group();root.add(g);
 // base escalonada
-[[1.3,.12,.06],[1.05,.1,.17],[.8,.1,.27]].forEach(([r,h,y])=>{const m=new T3.Mesh(new T3.CylinderGeometry(r*.94,r,h,72),gold);m.position.y=y;g.add(m);const t=new T3.Mesh(new T3.TorusGeometry(r*.97,.014,8,72),soft);t.rotation.x=Math.PI/2;t.position.y=y+h/2;g.add(t)});
+[[1.3,.12,.06],[1.05,.1,.17],[.8,.1,.27]].forEach(([r,h,y])=>{const m=new T.Mesh(new T.CylinderGeometry(r*.94,r,h,72),gold);m.position.y=y;g.add(m);const t=new T.Mesh(new T.TorusGeometry(r*.97,.014,8,72),soft);t.rotation.x=Math.PI/2;t.position.y=y+h/2;g.add(t)});
 // coluna torneada
-const prof=[[.36,.32],[.24,.5],[.13,.85],[.1,1.5],[.17,1.9],[.11,2.2],[.1,3.0],[.16,3.3],[.1,3.56],[.001,3.6]].map(p=>new T3.Vector2(...p));
-g.add(new T3.Mesh(new T3.LatheGeometry(new T3.SplineCurve(prof).getPoints(120),64),gold));
-[1.9,3.3].forEach(y=>{const t=new T3.Mesh(new T3.TorusGeometry(y===1.9?.17:.16,.025,10,48),soft);t.rotation.x=Math.PI/2;t.position.y=y;g.add(t)});
+const prof=[[.36,.32],[.24,.5],[.13,.85],[.1,1.5],[.17,1.9],[.11,2.2],[.1,3.0],[.16,3.3],[.1,3.56],[.001,3.6]].map(p=>new T.Vector2(...p));
+g.add(new T.Mesh(new T.LatheGeometry(new T.SplineCurve(prof).getPoints(120),64),gold));
+[1.9,3.3].forEach(y=>{const t=new T.Mesh(new T.TorusGeometry(y===1.9?.17:.16,.025,10,48),soft);t.rotation.x=Math.PI/2;t.position.y=y;g.add(t)});
 // remate
-const fin=new T3.Mesh(new T3.SphereGeometry(.09,20,14),gold);fin.position.y=4.15;g.add(fin);
+const fin=new T.Mesh(new T.SphereGeometry(.09,20,14),gold);fin.position.y=4.15;g.add(fin);
 g.add(limb([0,3.8,0],[0,4.1,0],.025,gold));
-const arc=new T3.Mesh(new T3.TorusGeometry(.24,.028,12,60),gold);arc.position.y=3.78;g.add(arc);
+const arc=new T.Mesh(new T.TorusGeometry(.24,.028,12,60),gold);arc.position.y=3.78;g.add(arc);
 // travessão
-const bm=new T3.Group();bm.position.y=3.78;g.add(bm);
+const bm=new T.Group();bm.position.y=3.78;g.add(bm);
 const L=1.95;
-[-1,1].forEach(s=>{const c=new T3.Mesh(new T3.CylinderGeometry(.026,.062,L,20),gold);c.rotation.z=-s*Math.PI/2;c.position.x=s*L/2;bm.add(c);
-  const e=new T3.Mesh(new T3.SphereGeometry(.05,16,12),gold);e.position.x=s*L;bm.add(e);
-  const k=new T3.Mesh(new T3.OctahedronGeometry(.085),soft);k.position.x=s*L*.55;k.scale.y=.6;bm.add(k)});
-bm.add(new T3.Mesh(new T3.SphereGeometry(.12,24,16),gold));
+[-1,1].forEach(s=>{const c=new T.Mesh(new T.CylinderGeometry(.026,.062,L,20),gold);c.rotation.z=-s*Math.PI/2;c.position.x=s*L/2;bm.add(c);
+  const e=new T.Mesh(new T.SphereGeometry(.05,16,12),gold);e.position.x=s*L;bm.add(e);
+  const k=new T.Mesh(new T.OctahedronGeometry(.085),soft);k.position.x=s*L*.55;k.scale.y=.6;bm.add(k)});
+bm.add(new T.Mesh(new T.SphereGeometry(.12,24,16),gold));
 // pratos
 const pans={},hits=[];
 [-1,1].forEach(s=>{
-  const p=new T3.Group();p.position.x=s*L;bm.add(p);
-  const mat=gold.clone();mat.emissive=new T3.Color(0xd9b46c);mat.emissiveIntensity=0;
-  const ring=new T3.Mesh(new T3.TorusGeometry(.05,.013,8,20),gold);ring.position.y=-.09;p.add(ring);
+  const p=new T.Group();p.position.x=s*L;bm.add(p);
+  const mat=gold.clone();mat.emissive=new T.Color(0xd9b46c);mat.emissiveIntensity=0;
+  const ring=new T.Mesh(new T.TorusGeometry(.05,.013,8,20),gold);ring.position.y=-.09;p.add(ring);
   [90,210,330].forEach(a=>{const r=a*Math.PI/180;p.add(limb([0,-.1,0],[.72*Math.cos(r),-1.62,.72*Math.sin(r)],.0085,soft))});
-  const dp=[[0,-.1],[.2,-.098],[.45,-.06],[.66,0],[.74,.045],[.77,.075],[.73,.08],[.7,.052],[.62,.01],[.43,-.04],[.2,-.075],[0,-.08]].map(q=>new T3.Vector2(...q));
-  const dish=new T3.Mesh(new T3.LatheGeometry(new T3.SplineCurve(dp).getPoints(60),72),mat);dish.position.y=-1.68;p.add(dish);
-  const hit=new T3.Mesh(new T3.SphereGeometry(.95,12,8),new T3.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));hit.position.y=-1.5;hit.userData.s=s;p.add(hit);hits.push(hit);
+  const dp=[[0,-.1],[.2,-.098],[.45,-.06],[.66,0],[.74,.045],[.77,.075],[.73,.08],[.7,.052],[.62,.01],[.43,-.04],[.2,-.075],[0,-.08]].map(q=>new T.Vector2(...q));
+  const dish=new T.Mesh(new T.LatheGeometry(new T.SplineCurve(dp).getPoints(60),72),mat);dish.position.y=-1.68;p.add(dish);
+  const hit=new T.Mesh(new T.SphereGeometry(.95,12,8),new T.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));hit.position.y=-1.5;hit.userData.s=s;p.add(hit);hits.push(hit);
   pans[s]={p,mat};
 });
-const ray=new T3.Raycaster(),nd=new T3.Vector2(),wp=new T3.Vector3();
-let ang=0,av=0,grab=null;
-function fit(){const w=innerWidth,h=innerHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
+const ray=new T.Raycaster(),nd=new T.Vector2(),wp=new T.Vector3();
+let ang=0,av=0,grab=null,S=1.25,asp=1.7,HW=7;
+function fit(){const w=innerWidth,h=innerHeight;R.setSize(w,h,false);asp=w/h;cam.aspect=asp;cam.updateProjectionMatrix();HW=4.1*asp;S=asp<.85?cl(HW*.95/2.75,.5,1.1):Math.min(1.25,HW*.475/2.75);root.scale.setScalar(S)}
 fit();addEventListener('resize',fit);
-return function(t,st){
-  const S=st.S,P=innerHeight/8.2;
-  root.scale.setScalar(S);
-  root.position.set(st.x,st.y+Math.sin(t/1900)*.05*S,0);
-  glc.style.opacity=st.o;
+return function(t){
+  const narrow=asp<.85;
+  root.position.x=gx*(narrow?0:HW*.5);root.position.y=-2.25*S+Math.sin(t/1900)*.05;
+  glc.style.opacity=go*dim*(narrow?.4:1);
   g.rotation.y=rot;cam.lookAt(0,0,0);
   nd.set(px/innerWidth*2-1,-(py/innerHeight)*2+1);
-  if(!grab){ray.setFromCamera(nd,cam);const h=ray.intersectObjects(hits)[0];if(h&&st.o>.5)grab={s:h.object.userData.s,y0:py,a0:ang}}
-  else{pans[grab.s].p.localToWorld(wp.set(0,-1.5,0));wp.project(cam);if(Math.hypot(px-(wp.x+1)/2*innerWidth,py-(1-wp.y)/2*innerHeight)>Math.max(70,150*S))grab=null}
+  if(!grab){ray.setFromCamera(nd,cam);const h=ray.intersectObjects(hits)[0];if(h&&go>.5)grab={s:h.object.userData.s,y0:py,a0:ang}}
+  else{pans[grab.s].p.localToWorld(wp.set(0,-1.5,0));wp.project(cam);if(Math.hypot(px-(wp.x+1)/2*innerWidth,py-(1-wp.y)/2*innerHeight)>160)grab=null}
   let tg=Math.sin(t/1800)*.045;
-  if(grab){const v=cl((py-grab.y0)/(P*S*L),-1,1);tg=cl(grab.a0-grab.s*Math.asin(v),-.5,.5)}
+  if(grab){const u=innerHeight/(2*Math.tan(.3054)*13)*S,v=cl((py-grab.y0)/u/(L*S),-1,1);tg=cl(grab.a0-grab.s*Math.asin(v),-.5,.5)}
   av+=(tg-ang)*.08;av*=grab?.8:.91;ang+=av;
   bm.rotation.z=ang;const sw=Math.sin(t/1100)*.03*(grab?.3:1);
   for(const s of[-1,1]){pans[s].p.rotation.z=-ang+sw*s;const m=pans[s].mat;m.emissiveIntensity+=((grab&&grab.s===s?.45:0)-m.emissiveIntensity)*.15}
@@ -278,53 +253,29 @@ return function(t,st){
   R.render(sc,cam);
 }})()}catch(e){console.warn(e)}}
 
-/* ---------- desvanecimento junto à navbar e ao fundo do ecrã ---------- */
-/* Máscara por elemento: só a parte que está dentro da zona de borda desvanece.
-   O que está na zona central (a ser apresentado) nunca é tocado. */
-function edgeFade(y,vh){
-  const navB=navEl.getBoundingClientRect().bottom;
-  const F=cl(vh*.13,60,120);
-  const kt=cl(y/F,0,1);                                   // topo: só depois de começar a rolar
-  const kb=Math.min(cl((maxS()-y)/F,0,1),cl(y/F,0,1));    // fundo: não apaga o 1.º ecrã nem o fim da página
-  const T0=navB,T1=navB+F*kt,B0=vh,B1=vh-F*kb;
-  const onT=kt>.01,onB=kb>.01;
-  for(const e of fz){
-    const r=e.getBoundingClientRect();
-    let v='';
-    if((onT&&r.top<T1)||(onB&&r.bottom>B1)){
-      const a=onT?T0-r.top:-99999,b=onT?T1-r.top:-99998,c=onB?B1-r.top:99998,d=onB?B0-r.top:99999;
-      v=`linear-gradient(to bottom,transparent ${a}px,#000 ${b}px,#000 ${c}px,transparent ${d}px)`;
-    }
-    if(e._m!==v){e._m=v;e.style.webkitMaskImage=v;e.style.maskImage=v}
-  }
-}
-
 /* ---------- loop ---------- */
-layout();
-if(T[0]){gx=T[0].x;gy=T[0].y;gS=T[0].S}
-let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{layout();tgt=cl(tgt,0,maxS())},120)});
-addEventListener('orientationchange',()=>setTimeout(layout,300));
-addEventListener('load',layout);
-if(document.fonts&&document.fonts.ready)document.fonts.ready.then(layout);
-
+const bar=document.getElementById('bar'),nav=document.querySelector('nav'),fl=[...document.querySelectorAll('.fl')];
+const secs=[...document.querySelectorAll('main section')];
+// posição de repouso de cada elemento (sem transformações)
+function measure(){const y=scrollY;fl.forEach(e=>{const t=e.style.transform;e.style.transform='none';e._D=e.getBoundingClientRect().top+y;e.style.transform=t})}
+measure();addEventListener('load',measure);addEventListener('resize',measure);document.fonts&&document.fonts.ready.then(measure);setTimeout(measure,600);
+const ZT=110,ZB=110;
 function frame(t){
   if(fine){cur+=(tgt-cur)*.075;if(Math.abs(tgt-cur)<.1)cur=tgt;scrollTo(0,cur)}
-  const y=fine?cur:scrollY,vh=innerHeight;
-  bar.style.transform=`scaleX(${cl(y/(maxS()||1),0,1)})`;
-  hero.style.transform=`translateY(${-y*.28}px)`;hero.style.opacity=cl(1-y/(vh*.75),0,1);
-  // declaração: palavras acendem
-  const s2=secs[1],r2=s2.getBoundingClientRect(),p=cl(-r2.top/(r2.height-vh),0,1)*1.15,n=stW.length;
-  stW.forEach((w,i)=>{w.style.opacity=.14+.86*cl((p*n-i)/3+.2,0,1)});
-  // elementos que surgem com o scroll
-  for(const e of fl){const r=e.getBoundingClientRect(),a=cl((vh*.96-r.top)/(vh*.3),0,1);e.style.opacity=a;e.style.transform=`translateY(${(1-a)*46}px)`}
-  // fade nas bordas (navbar / fundo)
-  edgeFade(y,vh);
-  // balança: vai para o lado livre da secção actual
-  let idx=0;secs.forEach((s,i)=>{const r=s.getBoundingClientRect();if(r.top<=vh*.5&&r.bottom>vh*.5)idx=i});
-  const tg=T[idx];
-  if(tg){gx+=(tg.x-gx)*.06;gy+=(tg.y-gy)*.06;gS+=(tg.S-gS)*.06;go+=(tg.o-go)*.06}
-  rot+=(y/vh*.9-rot)*.06;
-  if(gl)gl(t,{x:gx,y:gy,S:gS,o:go});
+  const y=fine?cur:scrollY,vh=innerHeight,ms=maxS(),navB=nav.getBoundingClientRect().bottom;
+  bar.style.transform=`scaleX(${cl(y/ms,0,1)})`;
+  // declaração: palavras acendem e esbatem junto à navbar / ao fundo
+  const r2=secs[1].getBoundingClientRect(),p=cl(-r2.top/(r2.height-vh),0,1)*1.15,n=stW.length;
+  stW.forEach((w,i)=>{const r=w.getBoundingClientRect(),f=cl((r.top-navB)/ZT,0,1)*cl((vh-r.top)/ZB,0,1);w.style.opacity=(.14+.86*cl((p*n-i)/3+.2,0,1))*f});
+  // elementos: esbatem ao aproximar da navbar e do fundo; em repouso nunca são apagados
+  for(const e of fl){const r=e.getBoundingClientRect(),top=r.top-(e._ty||0),D=e._D;
+    let ft=cl((top-navB)/ZT,0,1),fb=cl((vh-top)/ZB,0,1);
+    if(D!=null){const kt=cl((D-navB)/ZT,0,1),kb=cl((vh-(D-ms))/ZB,0,1);ft=kt>.02?Math.min(1,ft/kt):1;fb=kb>.02?Math.min(1,fb/kb):1}
+    e._ty=(1-fb)*46-(1-ft)*18;e.style.opacity=ft*fb;e.style.transform=`translateY(${e._ty}px)`}
+  // balança: lado oposto ao texto
+  for(const s of secs){const r=s.getBoundingClientRect();if(r.top<=vh*.5&&r.bottom>vh*.5){gtx=+s.dataset.sx;gto=+s.dataset.so}}
+  gx+=(gtx-gx)*.045;go+=(gto-go)*.06;rot+=(y/vh*.9-rot)*.06;
+  if(gl)gl(t);
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
