@@ -1,0 +1,125 @@
+/* ==========================================================================
+   JPIRES – SOCIEDADE DE ADVOGADOS, RL
+   ESTILOS GERAIS & INTEGRAÇÃO COM CANVAS DE SCROLL MOTION
+   ========================================================================== */
+
+:root {
+  --color-sky: #3BB4F2;
+  --color-sky-light: #8DD6FA;
+  --color-sky-bg: #EAF6FD;
+  --color-sky-dark: #1B8FD0;
+  --color-brown-darkest: #1F120B;
+  --color-brown-dark: #2E1B12;
+  --color-brown-medium: #4A2C1B;
+  --color-brown-soft: #D9C3B0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #1F120B;
+  color: #FFFFFF;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Esconder barra de scroll mas manter funcional */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #1F120B;
+  color: #FFFFFF;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ==========================================================================
+   CANVAS DE FUNDO FIXO E OVERLAYS AMBIENTAIS
+   ========================================================================== */
+
+#canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+
+/* Overlay subtil para garantir contraste de leitura impecável em todas as sections */
+#ambient-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(31, 18, 11, 0.45) 0%, rgba(31, 18, 11, 0.78) 100%);
+}
+
+/* Conteúdo principal em primeiro plano sobre o canvas */
+#site-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+
+/* ==========================================================================
+   TIPOGRAFIA
+   ========================================================================== */
+
+.font-syne {
+  font-family: 'Syne', sans-serif;
+}
+
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
+/* ==========================================================================
+   EFEITOS DE VIDRO E TRANSLUCIDEZ ELEGANTE (GLASSMORPHISM)
+   ========================================================================== */
+
+.glass-card {
+  background: rgba(74, 44, 27, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.glass-card-dark {
+  background: rgba(46, 27, 18, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-card-light {
+  background: rgba(234, 246, 253, 0.95);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Seleção de texto */
+::selection {
+  background: rgba(59, 180, 242, 0.35);
+  color: #FFFFFF;
+}

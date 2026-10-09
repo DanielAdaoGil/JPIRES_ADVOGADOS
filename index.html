@@ -1,321 +1,866 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>JPires — Sociedade de Advogados, RL · Corporate Law para Angola que cresce</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<style>
-:root{--gold:#c9a84c;--gold2:#e2c77e;--ivory:#efe8d9;--bg:#12211c;--line:rgba(201,168,76,.24)}
-*{box-sizing:border-box;margin:0}
-html{scrollbar-width:none;-ms-overflow-style:none;background:var(--bg)}
-html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
-body{background:var(--bg);color:var(--ivory);font-family:'Inter',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-::selection{background:rgba(212,175,110,.3)}
-.fd{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;letter-spacing:-.015em;line-height:.98}
-.lab{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:400;color:var(--gold)}
-.pad{padding-left:clamp(1.25rem,5vw,4.5rem);padding-right:clamp(1.25rem,5vw,4.5rem)}
-#gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0}
-#fade{position:fixed;inset:0;z-index:40;pointer-events:none;background:linear-gradient(to bottom,#07090f 0,#07090f 88px,rgba(7,9,15,.85) 118px,rgba(7,9,15,.5) 155px,rgba(7,9,15,.2) 190px,rgba(7,9,15,0) 230px,rgba(7,9,15,0) calc(100% - 150px),rgba(7,9,15,.35) calc(100% - 100px),rgba(7,9,15,.8) calc(100% - 50px),#07090f calc(100% - 22px))}
-#vig{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,transparent 30%,rgba(18,33,28,.78) 100%)}
-nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;padding-bottom:1.5rem;mix-blend-mode:normal}
-nav .menu{display:none;gap:2.2rem;font-size:13px}
-@media(min-width:768px){nav .menu{display:flex}}
-nav a{transition:color .4s}nav a:hover{color:var(--gold)}
-.cta{border:1px solid var(--line);padding:.6rem 1.2rem;font-size:12px;letter-spacing:.08em;transition:all .5s}
-.cta:hover{background:var(--gold);color:#16100a;border-color:var(--gold)}
-#bar{position:fixed;top:0;left:0;height:1px;width:100%;background:var(--gold);transform-origin:0 0;transform:scaleX(0);z-index:60}
-main{position:relative;z-index:2}
-.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.12em}
-.ch{display:inline-block;transform:translateY(110%);transition:transform 1.3s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--i)*45ms + .3s)}
-.go .ch{transform:none}
-.sw{opacity:.14;transition:none}
-.row{display:flex;align-items:baseline;gap:1.5rem;border-top:1px solid var(--line);padding:1.6rem 0;will-change:transform,opacity}
-.row:last-child{border-bottom:1px solid var(--line)}
-.row h3{transition:transform .7s cubic-bezier(.16,1,.3,1),color .5s}
-.row:hover h3{transform:translateX(14px);color:var(--gold2)}
-.row .ar{margin-left:auto;transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .5s;opacity:.4;color:var(--gold)}
-.row:hover .ar{transform:translateX(8px);opacity:1}
-.btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--gold);color:#16100a;padding:.95rem 1.7rem;font-size:13px;font-weight:500;letter-spacing:.04em;transition:all .5s}
-.btn:hover{background:var(--gold2);gap:1rem}
-.hint{width:1px;height:56px;background:linear-gradient(var(--gold),transparent);transform-origin:top;animation:hint 2.4s ease-in-out infinite}
-@keyframes hint{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
-.col{max-width:46vw}@media(max-width:900px){.col{max-width:100%}}
-.card{border:1px solid var(--line);background:rgba(239,232,217,.04);padding:2rem 1.8rem;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.card.rec{border-color:var(--gold);background:rgba(201,168,76,.08)}
-.card li{list-style:none;font-size:14px;line-height:1.6;opacity:.75;padding:.45rem 0;border-top:1px solid var(--line)}
-.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.2rem}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
-@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}}
-.info{border:1px solid var(--line);padding:1.3rem 1.5rem;margin-top:1rem}
-.info p{font-size:15px;line-height:1.7;opacity:.8;margin-top:.5rem}
-.row.sm{padding:1.05rem 0}
-#wmsvg{display:block;overflow:visible}
-#wmsvg .dots path{fill:none;stroke-linecap:round;stroke-width:3.6;transition:stroke .5s,opacity .5s}
-.d-ot{stroke:rgba(239,232,217,.12)}
-.d-eu,.d-af,.d-am{stroke:#c9a84c;opacity:.85}
-#wm.h-eu .d-af,#wm.h-eu .d-am,#wm.h-af .d-eu,#wm.h-af .d-am,#wm.h-am .d-eu,#wm.h-am .d-af{opacity:.16}
-#wm.h-eu .d-eu,#wm.h-af .d-af,#wm.h-am .d-am{stroke:#f0d78f;opacity:1}
-.arcs path{fill:none;stroke:#e2c77e;stroke-width:1.3;stroke-dasharray:3 7;animation:dash 3s linear infinite;opacity:.85}
-@keyframes dash{to{stroke-dashoffset:-40}}
-.tg,.lu{fill:#e2c77e}
-.pu{fill:none;stroke:#e2c77e;stroke-width:1;transform-box:fill-box;transform-origin:center;animation:pulse 2.6s ease-out infinite}.p2{animation-delay:1.3s}
-@keyframes pulse{0%{transform:scale(1);opacity:.9}100%{transform:scale(7);opacity:0}}
-.lt{fill:#efe8d9;font-size:11px;letter-spacing:.2em;font-family:Inter,sans-serif}
-.card[data-c]{transition:border-color .4s,background .4s;cursor:default}.card[data-c]:hover{border-color:var(--gold);background:rgba(201,168,76,.08)}
-.mapc{position:relative;height:280px;border:1px solid var(--line);overflow:hidden;background:linear-gradient(rgba(201,168,76,.07) 1px,transparent 1px) 0 0/34px 34px,linear-gradient(90deg,rgba(201,168,76,.07) 1px,transparent 1px) 0 0/34px 34px,#0e1a16;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.6rem}
-.mapc iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none;filter:invert(.9) hue-rotate(180deg) grayscale(.45) contrast(.92)}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>JPires – Sociedade de Advogados, RL | Corporate Law em Angola</title>
+  
+  <!-- Fontes Oficiais: Syne & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN com Configuração de Cores & Fontes do Projeto -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sky: {
+              DEFAULT: '#3BB4F2',
+              light: '#8DD6FA',
+              bg: '#EAF6FD',
+              dark: '#1B8FD0'
+            },
+            brown: {
+              darkest: '#1F120B',
+              dark: '#2E1B12',
+              medium: '#4A2C1B',
+              soft: '#D9C3B0'
+            }
+          },
+          fontFamily: {
+            syne: ['Syne', 'sans-serif'],
+            inter: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<div id="bar"></div>
-<canvas id="gl"></canvas><div id="vig"></div><div id="fade"></div>
+<body class="bg-[#1F120B] text-white font-inter selection:bg-[#3BB4F2]/30 selection:text-white">
 
-<nav class="pad">
-  <a href="#" data-go="s1" style="display:flex;align-items:center;gap:.7rem"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg><span style="font-weight:500;letter-spacing:.12em;font-size:15px">JPIRES</span><span class="menu" style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.55;border-left:1px solid var(--line);padding-left:.8rem">Sociedade de Advogados, RL</span></a>
-  <div class="menu"><a href="#" data-go="s3">Sobre</a><a href="#" data-go="s4">Áreas de Prática</a><a href="#" data-go="s5">Sectores</a><a href="#" data-go="s6">Equipa</a><a href="#" data-go="s8">Contacto</a></div>
-  <a href="#" data-go="s8" class="cta">Marcar Sessão</a>
-</nav>
+  <!-- ================================================================= -->
+  <!-- CANVAS FIXO DE ANIMAÇÃO DE MOVIMENTO (600 FRAMES) EM FUNDO        -->
+  <!-- ================================================================= -->
+  <canvas id="canvas"></canvas>
+  <div id="ambient-overlay"></div>
 
-<main>
-<!-- 1 · Hero -->
-<section id="s1" data-sx="1" data-so="1" class="pad" style="min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:3.5rem;padding-top:7rem">
-  <div class="col">
-    <p class="lab fl" style="margin-bottom:1.6rem">Escritório de Advocacia · Angola</p>
-    <h1 id="h1" class="fd" style="font-size:clamp(2.8rem,5.4vw,6rem)"></h1>
-    <p class="fl" style="margin-top:1.6rem;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.25rem;opacity:.55">Sociedade de Advogados, RL · Luanda, Angola</p>
-    <p class="fl" style="margin-top:1.2rem;max-width:34rem;font-size:15px;line-height:1.7;opacity:.72">Assessoria jurídica especializada em direito empresarial e corporativo — para grupos angolanos e investidores internacionais que crescem com segurança e confiança jurídica em Angola.</p>
-    <div class="stats fl" style="margin-top:3rem;border-top:1px solid var(--line);padding-top:1.5rem">
-      <div><div class="fd" style="font-style:italic;font-size:clamp(1.5rem,2.4vw,2.4rem)">Corporate</div><div class="lab" style="font-size:9.5px;opacity:.7;margin-top:.4rem">Especialização</div></div>
-      <div><div class="fd" style="font-style:italic;font-size:clamp(1.5rem,2.4vw,2.4rem)">7+</div><div class="lab" style="font-size:9.5px;opacity:.7;margin-top:.4rem">Sectores servidos</div></div>
-      <div><div class="fd" style="font-style:italic;font-size:clamp(1.5rem,2.4vw,2.4rem)">Angola</div><div class="lab" style="font-size:9.5px;opacity:.7;margin-top:.4rem">Mercado principal</div></div>
-      <div><div class="fd" style="font-style:italic;font-size:clamp(1.5rem,2.4vw,2.4rem)">RL</div><div class="lab" style="font-size:9.5px;opacity:.7;margin-top:.4rem">Escritório registado</div></div>
-    </div>
+  <!-- ================================================================= -->
+  <!-- CONTEÚDO E SECTIONS DO WEBSITE (EM PRIMEIRO PLANO VISÍVEL)        -->
+  <!-- ================================================================= -->
+  <div id="site-wrapper" class="flex flex-col justify-between min-h-screen">
+
+    <!-- 1. BARRA DE NAVEGAÇÃO FIXA (NAVBAR) -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-5 sm:py-6" role="banner">
+      <div class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        
+        <!-- Marca JPires -->
+        <a href="#inicio" class="group flex flex-col focus:outline-none p-1" aria-label="JPires – Início">
+          <span class="font-syne font-extrabold text-2xl sm:text-3xl text-white tracking-tight group-hover:text-[#3BB4F2] transition-colors leading-none">
+            JPires
+          </span>
+          <span class="font-inter text-[11px] sm:text-xs text-[#D9C3B0] tracking-wider mt-0.5 font-normal">
+            Sociedade de Advogados, RL
+          </span>
+        </a>
+
+        <!-- Links Centrais -->
+        <nav class="hidden xl:flex items-center gap-1 px-6 py-2 rounded-full bg-[#2E1B12]/80 border border-white/15 backdrop-blur-xl shadow-lg" aria-label="Navegação principal">
+          <a href="#sobre" class="px-3.5 py-1.5 text-sm font-medium text-[#D9C3B0] hover:text-white hover:bg-white/5 rounded-full transition-all">Sobre</a>
+          <a href="#areas" class="px-3.5 py-1.5 text-sm font-medium text-[#D9C3B0] hover:text-white hover:bg-white/5 rounded-full transition-all">Áreas de Prática</a>
+          <a href="#sectores" class="px-3.5 py-1.5 text-sm font-medium text-[#D9C3B0] hover:text-white hover:bg-white/5 rounded-full transition-all">Sectores</a>
+          <a href="#equipa" class="px-3.5 py-1.5 text-sm font-medium text-[#D9C3B0] hover:text-white hover:bg-white/5 rounded-full transition-all">Equipa</a>
+          <a href="#honorarios" class="px-3.5 py-1.5 text-sm font-medium text-[#D9C3B0] hover:text-white hover:bg-white/5 rounded-full transition-all">Honorários</a>
+          <a href="#aliancas" class="px-3.5 py-1.5 text-sm font-medium text-[#D9C3B0] hover:text-white hover:bg-white/5 rounded-full transition-all">Alianças</a>
+          <a href="#contactos" class="px-3.5 py-1.5 text-sm font-medium text-[#D9C3B0] hover:text-white hover:bg-white/5 rounded-full transition-all">Contactos</a>
+        </nav>
+
+        <!-- Botão CTA & Hamburger Mobile -->
+        <div class="flex items-center gap-3">
+          <a href="mailto:jpires@jpires-advogados.ao?subject=Pedido%20de%20sess%C3%A3o%20de%20diagn%C3%B3stico" 
+             class="group hidden sm:inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-[#3BB4F2] hover:bg-[#8DD6FA] active:scale-95 text-[#1F120B] font-semibold text-xs sm:text-sm transition-all duration-200 shadow-md hover:shadow-[#3BB4F2]/25">
+            <span>Marcar Sessão de Diagnóstico</span>
+            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white flex items-center justify-center group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform flex-shrink-0">
+              <svg class="w-4 h-4 text-[#1F120B]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+            </span>
+          </a>
+
+          <!-- Botão Mobile -->
+          <button id="mobile-menu-btn" class="xl:hidden p-2.5 rounded-full bg-[#2E1B12]/80 text-white border border-white/15 hover:bg-white/10" aria-label="Abrir menu">
+            <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <svg id="close-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Menu Dropdown Mobile -->
+      <div id="mobile-menu" class="hidden xl:hidden px-4 pt-4 pb-6 bg-[#1F120B]/95 backdrop-blur-2xl border-b border-white/15">
+        <div class="flex flex-col space-y-3">
+          <a href="#sobre" class="text-sm font-medium text-[#D9C3B0] hover:text-[#3BB4F2] py-1 mobile-link">Sobre</a>
+          <a href="#areas" class="text-sm font-medium text-[#D9C3B0] hover:text-[#3BB4F2] py-1 mobile-link">Áreas de Prática</a>
+          <a href="#sectores" class="text-sm font-medium text-[#D9C3B0] hover:text-[#3BB4F2] py-1 mobile-link">Sectores</a>
+          <a href="#equipa" class="text-sm font-medium text-[#D9C3B0] hover:text-[#3BB4F2] py-1 mobile-link">Equipa</a>
+          <a href="#honorarios" class="text-sm font-medium text-[#D9C3B0] hover:text-[#3BB4F2] py-1 mobile-link">Honorários</a>
+          <a href="#aliancas" class="text-sm font-medium text-[#D9C3B0] hover:text-[#3BB4F2] py-1 mobile-link">Alianças</a>
+          <a href="#contactos" class="text-sm font-medium text-[#D9C3B0] hover:text-[#3BB4F2] py-1 mobile-link">Contactos</a>
+          <a href="mailto:jpires@jpires-advogados.ao?subject=Pedido%20de%20sess%C3%A3o%20de%20diagn%C3%B3stico" class="inline-flex items-center justify-center gap-2 py-3 rounded-full bg-[#3BB4F2] text-[#1F120B] font-bold text-sm mt-3">
+            Marcar Sessão de Diagnóstico
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main id="conteudo-principal" class="flex-1">
+
+      <!-- =============================================================== -->
+      <!-- SECÇÃO 1: HERO (INÍCIO)                                          -->
+      <!-- =============================================================== -->
+      <section id="inicio" class="relative min-h-[720px] h-screen max-h-[1100px] w-full flex flex-col justify-between p-3 sm:p-5 lg:p-7 pt-24 sm:pt-28 lg:pt-32">
+        <div class="relative w-full h-full rounded-3xl bg-gradient-to-br from-[#1F120B]/90 via-[#24150D]/85 to-[#2E1B12]/90 border border-white/10 shadow-2xl backdrop-blur-md flex flex-col justify-between p-6 sm:p-10 lg:p-12 overflow-hidden">
+          
+          <!-- Brilhos discretos nos cantos -->
+          <div class="absolute -top-32 -left-32 w-96 h-96 bg-[#3BB4F2]/10 rounded-full blur-[120px] pointer-events-none"></div>
+          <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-[#3BB4F2]/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+          <!-- Corpo Central do Hero -->
+          <div class="relative z-10 my-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            <!-- Lado Esquerdo -->
+            <div class="lg:col-span-7 flex flex-col items-start space-y-5 lg:space-y-6">
+              <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#4A2C1B]/50 border border-[#3BB4F2]/30 backdrop-blur-md shadow-sm">
+                <svg class="w-4 h-4 text-[#3BB4F2]" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span class="font-inter text-[11px] sm:text-xs font-semibold tracking-wider text-[#D9C3B0] uppercase">
+                  ESCRITÓRIO DE ADVOCACIA · ANGOLA
+                </span>
+              </div>
+
+              <h1 class="font-syne font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-[68px] xl:text-[76px] leading-[1.03] tracking-tight">
+                <span class="block text-white">Corporate Law para</span>
+                <span class="block text-white">Angola</span>
+                <span class="block text-[#3BB4F2]">que cresce</span>
+              </h1>
+
+              <p class="font-inter text-xs sm:text-sm md:text-base text-[#D9C3B0] tracking-wide font-normal">
+                Sociedade de Advogados, RL · Luanda, Angola
+              </p>
+            </div>
+
+            <!-- Lado Direito -->
+            <div class="lg:col-span-5 flex flex-col items-start lg:items-end justify-center space-y-6">
+              <div class="w-full max-w-[420px] p-6 sm:p-7 rounded-2xl glass-card text-left shadow-2xl">
+                <p class="font-inter text-sm sm:text-base text-white/95 leading-relaxed font-normal">
+                  Assessoria jurídica especializada em direito empresarial e corporativo — para grupos angolanos e investidores internacionais que crescem com segurança e confiança jurídica em Angola.
+                </p>
+              </div>
+
+              <div class="w-full max-w-[420px] flex justify-start lg:justify-end">
+                <a href="#contactos" class="group inline-flex items-center gap-3 pl-6 pr-2.5 py-3 rounded-full bg-[#3BB4F2] hover:bg-[#8DD6FA] active:scale-95 text-[#1F120B] font-bold text-sm sm:text-base transition-all duration-200 shadow-xl hover:shadow-[#3BB4F2]/30">
+                  <span>Marcar Sessão de Diagnóstico</span>
+                  <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white flex items-center justify-center group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform flex-shrink-0">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-[#1F120B]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                  </span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Faixa Inferior: 4 Indicadores -->
+          <div class="relative z-10 w-full pt-6 sm:pt-8 border-t border-white/15 mt-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+              
+              <div class="flex items-center gap-3.5 group">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#4A2C1B]/60 border border-[#3BB4F2]/30 flex items-center justify-center flex-shrink-0 group-hover:border-[#3BB4F2] transition-colors">
+                  <svg class="w-5 h-5 text-[#3BB4F2]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-syne font-bold text-xl sm:text-2xl text-white leading-tight">Corporate</span>
+                  <span class="font-inter text-xs text-[#D9C3B0] mt-0.5 font-medium">Especialização</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3.5 group">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#4A2C1B]/60 border border-[#3BB4F2]/30 flex items-center justify-center flex-shrink-0 group-hover:border-[#3BB4F2] transition-colors">
+                  <svg class="w-5 h-5 text-[#3BB4F2]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-syne font-bold text-xl sm:text-2xl text-white leading-tight">7+</span>
+                  <span class="font-inter text-xs text-[#D9C3B0] mt-0.5 font-medium">Sectores servidos</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3.5 group">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#4A2C1B]/60 border border-[#3BB4F2]/30 flex items-center justify-center flex-shrink-0 group-hover:border-[#3BB4F2] transition-colors">
+                  <svg class="w-5 h-5 text-[#3BB4F2]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-syne font-bold text-xl sm:text-2xl text-white leading-tight">Angola</span>
+                  <span class="font-inter text-xs text-[#D9C3B0] mt-0.5 font-medium">Mercado principal</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3.5 group">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#4A2C1B]/60 border border-[#3BB4F2]/30 flex items-center justify-center flex-shrink-0 group-hover:border-[#3BB4F2] transition-colors">
+                  <svg class="w-5 h-5 text-[#3BB4F2]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-syne font-bold text-xl sm:text-2xl text-white leading-tight">RL</span>
+                  <span class="font-inter text-xs text-[#D9C3B0] mt-0.5 font-medium">Escritório registado</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SECÇÃO 2: SOBRE O ESCRITÓRIO & ÁREAS DE PRÁTICA                  -->
+      <!-- =============================================================== -->
+      <section id="sobre" class="w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-[1536px] mx-auto space-y-16 sm:space-y-24">
+          
+          <!-- Dois Painéis Lado a Lado com Translucidez -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 rounded-3xl overflow-hidden border border-white/10 shadow-2xl backdrop-blur-xl">
+            
+            <!-- Painel Esquerdo -->
+            <div class="lg:col-span-5 bg-[#4A2C1B]/85 p-8 sm:p-12 lg:p-16 flex flex-col justify-between relative overflow-hidden">
+              <div class="space-y-8 relative z-10">
+                <div class="w-24 h-24 rounded-2xl bg-[#3BB4F2] flex flex-col items-center justify-center shadow-lg p-2">
+                  <span class="font-syne font-extrabold text-3xl text-[#1F120B] leading-none">RL</span>
+                  <span class="font-inter text-[9px] font-bold text-[#1F120B] tracking-[0.2em] uppercase mt-1">REGISTADA</span>
+                </div>
+                <div>
+                  <h3 class="font-syne font-extrabold text-2xl sm:text-3xl text-white tracking-tight">
+                    JPires – Sociedade de Advogados, RL
+                  </h3>
+                </div>
+              </div>
+
+              <div class="pt-16 sm:pt-24 relative z-10">
+                <div class="w-12 h-1 bg-[#3BB4F2] mb-4 rounded-full"></div>
+                <blockquote class="font-inter italic text-lg sm:text-xl text-white/95 font-medium leading-relaxed">
+                  “Onde o direito serve o negócio.”
+                </blockquote>
+              </div>
+            </div>
+
+            <!-- Painel Direito -->
+            <div class="lg:col-span-7 bg-[#EAF6FD]/95 p-8 sm:p-12 lg:p-16 flex flex-col justify-between text-[#2E1B12]">
+              <div class="space-y-6">
+                <div class="flex items-center gap-3">
+                  <span class="w-8 h-[2px] bg-[#1B8FD0]"></span>
+                  <span class="font-inter text-xs font-bold tracking-widest text-[#1B8FD0] uppercase">
+                    SOBRE O ESCRITÓRIO
+                  </span>
+                </div>
+
+                <h2 class="font-syne font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#2E1B12] tracking-tight leading-tight">
+                  Rigor Jurídico com <span class="text-[#1B8FD0]">visão de negócio</span>
+                </h2>
+
+                <div class="space-y-4 font-inter text-sm sm:text-base text-[#2E1B12]/90 leading-relaxed font-normal">
+                  <p>
+                    JPires – Sociedade de Advogados, RL é um escritório especializado em direito empresarial e corporativo, com actuação focada no mercado angolano e nas suas interfaces com o investimento e o negócio internacional.
+                  </p>
+                  <p>
+                    A nossa abordagem combina rigor jurídico com compreensão profunda da realidade económica angolana — traduzindo complexidade legal em soluções práticas que protegem e potenciam os nossos clientes.
+                  </p>
+                  <p>
+                    Servimos grupos empresariais angolanos, investidores estrangeiros e empresas em crescimento — nos sectores de Oil & Gás, Mineração, Banca, Seguros e muito mais.
+                  </p>
+                </div>
+              </div>
+
+              <!-- 4 Valores -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-10">
+                <div class="p-5 rounded-2xl bg-[#2E1B12] border border-white/10 shadow-md">
+                  <h4 class="font-syne font-bold text-sm text-[#3BB4F2] tracking-wider uppercase">RIGOR</h4>
+                  <p class="font-inter text-xs sm:text-sm text-[#D9C3B0] mt-1.5 leading-snug">Excelência técnica em cada mandato.</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-[#2E1B12] border border-white/10 shadow-md">
+                  <h4 class="font-syne font-bold text-sm text-[#3BB4F2] tracking-wider uppercase">CONFIANÇA</h4>
+                  <p class="font-inter text-xs sm:text-sm text-[#D9C3B0] mt-1.5 leading-snug">Confidencialidade e integridade.</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-[#2E1B12] border border-white/10 shadow-md">
+                  <h4 class="font-syne font-bold text-sm text-[#3BB4F2] tracking-wider uppercase">PRAGMATISMO</h4>
+                  <p class="font-inter text-xs sm:text-sm text-[#D9C3B0] mt-1.5 leading-snug">Soluções práticas e accionáveis.</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-[#2E1B12] border border-white/10 shadow-md">
+                  <h4 class="font-syne font-bold text-sm text-[#3BB4F2] tracking-wider uppercase">PARCERIA</h4>
+                  <p class="font-inter text-xs sm:text-sm text-[#D9C3B0] mt-1.5 leading-snug">Relações de longo prazo.</p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- ÁREAS DE PRÁTICA (id="areas") -->
+          <div id="areas" class="pt-8 sm:pt-12 scroll-mt-24">
+            <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+              <span class="font-inter text-xs font-bold tracking-widest text-[#3BB4F2] uppercase block mb-3">
+                ÁREAS DE PRÁTICA
+              </span>
+              <h2 class="font-syne font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight">
+                O que <span class="text-[#3BB4F2]">fazemos</span>
+              </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              
+              <!-- 1 -->
+              <div class="group relative p-8 rounded-3xl glass-card-dark hover:border-[#3BB4F2]/60 hover:shadow-[0_10px_35px_rgba(59,180,242,0.2)] transition-all duration-300 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-[#4A2C1B] border border-white/10 flex items-center justify-center text-[#3BB4F2] group-hover:bg-[#3BB4F2] group-hover:text-[#1F120B] transition-colors">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    </div>
+                    <span class="font-syne font-bold text-sm text-[#D9C3B0]/60">01</span>
+                  </div>
+                  <h3 class="font-syne font-bold text-xl text-white group-hover:text-[#8DD6FA] transition-colors leading-snug">
+                    Direito Societário & Governance
+                  </h3>
+                </div>
+                <div class="w-full h-1 bg-white/5 rounded-full mt-8 overflow-hidden">
+                  <div class="w-8 group-hover:w-full h-full bg-[#3BB4F2] transition-all duration-500 ease-out"></div>
+                </div>
+              </div>
+
+              <!-- 2 -->
+              <div class="group relative p-8 rounded-3xl glass-card-dark hover:border-[#3BB4F2]/60 hover:shadow-[0_10px_35px_rgba(59,180,242,0.2)] transition-all duration-300 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-[#4A2C1B] border border-white/10 flex items-center justify-center text-[#3BB4F2] group-hover:bg-[#3BB4F2] group-hover:text-[#1F120B] transition-colors">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                    </div>
+                    <span class="font-syne font-bold text-sm text-[#D9C3B0]/60">02</span>
+                  </div>
+                  <h3 class="font-syne font-bold text-xl text-white group-hover:text-[#8DD6FA] transition-colors leading-snug">
+                    Fusões, Aquisições & Privatizações
+                  </h3>
+                </div>
+                <div class="w-full h-1 bg-white/5 rounded-full mt-8 overflow-hidden">
+                  <div class="w-8 group-hover:w-full h-full bg-[#3BB4F2] transition-all duration-500 ease-out"></div>
+                </div>
+              </div>
+
+              <!-- 3 -->
+              <div class="group relative p-8 rounded-3xl glass-card-dark hover:border-[#3BB4F2]/60 hover:shadow-[0_10px_35px_rgba(59,180,242,0.2)] transition-all duration-300 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-[#4A2C1B] border border-white/10 flex items-center justify-center text-[#3BB4F2] group-hover:bg-[#3BB4F2] group-hover:text-[#1F120B] transition-colors">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <span class="font-syne font-bold text-sm text-[#D9C3B0]/60">03</span>
+                  </div>
+                  <h3 class="font-syne font-bold text-xl text-white group-hover:text-[#8DD6FA] transition-colors leading-snug">
+                    Investimento Estrangeiro & JV
+                  </h3>
+                </div>
+                <div class="w-full h-1 bg-white/5 rounded-full mt-8 overflow-hidden">
+                  <div class="w-8 group-hover:w-full h-full bg-[#3BB4F2] transition-all duration-500 ease-out"></div>
+                </div>
+              </div>
+
+              <!-- 4 -->
+              <div class="group relative p-8 rounded-3xl glass-card-dark hover:border-[#3BB4F2]/60 hover:shadow-[0_10px_35px_rgba(59,180,242,0.2)] transition-all duration-300 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-[#4A2C1B] border border-white/10 flex items-center justify-center text-[#3BB4F2] group-hover:bg-[#3BB4F2] group-hover:text-[#1F120B] transition-colors">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </div>
+                    <span class="font-syne font-bold text-sm text-[#D9C3B0]/60">04</span>
+                  </div>
+                  <h3 class="font-syne font-bold text-xl text-white group-hover:text-[#8DD6FA] transition-colors leading-snug">
+                    Contratos Comerciais & Regulação
+                  </h3>
+                </div>
+                <div class="w-full h-1 bg-white/5 rounded-full mt-8 overflow-hidden">
+                  <div class="w-8 group-hover:w-full h-full bg-[#3BB4F2] transition-all duration-500 ease-out"></div>
+                </div>
+              </div>
+
+              <!-- 5 -->
+              <div class="group relative p-8 rounded-3xl glass-card-dark hover:border-[#3BB4F2]/60 hover:shadow-[0_10px_35px_rgba(59,180,242,0.2)] transition-all duration-300 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-[#4A2C1B] border border-white/10 flex items-center justify-center text-[#3BB4F2] group-hover:bg-[#3BB4F2] group-hover:text-[#1F120B] transition-colors">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/></svg>
+                    </div>
+                    <span class="font-syne font-bold text-sm text-[#D9C3B0]/60">05</span>
+                  </div>
+                  <h3 class="font-syne font-bold text-xl text-white group-hover:text-[#8DD6FA] transition-colors leading-snug">
+                    Financiamento & Reestruturação
+                  </h3>
+                </div>
+                <div class="w-full h-1 bg-white/5 rounded-full mt-8 overflow-hidden">
+                  <div class="w-8 group-hover:w-full h-full bg-[#3BB4F2] transition-all duration-500 ease-out"></div>
+                </div>
+              </div>
+
+              <!-- 6 -->
+              <div class="group relative p-8 rounded-3xl glass-card-dark hover:border-[#3BB4F2]/60 hover:shadow-[0_10px_35px_rgba(59,180,242,0.2)] transition-all duration-300 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-[#4A2C1B] border border-white/10 flex items-center justify-center text-[#3BB4F2] group-hover:bg-[#3BB4F2] group-hover:text-[#1F120B] transition-colors">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+                    </div>
+                    <span class="font-syne font-bold text-sm text-[#D9C3B0]/60">06</span>
+                  </div>
+                  <h3 class="font-syne font-bold text-xl text-white group-hover:text-[#8DD6FA] transition-colors leading-snug">
+                    Resolução de Conflitos
+                  </h3>
+                </div>
+                <div class="w-full h-1 bg-white/5 rounded-full mt-8 overflow-hidden">
+                  <div class="w-8 group-hover:w-full h-full bg-[#3BB4F2] transition-all duration-500 ease-out"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SECÇÃO 3: SECTORES & EQUIPA                                      -->
+      <!-- =============================================================== -->
+      <section id="sectores" class="w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-[1536px] mx-auto space-y-20 sm:space-y-28">
+          
+          <!-- PARTE A: SECTORES -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 rounded-3xl overflow-hidden border border-white/10 shadow-2xl backdrop-blur-xl">
+            <div class="lg:col-span-5 bg-[#1F120B]/90 p-8 sm:p-12 lg:p-16 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-white/10">
+              <div class="space-y-6">
+                <span class="font-inter text-xs font-bold tracking-widest text-[#3BB4F2] uppercase block">
+                  SECTORES
+                </span>
+                <h2 class="font-syne font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight">
+                  Onde <span class="text-[#3BB4F2]">actuamos</span>
+                </h2>
+                <p class="font-inter text-base sm:text-lg text-[#D9C3B0] leading-relaxed max-w-md font-normal">
+                  Conhecimento sectorial profundo — porque em Angola o contexto é determinante para a qualidade da assessoria jurídica.
+                </p>
+              </div>
+            </div>
+
+            <div class="lg:col-span-7 bg-[#EAF6FD]/95 p-6 sm:p-10 lg:p-14">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                
+                <div class="group relative p-4 sm:p-5 rounded-2xl bg-white border border-[#2E1B12]/10 hover:border-[#1B8FD0] shadow-sm hover:shadow-md transition-all flex items-center justify-between">
+                  <div class="flex items-center gap-3.5 pr-2">
+                    <span class="font-syne font-bold text-sm text-[#1B8FD0]">01</span>
+                    <span class="font-inter font-semibold text-sm sm:text-base text-[#2E1B12]">Oil & Gás e Energia</span>
+                  </div>
+                  <div class="w-4 group-hover:w-8 h-1 bg-[#1B8FD0] rounded-full transition-all duration-300"></div>
+                </div>
+
+                <div class="group relative p-4 sm:p-5 rounded-2xl bg-white border border-[#2E1B12]/10 hover:border-[#1B8FD0] shadow-sm hover:shadow-md transition-all flex items-center justify-between">
+                  <div class="flex items-center gap-3.5 pr-2">
+                    <span class="font-syne font-bold text-sm text-[#1B8FD0]">02</span>
+                    <span class="font-inter font-semibold text-sm sm:text-base text-[#2E1B12]">Mineração e Recursos Naturais</span>
+                  </div>
+                  <div class="w-4 group-hover:w-8 h-1 bg-[#1B8FD0] rounded-full transition-all duration-300"></div>
+                </div>
+
+                <div class="group relative p-4 sm:p-5 rounded-2xl bg-white border border-[#2E1B12]/10 hover:border-[#1B8FD0] shadow-sm hover:shadow-md transition-all flex items-center justify-between">
+                  <div class="flex items-center gap-3.5 pr-2">
+                    <span class="font-syne font-bold text-sm text-[#1B8FD0]">03</span>
+                    <span class="font-inter font-semibold text-sm sm:text-base text-[#2E1B12]">Banca e Serviços Financeiros</span>
+                  </div>
+                  <div class="w-4 group-hover:w-8 h-1 bg-[#1B8FD0] rounded-full transition-all duration-300"></div>
+                </div>
+
+                <div class="group relative p-4 sm:p-5 rounded-2xl bg-white border border-[#2E1B12]/10 hover:border-[#1B8FD0] shadow-sm hover:shadow-md transition-all flex items-center justify-between">
+                  <div class="flex items-center gap-3.5 pr-2">
+                    <span class="font-syne font-bold text-sm text-[#1B8FD0]">04</span>
+                    <span class="font-inter font-semibold text-sm sm:text-base text-[#2E1B12]">Seguros e Resseguros</span>
+                  </div>
+                  <div class="w-4 group-hover:w-8 h-1 bg-[#1B8FD0] rounded-full transition-all duration-300"></div>
+                </div>
+
+                <div class="group relative p-4 sm:p-5 rounded-2xl bg-white border border-[#2E1B12]/10 hover:border-[#1B8FD0] shadow-sm hover:shadow-md transition-all flex items-center justify-between">
+                  <div class="flex items-center gap-3.5 pr-2">
+                    <span class="font-syne font-bold text-sm text-[#1B8FD0]">05</span>
+                    <span class="font-inter font-semibold text-sm sm:text-base text-[#2E1B12]">Instituições Públicas e Estado</span>
+                  </div>
+                  <div class="w-4 group-hover:w-8 h-1 bg-[#1B8FD0] rounded-full transition-all duration-300"></div>
+                </div>
+
+                <div class="group relative p-4 sm:p-5 rounded-2xl bg-white border border-[#2E1B12]/10 hover:border-[#1B8FD0] shadow-sm hover:shadow-md transition-all flex items-center justify-between">
+                  <div class="flex items-center gap-3.5 pr-2">
+                    <span class="font-syne font-bold text-sm text-[#1B8FD0]">06</span>
+                    <span class="font-inter font-semibold text-sm sm:text-base text-[#2E1B12]">Recursos Humanos e Laboral</span>
+                  </div>
+                  <div class="w-4 group-hover:w-8 h-1 bg-[#1B8FD0] rounded-full transition-all duration-300"></div>
+                </div>
+
+                <div class="group relative p-4 sm:p-5 rounded-2xl bg-white border border-[#2E1B12]/10 hover:border-[#1B8FD0] shadow-sm hover:shadow-md transition-all flex items-center justify-between">
+                  <div class="flex items-center gap-3.5 pr-2">
+                    <span class="font-syne font-bold text-sm text-[#1B8FD0]">07</span>
+                    <span class="font-inter font-semibold text-sm sm:text-base text-[#2E1B12]">Segurança Privada</span>
+                  </div>
+                  <div class="w-4 group-hover:w-8 h-1 bg-[#1B8FD0] rounded-full transition-all duration-300"></div>
+                </div>
+
+                <div class="group relative p-4 sm:p-5 rounded-2xl bg-white border border-[#2E1B12]/10 hover:border-[#1B8FD0] shadow-sm hover:shadow-md transition-all flex items-center justify-between">
+                  <div class="flex items-center gap-3.5 pr-2">
+                    <span class="font-syne font-bold text-sm text-[#1B8FD0]">08</span>
+                    <span class="font-inter font-semibold text-sm sm:text-base text-[#2E1B12]">Imobiliário e Construção</span>
+                  </div>
+                  <div class="w-4 group-hover:w-8 h-1 bg-[#1B8FD0] rounded-full transition-all duration-300"></div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- PARTE B: EQUIPA (id="equipa") -->
+          <div id="equipa" class="pt-4 scroll-mt-24">
+            <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+              <span class="font-inter text-xs font-bold tracking-widest text-[#3BB4F2] uppercase block mb-3">
+                LIDERANÇA E EQUIPA
+              </span>
+              <h2 class="font-syne font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight">
+                A Equipa
+              </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+              
+              <!-- Dr. José Pires -->
+              <div class="group p-8 sm:p-10 rounded-3xl glass-card-dark hover:border-[#3BB4F2]/50 shadow-xl hover:shadow-[0_15px_40px_rgba(0,0,0,0.8)] transition-all duration-300 flex flex-col items-center text-center">
+                <div class="w-36 h-36 sm:w-44 sm:h-44 rounded-3xl bg-[#4A2C1B] border-2 border-[#3BB4F2]/30 group-hover:border-[#3BB4F2] shadow-inner flex items-center justify-center overflow-hidden mb-6 transition-colors">
+                  <span class="font-syne font-extrabold text-4xl sm:text-5xl text-[#3BB4F2] tracking-wider select-none">
+                    JP
+                  </span>
+                </div>
+                <h3 class="font-syne font-extrabold text-2xl sm:text-3xl text-white group-hover:text-[#8DD6FA] transition-colors">
+                  Dr. José Pires
+                </h3>
+                <p class="font-inter text-sm sm:text-base text-[#D9C3B0] mt-2 font-medium">
+                  CEO · Managing Partner
+                </p>
+              </div>
+
+              <!-- Dr. Isaac Gil -->
+              <div class="group p-8 sm:p-10 rounded-3xl glass-card-dark hover:border-[#3BB4F2]/50 shadow-xl hover:shadow-[0_15px_40px_rgba(0,0,0,0.8)] transition-all duration-300 flex flex-col items-center text-center">
+                <div class="w-36 h-36 sm:w-44 sm:h-44 rounded-3xl bg-[#4A2C1B] border-2 border-[#3BB4F2]/30 group-hover:border-[#3BB4F2] shadow-inner flex items-center justify-center overflow-hidden mb-6 transition-colors">
+                  <span class="font-syne font-extrabold text-4xl sm:text-5xl text-[#3BB4F2] tracking-wider select-none">
+                    IG
+                  </span>
+                </div>
+                <h3 class="font-syne font-extrabold text-2xl sm:text-3xl text-white group-hover:text-[#8DD6FA] transition-colors">
+                  Dr. Isaac Gil
+                </h3>
+                <p class="font-inter text-sm sm:text-base text-[#D9C3B0] mt-2 font-medium">
+                  Associate Partner
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SECÇÃO 4: HONORÁRIOS TRANSPARENTES                               -->
+      <!-- =============================================================== -->
+      <section id="honorarios" class="w-full py-20 sm:py-28 px-4 sm:px-6 lg:px-8 scroll-mt-20">
+        <div class="max-w-[1536px] mx-auto space-y-16 sm:space-y-20">
+          
+          <div class="text-center max-w-3xl mx-auto space-y-4">
+            <span class="font-inter text-xs font-bold tracking-widest text-[#3BB4F2] uppercase block">
+              MODELOS DE COLABORAÇÃO
+            </span>
+            <h2 class="font-syne font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight">
+              Honorários <span class="text-[#3BB4F2]">Transparentes</span>
+            </h2>
+            <p class="font-inter text-sm sm:text-base text-[#D9C3B0] leading-relaxed pt-2 font-normal">
+              Os nossos honorários são definidos em função do perfil do cliente, da complexidade do mandato e das condições do mercado. Prezamos pela transparência, equilíbrio e valor real entregue — sempre com abertura para negociação.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-6 items-stretch max-w-6xl mx-auto">
+            
+            <!-- Essencial -->
+            <div class="rounded-3xl p-8 sm:p-10 flex flex-col justify-between transition-all duration-300 glass-card-dark text-white border border-white/10 shadow-lg">
+              <div>
+                <div class="flex items-center justify-between mb-4">
+                  <span class="font-inter text-[11px] font-bold tracking-wider px-3.5 py-1 rounded-full uppercase bg-[#EAF6FD] text-[#1B8FD0]">
+                    AVENÇA MENSAL
+                  </span>
+                </div>
+                <h3 class="font-syne font-extrabold text-2xl tracking-tight mb-4 text-white">
+                  ESSENCIAL
+                </h3>
+                <div class="py-4 border-y border-white/10 mb-6">
+                  <div class="font-syne font-extrabold text-2xl sm:text-3xl text-[#3BB4F2]">Sob Consulta</div>
+                  <div class="font-inter text-xs mt-1 text-[#D9C3B0]">Adaptado ao cliente e ao mercado</div>
+                </div>
+                <ul class="space-y-3.5 mb-8">
+                  <li class="flex items-start gap-3 text-sm text-[#D9C3B0]">
+                    <svg class="w-4 h-4 text-[#3BB4F2] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span>Até 8h de assessoria mensal</span>
+                  </li>
+                  <li class="flex items-start gap-3 text-sm text-[#D9C3B0]">
+                    <svg class="w-4 h-4 text-[#3BB4F2] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span>Revisão de contratos</span>
+                  </li>
+                  <li class="flex items-start gap-3 text-sm text-[#D9C3B0]">
+                    <svg class="w-4 h-4 text-[#3BB4F2] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span>Consultas urgentes incluídas</span>
+                  </li>
+                  <li class="flex items-start gap-3 text-sm text-[#D9C3B0]">
+                    <svg class="w-4 h-4 text-[#3BB4F2] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span>Relatório mensal de risco jurídico</span>
+                  </li>
+                </ul>
+              </div>
+              <a href="#contactos" class="w-full py-3 rounded-full text-center font-bold text-sm transition-all border border-white/20 hover:border-[#3BB4F2] text-white hover:text-[#3BB4F2]">
+                Solicitar Proposta
+              </a>
+            </div>
+
+            <!-- Estratégico (Destaque) -->
+            <div class="rounded-3xl p-8 sm:p-10 flex flex-col justify-between transition-all duration-300 bg-[#2E1B12]/95 text-white border-2 border-[#3BB4F2] shadow-[0_20px_50px_rgba(59,180,242,0.3)] lg:-translate-y-4 z-10 backdrop-blur-xl">
+              <div>
+                <div class="flex items-center justify-between mb-4">
+                  <span class="font-inter text-[11px] font-bold tracking-wider px-3.5 py-1 rounded-full uppercase bg-[#3BB4F2] text-[#1F120B]">
+                    ★ RECOMENDADO
+                  </span>
+                </div>
+                <h3 class="font-syne font-extrabold text-2xl tracking-tight mb-4 text-white">
+                  ESTRATÉGICO
+                </h3>
+                <div class="py-4 border-y border-white/10 mb-6">
+                  <div class="font-syne font-extrabold text-2xl sm:text-3xl text-[#3BB4F2]">Sob Consulta</div>
+                  <div class="font-inter text-xs mt-1 text-[#D9C3B0]">Adaptado ao cliente e ao mercado</div>
+                </div>
+                <ul class="space-y-3.5 mb-8">
+                  <li class="flex items-start gap-3 text-sm text-[#D9C3B0] italic">
+                    <svg class="w-4 h-4 text-[#3BB4F2] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span>Plano à medida — detalhes sob consulta com consultoria dedicada.</span>
+                  </li>
+                </ul>
+              </div>
+              <a href="#contactos" class="w-full py-3 rounded-full text-center font-bold text-sm transition-all bg-[#3BB4F2] text-[#1F120B] hover:bg-[#8DD6FA] shadow-lg">
+                Solicitar Proposta
+              </a>
+            </div>
+
+            <!-- Premium -->
+            <div class="rounded-3xl p-8 sm:p-10 flex flex-col justify-between transition-all duration-300 glass-card-dark text-white border border-white/10 shadow-lg">
+              <div>
+                <div class="flex items-center justify-between mb-4">
+                  <span class="font-inter text-[11px] font-bold tracking-wider px-3.5 py-1 rounded-full uppercase bg-[#EAF6FD] text-[#1B8FD0]">
+                    DEDICAÇÃO PARCIAL
+                  </span>
+                </div>
+                <h3 class="font-syne font-extrabold text-2xl tracking-tight mb-4 text-white">
+                  PREMIUM
+                </h3>
+                <div class="py-4 border-y border-white/10 mb-6">
+                  <div class="font-syne font-extrabold text-2xl sm:text-3xl text-[#3BB4F2]">Sob Consulta</div>
+                  <div class="font-inter text-xs mt-1 text-[#D9C3B0]">Adaptado ao cliente e ao mercado</div>
+                </div>
+                <ul class="space-y-3.5 mb-8">
+                  <li class="flex items-start gap-3 text-sm text-[#D9C3B0]">
+                    <svg class="w-4 h-4 text-[#3BB4F2] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span>Presença regular na empresa</span>
+                  </li>
+                  <li class="flex items-start gap-3 text-sm text-[#D9C3B0]">
+                    <svg class="w-4 h-4 text-[#3BB4F2] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span>Representação em negociações</span>
+                  </li>
+                  <li class="flex items-start gap-3 text-sm text-[#D9C3B0]">
+                    <svg class="w-4 h-4 text-[#3BB4F2] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span>Gestão jurídica completa</span>
+                  </li>
+                  <li class="flex items-start gap-3 text-sm text-[#D9C3B0]">
+                    <svg class="w-4 h-4 text-[#3BB4F2] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span>Acesso directo e prioritário</span>
+                  </li>
+                  <li class="flex items-start gap-3 text-sm text-[#D9C3B0]">
+                    <svg class="w-4 h-4 text-[#3BB4F2] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span>Relatórios executivos mensais</span>
+                  </li>
+                </ul>
+              </div>
+              <a href="#contactos" class="w-full py-3 rounded-full text-center font-bold text-sm transition-all border border-white/20 hover:border-[#3BB4F2] text-white hover:text-[#3BB4F2]">
+                Solicitar Proposta
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SECÇÃO 5: ALIANÇAS INTERNACIONAIS                                -->
+      <!-- =============================================================== -->
+      <section id="aliancas" class="w-full py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-t border-white/10 scroll-mt-20">
+        <div class="max-w-[1536px] mx-auto space-y-12 sm:space-y-16">
+          
+          <div class="text-center max-w-2xl mx-auto space-y-4">
+            <span class="font-inter text-xs font-bold tracking-widest text-[#3BB4F2] uppercase block">
+              ALIANÇAS INTERNACIONAIS
+            </span>
+            <h2 class="font-syne font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight">
+              Alianças em <span class="text-[#3BB4F2]">três continentes</span>
+            </h2>
+            <p class="font-inter text-base sm:text-lg text-[#D9C3B0] leading-relaxed font-normal">
+              A JPires mantém alianças estratégicas com parceiros na Europa, em África e na América.
+            </p>
+          </div>
+
+          <!-- Mapa-Múndi Estilizado SVG Inline -->
+          <div class="w-full max-w-5xl mx-auto glass-card-dark rounded-3xl p-6 sm:p-10 shadow-2xl overflow-hidden relative">
+            <div class="w-full aspect-[2/1] relative">
+              <svg viewBox="0 0 1000 500" class="w-full h-full drop-shadow-md select-none" role="img" aria-label="Mapa de alianças na Europa, África e América">
+                <defs>
+                  <filter id="blue-glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
+
+                <!-- Grelha -->
+                <g stroke="white" stroke-opacity="0.04" stroke-width="1" stroke-dasharray="4 6">
+                  <line x1="50" y1="125" x2="950" y2="125" />
+                  <line x1="50" y1="250" x2="950" y2="250" />
+                  <line x1="50" y1="375" x2="950" y2="375" />
+                  <line x1="250" y1="50" x2="250" y2="450" />
+                  <line x1="500" y1="50" x2="500" y2="450" />
+                  <line x1="750" y1="50" x2="750" y2="450" />
+                </g>
+
+                <!-- Ásia -->
+                <path d="M 610 80 Q 720 60 850 80 Q 920 120 900 180 Q 860 240 780 250 Q 740 280 670 260 Q 620 200 610 140 Z" fill="#4A2C1B" opacity="0.45" />
+
+                <!-- Oceania -->
+                <path d="M 780 340 Q 860 320 890 360 Q 890 410 820 420 Q 770 400 780 340 Z" fill="#4A2C1B" opacity="0.45" />
+
+                <!-- América do Norte (Destaque) -->
+                <path d="M 120 100 Q 220 50 340 80 Q 330 150 290 190 Q 240 230 190 220 Q 140 180 120 100 Z" fill="#3BB4F2" fill-opacity="0.85" filter="url(#blue-glow)" />
+
+                <!-- América do Sul (Destaque) -->
+                <path d="M 270 240 Q 350 250 360 310 Q 340 390 300 440 Q 260 410 250 330 Q 250 280 270 240 Z" fill="#3BB4F2" fill-opacity="0.85" filter="url(#blue-glow)" />
+
+                <!-- Europa (Destaque) -->
+                <path d="M 480 100 Q 560 80 600 110 Q 590 160 540 180 Q 490 170 470 140 Z" fill="#3BB4F2" fill-opacity="0.85" filter="url(#blue-glow)" />
+
+                <!-- África (Destaque Principal) -->
+                <path d="M 470 190 Q 570 180 580 260 Q 570 340 540 430 Q 500 440 480 370 Q 430 270 470 190 Z" fill="#3BB4F2" fill-opacity="0.9" filter="url(#blue-glow)" />
+
+                <!-- Luanda Dot -->
+                <circle cx="510" cy="300" r="7" fill="#FFFFFF" filter="url(#blue-glow)" />
+                <circle cx="510" cy="300" r="14" fill="none" stroke="#3BB4F2" stroke-width="2" opacity="0.8">
+                  <animate attributeName="r" values="7;22;7" dur="2.4s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" values="1;0;1" dur="2.4s" repeatCount="indefinite" />
+                </circle>
+                <text x="525" y="305" fill="#FFFFFF" font-family="Syne, sans-serif" font-weight="700" font-size="13">Luanda (Sede)</text>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SECÇÃO 6: CONTACTOS E LOCALIZAÇÃO                                -->
+      <!-- =============================================================== -->
+      <section id="contactos" class="w-full py-20 sm:py-28 px-4 sm:px-6 lg:px-8 relative overflow-hidden scroll-mt-16">
+        <div class="max-w-[1536px] mx-auto relative z-10 space-y-16">
+          
+          <div class="text-center max-w-2xl mx-auto space-y-4">
+            <span class="font-inter text-xs font-bold tracking-widest text-[#3BB4F2] uppercase block">
+              FALE CONNOSCO
+            </span>
+            <h2 class="font-syne font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight">
+              Comece com uma <span class="text-[#3BB4F2]">conversa</span>
+            </h2>
+            <p class="font-inter text-base sm:text-lg text-[#D9C3B0] leading-relaxed font-normal">
+              Sessão de diagnóstico inicial gratuita — 60 minutos, sem compromisso. Avaliamos como podemos ser úteis ao seu negócio.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
+            
+            <!-- 1. Endereço -->
+            <div class="p-8 rounded-3xl glass-card flex flex-col justify-between hover:border-[#3BB4F2]/50 transition-all duration-300">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-[#3BB4F2]/15 border border-[#3BB4F2]/30 flex items-center justify-center text-[#3BB4F2] mb-6">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+                <h3 class="font-syne font-bold text-sm text-[#D9C3B0] uppercase tracking-wider mb-2">ENDEREÇO</h3>
+                <a href="https://maps.app.goo.gl/5nbpGcAmgWva6rXJA" target="_blank" rel="noopener noreferrer" class="font-inter text-sm sm:text-base text-white hover:text-[#3BB4F2] transition-colors leading-relaxed block">
+                  Loanda Towers, 11º Andar, Sala 04, Luanda, Angola
+                </a>
+              </div>
+              <div class="pt-6 mt-6 border-t border-white/10">
+                <span class="font-inter text-xs text-[#D9C3B0]/75">Luanda, Angola</span>
+              </div>
+            </div>
+
+            <!-- 2. Telefone -->
+            <div class="p-8 rounded-3xl glass-card flex flex-col justify-between hover:border-[#3BB4F2]/50 transition-all duration-300">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-[#3BB4F2]/15 border border-[#3BB4F2]/30 flex items-center justify-center text-[#3BB4F2] mb-6">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                </div>
+                <h3 class="font-syne font-bold text-sm text-[#D9C3B0] uppercase tracking-wider mb-2">TELEFONE</h3>
+                <div class="space-y-1.5">
+                  <a href="tel:+244933364301" class="font-inter text-sm sm:text-base text-white hover:text-[#3BB4F2] transition-colors block">+244 933 364 301</a>
+                  <a href="tel:+244923514369" class="font-inter text-sm sm:text-base text-white hover:text-[#3BB4F2] transition-colors block">+244 923 514 369</a>
+                </div>
+              </div>
+              <div class="pt-6 mt-6 border-t border-white/10">
+                <span class="font-inter text-xs text-[#D9C3B0]/75">Atendimento Corporativo</span>
+              </div>
+            </div>
+
+            <!-- 3. Email -->
+            <div class="p-8 rounded-3xl glass-card flex flex-col justify-between hover:border-[#3BB4F2]/50 transition-all duration-300">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-[#3BB4F2]/15 border border-[#3BB4F2]/30 flex items-center justify-center text-[#3BB4F2] mb-6">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                </div>
+                <h3 class="font-syne font-bold text-sm text-[#D9C3B0] uppercase tracking-wider mb-2">EMAIL</h3>
+                <a href="mailto:jpires@jpires-advogados.ao" class="font-inter text-sm sm:text-base text-white hover:text-[#3BB4F2] transition-colors block break-all">
+                  jpires@jpires-advogados.ao
+                </a>
+              </div>
+              <div class="pt-6 mt-6 border-t border-white/10">
+                <span class="font-inter text-xs text-[#D9C3B0]/75">Directório de Sócios</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 7. RODAPÉ INSTITUCIONAL (FOOTER) -->
+    <footer class="w-full py-8 px-4 sm:px-6 lg:px-8 border-t border-white/10 text-center bg-[#1F120B]/90 backdrop-blur-md">
+      <div class="max-w-[1536px] mx-auto">
+        <p class="font-inter text-[11px] sm:text-xs text-[#D9C3B0]/80 tracking-[0.2em] uppercase font-medium">
+          JPires – Sociedade de Advogados, RL · Corporate Law · Luanda, Angola · Confidencial
+        </p>
+      </div>
+    </footer>
+
   </div>
-</section>
 
-<!-- 2 · Abordagem (palavras acendem) -->
-<section id="s2" data-sx="1" data-so="1" style="height:320vh;position:relative">
-  <div class="pad" style="position:sticky;top:0;height:100svh;display:flex;flex-direction:column;justify-content:center">
-    <div class="col">
-      <p class="lab fl" style="margin-bottom:2.2rem">A nossa abordagem</p>
-      <p id="stmt" class="fd" style="font-size:clamp(1.8rem,3.5vw,3.4rem);line-height:1.1"></p>
-    </div>
-  </div>
-</section>
-
-<!-- 3 · Sobre + valores -->
-<section id="s3" data-sx="-1" data-so="1" class="pad" style="padding-top:20vh;padding-bottom:20vh">
-  <div class="col" style="margin-left:auto">
-    <p class="lab fl" style="margin-bottom:1.6rem">Sobre o escritório</p>
-    <h2 class="fd fl" style="font-size:clamp(2.4rem,4.6vw,4.8rem);margin-bottom:2.5rem">Rigor jurídico com <em style="color:var(--gold2)">visão de negócio.</em></h2>
-    <p class="fl" style="font-size:15px;line-height:1.8;opacity:.72;max-width:36rem">JPires – Sociedade de Advogados, RL é um escritório especializado em direito empresarial e corporativo, com actuação focada no mercado angolano e nas suas interfaces com o investimento e o negócio internacional.</p>
-    <p class="fl" style="margin-top:1.2rem;font-size:15px;line-height:1.8;opacity:.72;max-width:36rem">Servimos grupos empresariais angolanos, investidores estrangeiros e empresas em crescimento — nos sectores de Oil &amp; Gás, Mineração, Banca, Seguros e muito mais.</p>
-    <div id="vals" style="margin-top:3.5rem"></div>
-    <p class="fl fd" style="margin-top:3rem;font-style:italic;font-size:clamp(1.6rem,2.4vw,2.4rem);color:var(--gold2)">“Onde o direito serve o negócio.”</p>
-  </div>
-</section>
-
-<!-- 4 · Áreas de prática -->
-<section id="s4" data-sx="1" data-so="1" class="pad" style="padding-top:16vh;padding-bottom:20vh">
-  <div class="col">
-    <p class="lab fl" style="margin-bottom:1.6rem">Áreas de prática</p>
-    <h2 class="fd fl" style="font-size:clamp(2.6rem,5vw,5rem);margin-bottom:3rem">O que <em style="color:var(--gold2)">fazemos.</em></h2>
-    <div id="areas"></div>
-  </div>
-</section>
-
-<!-- 5 · Sectores -->
-<section id="s5" data-sx="-1" data-so="1" class="pad" style="padding-top:16vh;padding-bottom:20vh">
-  <div class="col" style="margin-left:auto">
-    <p class="lab fl" style="margin-bottom:1.6rem">Sectores</p>
-    <h2 class="fd fl" style="font-size:clamp(2.6rem,5vw,5rem)">Onde <em style="color:var(--gold2)">actuamos.</em></h2>
-    <p class="fl" style="margin:1.6rem 0 3rem;max-width:30rem;font-size:15px;line-height:1.7;opacity:.7">Conhecimento sectorial profundo — porque em Angola o contexto é determinante para a qualidade da assessoria jurídica.</p>
-    <div id="sect"></div>
-  </div>
-</section>
-
-<!-- 6 · Equipa -->
-<section id="s6" data-sx="1" data-so="1" class="pad" style="padding-top:16vh;padding-bottom:26vh">
-  <div class="col">
-    <p class="lab fl" style="margin-bottom:1.6rem">Liderança e equipa</p>
-    <h2 class="fd fl" style="font-size:clamp(2.6rem,5vw,5rem);margin-bottom:3rem">A <em style="color:var(--gold2)">equipa.</em></h2>
-    <div id="team"></div>
-  </div>
-</section>
-
-<!-- Alianças internacionais (largura total · sem balança) -->
-<section id="sA" data-sx="0" data-so="0" class="pad" style="padding-top:14vh;padding-bottom:18vh">
-  <p class="lab fl" style="margin-bottom:1.6rem">Alianças internacionais</p>
-  <h2 class="fd fl" style="font-size:clamp(2.6rem,5.4vw,5.4rem)">Presença em <em style="color:var(--gold2)">três continentes.</em></h2>
-  <p class="fl" style="margin:1.6rem 0 0;max-width:44rem;font-size:15px;line-height:1.8;opacity:.72">A JPires mantém alianças com a Europa, a África e a América, ligando o mercado angolano ao investimento e ao negócio internacional.</p>
-  <div class="fl" style="margin-top:3rem"><div id="wm"><svg id="wmsvg" viewBox="0 0 1000 520" width="100%" role="img" aria-label="Mapa-múndi com Europa, África e América destacadas"><g class="dots"><path class="d-ot" d="M914.6 399.0h.01M858.5 391.2h.01M865.1 391.2h.01M924.7 391.2h.01M935.8 383.5h.01M853.5 375.7h.01M859.8 375.7h.01M866.1 375.7h.01M872.3 375.7h.01M941.6 375.7h.01M794.7 367.9h.01M800.8 367.9h.01M844.0 367.9h.01M850.1 367.9h.01M856.3 367.9h.01M862.5 367.9h.01M868.6 367.9h.01M874.8 367.9h.01M880.9 367.9h.01M800.0 360.0h.01M806.1 360.0h.01M812.1 360.0h.01M818.1 360.0h.01M824.2 360.0h.01M842.3 360.0h.01M848.3 360.0h.01M854.4 360.0h.01M860.4 360.0h.01M866.5 360.0h.01M872.5 360.0h.01M878.5 360.0h.01M884.6 360.0h.01M890.6 360.0h.01M800.5 352.2h.01M806.5 352.2h.01M812.4 352.2h.01M818.3 352.2h.01M824.3 352.2h.01M830.2 352.2h.01M836.1 352.2h.01M842.0 352.2h.01M848.0 352.2h.01M853.9 352.2h.01M859.8 352.2h.01M865.8 352.2h.01M871.7 352.2h.01M877.6 352.2h.01M883.6 352.2h.01M889.5 352.2h.01M895.4 352.2h.01M796.5 344.3h.01M802.3 344.3h.01M808.2 344.3h.01M814.0 344.3h.01M819.8 344.3h.01M825.7 344.3h.01M831.5 344.3h.01M837.3 344.3h.01M843.2 344.3h.01M849.0 344.3h.01M854.8 344.3h.01M860.7 344.3h.01M866.5 344.3h.01M872.3 344.3h.01M878.2 344.3h.01M884.0 344.3h.01M889.8 344.3h.01M895.7 344.3h.01M799.6 336.5h.01M805.4 336.5h.01M811.1 336.5h.01M816.9 336.5h.01M822.6 336.5h.01M828.4 336.5h.01M834.1 336.5h.01M839.9 336.5h.01M845.6 336.5h.01M851.4 336.5h.01M857.1 336.5h.01M862.9 336.5h.01M868.6 336.5h.01M874.4 336.5h.01M880.1 336.5h.01M885.9 336.5h.01M891.6 336.5h.01M897.4 336.5h.01M804.0 328.7h.01M809.6 328.7h.01M815.3 328.7h.01M821.0 328.7h.01M826.7 328.7h.01M832.3 328.7h.01M838.0 328.7h.01M843.7 328.7h.01M849.4 328.7h.01M855.0 328.7h.01M860.7 328.7h.01M866.4 328.7h.01M872.1 328.7h.01M877.7 328.7h.01M883.4 328.7h.01M889.1 328.7h.01M820.7 320.8h.01M826.3 320.8h.01M831.9 320.8h.01M837.6 320.8h.01M843.2 320.8h.01M848.8 320.8h.01M854.4 320.8h.01M860.0 320.8h.01M865.6 320.8h.01M871.2 320.8h.01M876.8 320.8h.01M882.4 320.8h.01M888.1 320.8h.01M827.4 313.0h.01M832.9 313.0h.01M838.5 313.0h.01M844.0 313.0h.01M849.6 313.0h.01M855.1 313.0h.01M860.7 313.0h.01M866.2 313.0h.01M877.4 313.0h.01M882.9 313.0h.01M835.2 305.2h.01M840.7 305.2h.01M846.2 305.2h.01M851.7 305.2h.01M857.3 305.2h.01M879.3 305.2h.01M884.8 305.2h.01M855.2 297.4h.01M882.6 297.4h.01M822.0 289.6h.01M832.9 289.6h.01M898.2 289.6h.01M790.5 281.8h.01M795.9 281.8h.01M801.3 281.8h.01M877.1 281.8h.01M882.5 281.8h.01M887.9 281.8h.01M893.4 281.8h.01M782.1 274.0h.01M830.7 274.0h.01M868.4 274.0h.01M873.8 274.0h.01M879.2 274.0h.01M884.6 274.0h.01M890.0 274.0h.01M911.6 274.0h.01M775.0 266.2h.01M780.4 266.2h.01M796.6 266.2h.01M802.0 266.2h.01M807.4 266.2h.01M812.7 266.2h.01M823.5 266.2h.01M855.8 266.2h.01M861.2 266.2h.01M872.0 266.2h.01M769.3 258.4h.01M774.6 258.4h.01M796.2 258.4h.01M801.6 258.4h.01M807.0 258.4h.01M812.3 258.4h.01M823.1 258.4h.01M828.5 258.4h.01M833.9 258.4h.01M844.6 258.4h.01M764.8 250.7h.01M775.5 250.7h.01M807.9 250.7h.01M813.3 250.7h.01M772.3 242.9h.01M815.6 242.9h.01M716.2 235.1h.01M830.0 235.1h.01M835.5 235.1h.01M704.4 227.3h.01M709.8 227.3h.01M764.3 227.3h.01M780.6 227.3h.01M786.1 227.3h.01M829.7 227.3h.01M835.1 227.3h.01M616.8 219.5h.01M704.6 219.5h.01M710.0 219.5h.01M764.9 219.5h.01M770.3 219.5h.01M775.8 219.5h.01M781.3 219.5h.01M786.8 219.5h.01M830.7 219.5h.01M617.5 211.7h.01M623.1 211.7h.01M628.6 211.7h.01M634.1 211.7h.01M700.4 211.7h.01M706.0 211.7h.01M711.5 211.7h.01M761.2 211.7h.01M766.7 211.7h.01M772.3 211.7h.01M777.8 211.7h.01M783.3 211.7h.01M788.8 211.7h.01M822.0 211.7h.01M613.8 203.9h.01M619.4 203.9h.01M624.9 203.9h.01M630.5 203.9h.01M636.1 203.9h.01M641.7 203.9h.01M647.2 203.9h.01M697.4 203.9h.01M703.0 203.9h.01M708.6 203.9h.01M714.2 203.9h.01M719.7 203.9h.01M753.2 203.9h.01M758.8 203.9h.01M764.3 203.9h.01M769.9 203.9h.01M775.5 203.9h.01M781.1 203.9h.01M820.1 203.9h.01M605.4 196.0h.01M611.0 196.0h.01M616.7 196.0h.01M622.3 196.0h.01M627.9 196.0h.01M633.6 196.0h.01M639.2 196.0h.01M644.8 196.0h.01M650.5 196.0h.01M695.6 196.0h.01M701.2 196.0h.01M706.8 196.0h.01M712.5 196.0h.01M718.1 196.0h.01M723.7 196.0h.01M746.3 196.0h.01M751.9 196.0h.01M757.5 196.0h.01M763.2 196.0h.01M768.8 196.0h.01M774.5 196.0h.01M780.1 196.0h.01M791.4 196.0h.01M603.6 188.2h.01M609.3 188.2h.01M615.0 188.2h.01M620.7 188.2h.01M626.4 188.2h.01M632.1 188.2h.01M637.8 188.2h.01M643.5 188.2h.01M649.2 188.2h.01M654.9 188.2h.01M683.4 188.2h.01M689.1 188.2h.01M694.8 188.2h.01M700.5 188.2h.01M706.2 188.2h.01M711.9 188.2h.01M717.6 188.2h.01M723.4 188.2h.01M729.1 188.2h.01M734.8 188.2h.01M740.5 188.2h.01M746.2 188.2h.01M751.9 188.2h.01M757.6 188.2h.01M763.3 188.2h.01M769.0 188.2h.01M774.7 188.2h.01M780.4 188.2h.01M786.1 188.2h.01M791.8 188.2h.01M797.5 188.2h.01M803.2 188.2h.01M597.0 180.4h.01M602.7 180.4h.01M608.5 180.4h.01M614.3 180.4h.01M620.1 180.4h.01M625.9 180.4h.01M654.8 180.4h.01M660.6 180.4h.01M666.4 180.4h.01M672.1 180.4h.01M677.9 180.4h.01M683.7 180.4h.01M689.5 180.4h.01M695.3 180.4h.01M701.1 180.4h.01M706.8 180.4h.01M712.6 180.4h.01M718.4 180.4h.01M724.2 180.4h.01M730.0 180.4h.01M735.8 180.4h.01M741.5 180.4h.01M747.3 180.4h.01M753.1 180.4h.01M758.9 180.4h.01M764.7 180.4h.01M770.5 180.4h.01M776.2 180.4h.01M782.0 180.4h.01M787.8 180.4h.01M793.6 180.4h.01M799.4 180.4h.01M805.2 180.4h.01M810.9 180.4h.01M591.2 172.5h.01M597.1 172.5h.01M603.0 172.5h.01M608.8 172.5h.01M614.7 172.5h.01M620.6 172.5h.01M638.2 172.5h.01M644.1 172.5h.01M649.9 172.5h.01M655.8 172.5h.01M661.7 172.5h.01M667.6 172.5h.01M673.4 172.5h.01M679.3 172.5h.01M685.2 172.5h.01M691.1 172.5h.01M696.9 172.5h.01M702.8 172.5h.01M708.7 172.5h.01M714.5 172.5h.01M720.4 172.5h.01M726.3 172.5h.01M732.2 172.5h.01M738.0 172.5h.01M743.9 172.5h.01M749.8 172.5h.01M755.6 172.5h.01M761.5 172.5h.01M767.4 172.5h.01M773.3 172.5h.01M779.1 172.5h.01M785.0 172.5h.01M790.9 172.5h.01M796.8 172.5h.01M802.6 172.5h.01M808.5 172.5h.01M592.3 164.7h.01M598.3 164.7h.01M604.2 164.7h.01M610.2 164.7h.01M616.2 164.7h.01M622.2 164.7h.01M628.1 164.7h.01M634.1 164.7h.01M640.1 164.7h.01M646.1 164.7h.01M652.0 164.7h.01M658.0 164.7h.01M664.0 164.7h.01M670.0 164.7h.01M675.9 164.7h.01M681.9 164.7h.01M687.9 164.7h.01M693.8 164.7h.01M699.8 164.7h.01M705.8 164.7h.01M711.8 164.7h.01M717.7 164.7h.01M723.7 164.7h.01M729.7 164.7h.01M735.7 164.7h.01M741.6 164.7h.01M747.6 164.7h.01M753.6 164.7h.01M759.5 164.7h.01M765.5 164.7h.01M771.5 164.7h.01M777.5 164.7h.01M783.4 164.7h.01M789.4 164.7h.01M795.4 164.7h.01M801.4 164.7h.01M807.3 164.7h.01M594.5 156.8h.01M600.5 156.8h.01M606.6 156.8h.01M612.7 156.8h.01M618.8 156.8h.01M624.9 156.8h.01M631.0 156.8h.01M637.1 156.8h.01M643.2 156.8h.01M649.2 156.8h.01M655.3 156.8h.01M661.4 156.8h.01M667.5 156.8h.01M673.6 156.8h.01M679.7 156.8h.01M685.8 156.8h.01M691.8 156.8h.01M697.9 156.8h.01M704.0 156.8h.01M710.1 156.8h.01M716.2 156.8h.01M722.3 156.8h.01M728.4 156.8h.01M734.5 156.8h.01M740.5 156.8h.01M746.6 156.8h.01M752.7 156.8h.01M758.8 156.8h.01M764.9 156.8h.01M771.0 156.8h.01M777.1 156.8h.01M783.1 156.8h.01M789.2 156.8h.01M795.3 156.8h.01M801.4 156.8h.01M807.5 156.8h.01M831.8 156.8h.01M837.9 156.8h.01M591.5 149.0h.01M597.7 149.0h.01M604.0 149.0h.01M610.2 149.0h.01M616.4 149.0h.01M622.6 149.0h.01M628.8 149.0h.01M635.0 149.0h.01M641.2 149.0h.01M647.5 149.0h.01M653.7 149.0h.01M659.9 149.0h.01M666.1 149.0h.01M672.3 149.0h.01M678.5 149.0h.01M684.7 149.0h.01M691.0 149.0h.01M697.2 149.0h.01M703.4 149.0h.01M709.6 149.0h.01M715.8 149.0h.01M722.0 149.0h.01M728.2 149.0h.01M734.5 149.0h.01M740.7 149.0h.01M746.9 149.0h.01M753.1 149.0h.01M759.3 149.0h.01M765.5 149.0h.01M771.7 149.0h.01M778.0 149.0h.01M784.2 149.0h.01M790.4 149.0h.01M796.6 149.0h.01M821.4 149.0h.01M840.1 149.0h.01M846.3 149.0h.01M852.5 149.0h.01M570.4 141.2h.01M576.8 141.2h.01M583.1 141.2h.01M589.5 141.2h.01M595.9 141.2h.01M602.2 141.2h.01M608.6 141.2h.01M614.9 141.2h.01M621.3 141.2h.01M640.4 141.2h.01M646.7 141.2h.01M653.1 141.2h.01M659.4 141.2h.01M665.8 141.2h.01M672.1 141.2h.01M678.5 141.2h.01M684.9 141.2h.01M691.2 141.2h.01M697.6 141.2h.01M703.9 141.2h.01M710.3 141.2h.01M716.6 141.2h.01M723.0 141.2h.01M729.4 141.2h.01M735.7 141.2h.01M742.1 141.2h.01M748.4 141.2h.01M754.8 141.2h.01M761.1 141.2h.01M767.5 141.2h.01M773.9 141.2h.01M780.2 141.2h.01M786.6 141.2h.01M792.9 141.2h.01M818.4 141.2h.01M850.1 141.2h.01M575.4 133.4h.01M581.9 133.4h.01M588.4 133.4h.01M594.9 133.4h.01M601.4 133.4h.01M608.0 133.4h.01M614.5 133.4h.01M621.0 133.4h.01M634.0 133.4h.01M640.5 133.4h.01M647.1 133.4h.01M653.6 133.4h.01M660.1 133.4h.01M666.6 133.4h.01M673.1 133.4h.01M679.7 133.4h.01M686.2 133.4h.01M692.7 133.4h.01M699.2 133.4h.01M705.7 133.4h.01M712.2 133.4h.01M718.8 133.4h.01M725.3 133.4h.01M731.8 133.4h.01M738.3 133.4h.01M744.8 133.4h.01M751.3 133.4h.01M757.9 133.4h.01M764.4 133.4h.01M770.9 133.4h.01M777.4 133.4h.01M783.9 133.4h.01M790.5 133.4h.01M797.0 133.4h.01M803.5 133.4h.01M810.0 133.4h.01M816.5 133.4h.01M849.1 133.4h.01M601.7 125.7h.01M608.4 125.7h.01M615.1 125.7h.01M628.5 125.7h.01M635.2 125.7h.01M641.9 125.7h.01M648.6 125.7h.01M655.3 125.7h.01M662.0 125.7h.01M668.7 125.7h.01M675.4 125.7h.01M682.1 125.7h.01M688.8 125.7h.01M695.4 125.7h.01M702.1 125.7h.01M708.8 125.7h.01M715.5 125.7h.01M722.2 125.7h.01M728.9 125.7h.01M735.6 125.7h.01M742.3 125.7h.01M749.0 125.7h.01M755.7 125.7h.01M762.4 125.7h.01M769.1 125.7h.01M775.8 125.7h.01M782.5 125.7h.01M789.2 125.7h.01M795.9 125.7h.01M802.6 125.7h.01M809.3 125.7h.01M816.0 125.7h.01M849.5 125.7h.01M582.3 118.0h.01M596.1 118.0h.01M603.0 118.0h.01M609.9 118.0h.01M630.6 118.0h.01M637.5 118.0h.01M644.4 118.0h.01M651.3 118.0h.01M658.2 118.0h.01M665.1 118.0h.01M672.0 118.0h.01M678.9 118.0h.01M685.8 118.0h.01M692.7 118.0h.01M699.6 118.0h.01M706.5 118.0h.01M713.4 118.0h.01M720.3 118.0h.01M727.2 118.0h.01M734.1 118.0h.01M741.0 118.0h.01M747.9 118.0h.01M754.8 118.0h.01M761.7 118.0h.01M768.6 118.0h.01M775.5 118.0h.01M782.4 118.0h.01M789.3 118.0h.01M796.2 118.0h.01M803.1 118.0h.01M810.0 118.0h.01M816.9 118.0h.01M823.8 118.0h.01M830.7 118.0h.01M598.3 110.3h.01M605.4 110.3h.01M612.5 110.3h.01M619.7 110.3h.01M626.8 110.3h.01M633.9 110.3h.01M641.1 110.3h.01M648.2 110.3h.01M655.3 110.3h.01M662.5 110.3h.01M669.6 110.3h.01M676.7 110.3h.01M683.9 110.3h.01M691.0 110.3h.01M698.1 110.3h.01M705.3 110.3h.01M712.4 110.3h.01M719.5 110.3h.01M726.7 110.3h.01M733.8 110.3h.01M740.9 110.3h.01M748.1 110.3h.01M755.2 110.3h.01M762.3 110.3h.01M769.5 110.3h.01M776.6 110.3h.01M783.7 110.3h.01M790.9 110.3h.01M798.0 110.3h.01M805.1 110.3h.01M812.3 110.3h.01M819.4 110.3h.01M826.5 110.3h.01M586.9 102.8h.01M594.3 102.8h.01M601.7 102.8h.01M609.1 102.8h.01M616.5 102.8h.01M623.9 102.8h.01M631.3 102.8h.01M638.7 102.8h.01M646.1 102.8h.01M653.5 102.8h.01M660.9 102.8h.01M668.3 102.8h.01M675.7 102.8h.01M683.1 102.8h.01M690.5 102.8h.01M697.8 102.8h.01M705.2 102.8h.01M712.6 102.8h.01M720.0 102.8h.01M727.4 102.8h.01M734.8 102.8h.01M742.2 102.8h.01M749.6 102.8h.01M757.0 102.8h.01M764.4 102.8h.01M771.8 102.8h.01M779.2 102.8h.01M786.6 102.8h.01M794.0 102.8h.01M801.4 102.8h.01M808.8 102.8h.01M816.2 102.8h.01M823.6 102.8h.01M575.7 95.3h.01M583.4 95.3h.01M591.1 95.3h.01M598.8 95.3h.01M606.5 95.3h.01M614.2 95.3h.01M621.9 95.3h.01M629.6 95.3h.01M637.3 95.3h.01M645.0 95.3h.01M652.7 95.3h.01M660.4 95.3h.01M668.0 95.3h.01M675.7 95.3h.01M683.4 95.3h.01M691.1 95.3h.01M698.8 95.3h.01M706.5 95.3h.01M714.2 95.3h.01M721.9 95.3h.01M729.6 95.3h.01M737.3 95.3h.01M745.0 95.3h.01M752.7 95.3h.01M760.4 95.3h.01M768.1 95.3h.01M775.8 95.3h.01M783.5 95.3h.01M791.2 95.3h.01M798.9 95.3h.01M806.6 95.3h.01M814.3 95.3h.01M822.0 95.3h.01M829.7 95.3h.01M572.6 87.9h.01M580.6 87.9h.01M588.7 87.9h.01M596.7 87.9h.01M604.7 87.9h.01M612.8 87.9h.01M620.8 87.9h.01M628.9 87.9h.01M636.9 87.9h.01M644.9 87.9h.01M653.0 87.9h.01M661.0 87.9h.01M669.1 87.9h.01M677.1 87.9h.01M685.2 87.9h.01M693.2 87.9h.01M701.2 87.9h.01M709.3 87.9h.01M717.3 87.9h.01M725.4 87.9h.01M733.4 87.9h.01M741.5 87.9h.01M749.5 87.9h.01M757.5 87.9h.01M765.6 87.9h.01M773.6 87.9h.01M781.7 87.9h.01M789.7 87.9h.01M797.7 87.9h.01M805.8 87.9h.01M862.1 87.9h.01M570.2 80.7h.01M578.6 80.7h.01M587.1 80.7h.01M595.5 80.7h.01M603.9 80.7h.01M612.4 80.7h.01M620.8 80.7h.01M629.3 80.7h.01M637.7 80.7h.01M646.2 80.7h.01M654.6 80.7h.01M663.1 80.7h.01M671.5 80.7h.01M680.0 80.7h.01M688.4 80.7h.01M696.8 80.7h.01M705.3 80.7h.01M713.7 80.7h.01M722.2 80.7h.01M730.6 80.7h.01M739.1 80.7h.01M747.5 80.7h.01M756.0 80.7h.01M764.4 80.7h.01M772.9 80.7h.01M781.3 80.7h.01M789.7 80.7h.01M798.2 80.7h.01M806.6 80.7h.01M857.3 80.7h.01M568.5 73.5h.01M577.4 73.5h.01M586.4 73.5h.01M595.3 73.5h.01M604.2 73.5h.01M613.1 73.5h.01M622.1 73.5h.01M631.0 73.5h.01M639.9 73.5h.01M648.8 73.5h.01M657.7 73.5h.01M666.7 73.5h.01M675.6 73.5h.01M684.5 73.5h.01M693.4 73.5h.01M702.3 73.5h.01M711.3 73.5h.01M720.2 73.5h.01M729.1 73.5h.01M738.0 73.5h.01M746.9 73.5h.01M755.9 73.5h.01M764.8 73.5h.01M773.7 73.5h.01M782.6 73.5h.01M791.5 73.5h.01M800.5 73.5h.01M809.4 73.5h.01M818.3 73.5h.01M827.2 73.5h.01M836.1 73.5h.01M862.9 73.5h.01M871.8 73.5h.01M567.7 66.5h.01M577.2 66.5h.01M586.7 66.5h.01M596.2 66.5h.01M605.7 66.5h.01M615.2 66.5h.01M624.7 66.5h.01M634.2 66.5h.01M643.6 66.5h.01M653.1 66.5h.01M662.6 66.5h.01M672.1 66.5h.01M681.6 66.5h.01M691.1 66.5h.01M700.6 66.5h.01M710.1 66.5h.01M719.5 66.5h.01M729.0 66.5h.01M738.5 66.5h.01M748.0 66.5h.01M757.5 66.5h.01M767.0 66.5h.01M776.5 66.5h.01M786.0 66.5h.01M795.4 66.5h.01M804.9 66.5h.01M814.4 66.5h.01M823.9 66.5h.01M833.4 66.5h.01M842.9 66.5h.01M852.4 66.5h.01M861.8 66.5h.01M871.3 66.5h.01M880.8 66.5h.01M129.7 59.6h.01M570.3 59.6h.01M589.1 59.6h.01M598.4 59.6h.01M607.8 59.6h.01M617.2 59.6h.01M626.6 59.6h.01M635.9 59.6h.01M645.3 59.6h.01M654.7 59.6h.01M664.1 59.6h.01M673.4 59.6h.01M682.8 59.6h.01M692.2 59.6h.01M701.6 59.6h.01M710.9 59.6h.01M720.3 59.6h.01M729.7 59.6h.01M739.1 59.6h.01M748.4 59.6h.01M757.8 59.6h.01M767.2 59.6h.01M776.6 59.6h.01M785.9 59.6h.01M795.3 59.6h.01M804.7 59.6h.01M814.1 59.6h.01M823.4 59.6h.01M832.8 59.6h.01M842.2 59.6h.01M851.6 59.6h.01M860.9 59.6h.01M870.3 59.6h.01M568.8 52.9h.01M578.0 52.9h.01M605.5 52.9h.01M614.7 52.9h.01M623.8 52.9h.01M633.0 52.9h.01M642.2 52.9h.01M651.4 52.9h.01M660.5 52.9h.01M669.7 52.9h.01M678.9 52.9h.01M688.1 52.9h.01M697.2 52.9h.01M706.4 52.9h.01M715.6 52.9h.01M724.8 52.9h.01M733.9 52.9h.01M743.1 52.9h.01M752.3 52.9h.01M761.4 52.9h.01M770.6 52.9h.01M779.8 52.9h.01M789.0 52.9h.01M798.1 52.9h.01M807.3 52.9h.01M816.5 52.9h.01M825.7 52.9h.01M834.8 52.9h.01M844.0 52.9h.01M853.2 52.9h.01M862.4 52.9h.01M639.0 46.3h.01M656.9 46.3h.01M665.9 46.3h.01M674.8 46.3h.01M683.8 46.3h.01M692.8 46.3h.01M701.7 46.3h.01M710.7 46.3h.01M719.7 46.3h.01M728.6 46.3h.01M737.6 46.3h.01M746.6 46.3h.01M755.5 46.3h.01M764.5 46.3h.01M773.5 46.3h.01M782.4 46.3h.01M791.4 46.3h.01M800.4 46.3h.01M809.3 46.3h.01M818.3 46.3h.01M609.4 39.9h.01M661.9 39.9h.01M670.7 39.9h.01M679.4 39.9h.01M688.2 39.9h.01M696.9 39.9h.01M705.7 39.9h.01M714.4 39.9h.01M723.2 39.9h.01M731.9 39.9h.01M740.7 39.9h.01M749.5 39.9h.01M615.2 33.6h.01M674.9 33.6h.01M683.4 33.6h.01M691.9 33.6h.01M700.5 33.6h.01M709.0 33.6h.01M717.5 33.6h.01M768.7 33.6h.01M777.2 33.6h.01M686.6 27.6h.01M672.8 22.0h.01"/><path class="d-eu" d="M355.1 250.7h.01M356.4 242.9h.01M560.5 149.0h.01M481.4 141.2h.01M487.8 141.2h.01M494.1 141.2h.01M532.3 141.2h.01M557.7 141.2h.01M484.1 133.4h.01M490.6 133.4h.01M497.2 133.4h.01M523.2 133.4h.01M542.8 133.4h.01M549.3 133.4h.01M555.8 133.4h.01M481.1 125.7h.01M487.8 125.7h.01M494.5 125.7h.01M501.2 125.7h.01M528.0 125.7h.01M548.1 125.7h.01M554.8 125.7h.01M561.5 125.7h.01M568.2 125.7h.01M499.4 118.0h.01M506.3 118.0h.01M513.2 118.0h.01M520.1 118.0h.01M527.0 118.0h.01M533.9 118.0h.01M540.8 118.0h.01M547.8 118.0h.01M554.7 118.0h.01M561.6 118.0h.01M568.5 118.0h.01M491.3 110.3h.01M498.4 110.3h.01M505.6 110.3h.01M512.7 110.3h.01M519.8 110.3h.01M526.9 110.3h.01M534.1 110.3h.01M541.2 110.3h.01M548.3 110.3h.01M555.5 110.3h.01M562.6 110.3h.01M569.7 110.3h.01M576.9 110.3h.01M584.0 110.3h.01M591.1 110.3h.01M490.8 102.8h.01M505.6 102.8h.01M513.0 102.8h.01M520.4 102.8h.01M527.8 102.8h.01M535.1 102.8h.01M542.5 102.8h.01M549.9 102.8h.01M557.3 102.8h.01M564.7 102.8h.01M572.1 102.8h.01M579.5 102.8h.01M483.4 95.3h.01M491.0 95.3h.01M498.7 95.3h.01M514.1 95.3h.01M521.8 95.3h.01M529.5 95.3h.01M537.2 95.3h.01M544.9 95.3h.01M552.6 95.3h.01M560.3 95.3h.01M568.0 95.3h.01M492.1 87.9h.01M548.4 87.9h.01M556.5 87.9h.01M564.5 87.9h.01M527.9 80.7h.01M536.4 80.7h.01M561.7 80.7h.01M515.0 73.5h.01M523.9 73.5h.01M532.8 73.5h.01M550.7 73.5h.01M559.6 73.5h.01M520.3 66.5h.01M529.8 66.5h.01M539.3 66.5h.01M548.8 66.5h.01M558.3 66.5h.01M457.8 59.6h.01M467.2 59.6h.01M532.8 59.6h.01M542.2 59.6h.01M560.9 59.6h.01M532.1 52.9h.01M541.3 52.9h.01M550.5 52.9h.01M559.6 52.9h.01M549.3 46.3h.01M558.3 46.3h.01M529.0 27.6h.01M536.2 22.0h.01M544.2 22.0h.01"/><path class="d-af" d="M552.4 360.0h.01M558.4 360.0h.01M564.5 360.0h.01M570.5 360.0h.01M545.5 352.2h.01M551.4 352.2h.01M557.3 352.2h.01M563.3 352.2h.01M569.2 352.2h.01M575.1 352.2h.01M539.7 344.3h.01M545.6 344.3h.01M551.4 344.3h.01M557.2 344.3h.01M563.1 344.3h.01M568.9 344.3h.01M574.7 344.3h.01M580.6 344.3h.01M540.8 336.5h.01M546.6 336.5h.01M552.3 336.5h.01M558.1 336.5h.01M563.8 336.5h.01M569.6 336.5h.01M575.3 336.5h.01M581.1 336.5h.01M586.8 336.5h.01M615.6 336.5h.01M621.4 336.5h.01M542.9 328.7h.01M548.5 328.7h.01M554.2 328.7h.01M559.9 328.7h.01M565.6 328.7h.01M571.3 328.7h.01M576.9 328.7h.01M582.6 328.7h.01M588.3 328.7h.01M616.7 328.7h.01M622.3 328.7h.01M534.6 320.8h.01M540.2 320.8h.01M545.8 320.8h.01M551.4 320.8h.01M557.0 320.8h.01M562.6 320.8h.01M568.2 320.8h.01M573.9 320.8h.01M579.5 320.8h.01M585.1 320.8h.01M590.7 320.8h.01M618.7 320.8h.01M624.3 320.8h.01M533.0 313.0h.01M538.5 313.0h.01M544.1 313.0h.01M549.6 313.0h.01M555.2 313.0h.01M560.7 313.0h.01M566.3 313.0h.01M571.8 313.0h.01M577.4 313.0h.01M582.9 313.0h.01M588.5 313.0h.01M594.1 313.0h.01M599.6 313.0h.01M621.8 313.0h.01M627.4 313.0h.01M537.8 305.2h.01M543.3 305.2h.01M548.8 305.2h.01M554.3 305.2h.01M559.8 305.2h.01M565.4 305.2h.01M570.9 305.2h.01M576.4 305.2h.01M581.9 305.2h.01M587.4 305.2h.01M592.9 305.2h.01M598.4 305.2h.01M603.9 305.2h.01M631.4 305.2h.01M538.1 297.4h.01M543.6 297.4h.01M549.0 297.4h.01M554.5 297.4h.01M560.0 297.4h.01M565.4 297.4h.01M570.9 297.4h.01M576.4 297.4h.01M581.8 297.4h.01M587.3 297.4h.01M592.8 297.4h.01M598.2 297.4h.01M603.7 297.4h.01M539.3 289.6h.01M544.8 289.6h.01M550.2 289.6h.01M555.6 289.6h.01M561.1 289.6h.01M566.5 289.6h.01M572.0 289.6h.01M577.4 289.6h.01M582.8 289.6h.01M588.3 289.6h.01M593.7 289.6h.01M599.1 289.6h.01M604.6 289.6h.01M536.1 281.8h.01M541.5 281.8h.01M546.9 281.8h.01M552.3 281.8h.01M557.8 281.8h.01M563.2 281.8h.01M568.6 281.8h.01M574.0 281.8h.01M579.4 281.8h.01M584.8 281.8h.01M590.2 281.8h.01M595.6 281.8h.01M601.1 281.8h.01M533.9 274.0h.01M539.3 274.0h.01M544.7 274.0h.01M550.1 274.0h.01M555.5 274.0h.01M560.9 274.0h.01M566.3 274.0h.01M571.6 274.0h.01M577.0 274.0h.01M582.4 274.0h.01M587.8 274.0h.01M593.2 274.0h.01M598.6 274.0h.01M604.0 274.0h.01M527.2 266.2h.01M532.6 266.2h.01M538.0 266.2h.01M543.4 266.2h.01M548.8 266.2h.01M554.2 266.2h.01M559.6 266.2h.01M564.9 266.2h.01M570.3 266.2h.01M575.7 266.2h.01M581.1 266.2h.01M586.5 266.2h.01M591.9 266.2h.01M597.3 266.2h.01M602.6 266.2h.01M608.0 266.2h.01M526.9 258.4h.01M532.3 258.4h.01M537.7 258.4h.01M543.1 258.4h.01M548.5 258.4h.01M553.9 258.4h.01M559.3 258.4h.01M564.6 258.4h.01M570.0 258.4h.01M575.4 258.4h.01M580.8 258.4h.01M586.2 258.4h.01M591.6 258.4h.01M596.9 258.4h.01M602.3 258.4h.01M607.7 258.4h.01M613.1 258.4h.01M527.6 250.7h.01M533.0 250.7h.01M538.4 250.7h.01M543.8 250.7h.01M549.2 250.7h.01M554.6 250.7h.01M560.0 250.7h.01M565.3 250.7h.01M570.7 250.7h.01M576.1 250.7h.01M581.5 250.7h.01M586.9 250.7h.01M592.3 250.7h.01M597.7 250.7h.01M603.1 250.7h.01M608.5 250.7h.01M613.9 250.7h.01M619.2 250.7h.01M624.6 250.7h.01M475.2 242.9h.01M480.6 242.9h.01M486.0 242.9h.01M491.4 242.9h.01M496.8 242.9h.01M518.4 242.9h.01M523.8 242.9h.01M529.2 242.9h.01M534.7 242.9h.01M540.1 242.9h.01M545.5 242.9h.01M550.9 242.9h.01M556.3 242.9h.01M561.7 242.9h.01M567.1 242.9h.01M572.5 242.9h.01M577.9 242.9h.01M583.3 242.9h.01M588.7 242.9h.01M594.1 242.9h.01M599.5 242.9h.01M604.9 242.9h.01M610.3 242.9h.01M615.7 242.9h.01M621.1 242.9h.01M626.5 242.9h.01M466.8 235.1h.01M472.2 235.1h.01M477.6 235.1h.01M483.1 235.1h.01M488.5 235.1h.01M493.9 235.1h.01M499.3 235.1h.01M504.7 235.1h.01M510.2 235.1h.01M515.6 235.1h.01M521.0 235.1h.01M526.4 235.1h.01M531.9 235.1h.01M537.3 235.1h.01M542.7 235.1h.01M548.1 235.1h.01M553.5 235.1h.01M559.0 235.1h.01M564.4 235.1h.01M569.8 235.1h.01M575.2 235.1h.01M580.6 235.1h.01M586.1 235.1h.01M591.5 235.1h.01M596.9 235.1h.01M602.3 235.1h.01M607.8 235.1h.01M613.2 235.1h.01M618.6 235.1h.01M624.0 235.1h.01M629.4 235.1h.01M464.6 227.3h.01M470.1 227.3h.01M475.5 227.3h.01M481.0 227.3h.01M486.4 227.3h.01M491.9 227.3h.01M497.3 227.3h.01M502.8 227.3h.01M508.2 227.3h.01M513.7 227.3h.01M519.1 227.3h.01M524.6 227.3h.01M530.0 227.3h.01M535.5 227.3h.01M540.9 227.3h.01M546.3 227.3h.01M551.8 227.3h.01M557.2 227.3h.01M562.7 227.3h.01M568.1 227.3h.01M573.6 227.3h.01M579.0 227.3h.01M584.5 227.3h.01M589.9 227.3h.01M595.4 227.3h.01M600.8 227.3h.01M606.3 227.3h.01M611.7 227.3h.01M617.2 227.3h.01M622.6 227.3h.01M628.1 227.3h.01M633.5 227.3h.01M457.8 219.5h.01M463.3 219.5h.01M468.8 219.5h.01M474.3 219.5h.01M479.7 219.5h.01M485.2 219.5h.01M490.7 219.5h.01M496.2 219.5h.01M501.7 219.5h.01M507.2 219.5h.01M512.6 219.5h.01M518.1 219.5h.01M523.6 219.5h.01M529.1 219.5h.01M534.6 219.5h.01M540.1 219.5h.01M545.5 219.5h.01M551.0 219.5h.01M556.5 219.5h.01M562.0 219.5h.01M567.5 219.5h.01M573.0 219.5h.01M578.4 219.5h.01M583.9 219.5h.01M589.4 219.5h.01M594.9 219.5h.01M600.4 219.5h.01M605.9 219.5h.01M611.3 219.5h.01M457.3 211.7h.01M462.8 211.7h.01M468.4 211.7h.01M473.9 211.7h.01M479.4 211.7h.01M484.9 211.7h.01M490.5 211.7h.01M496.0 211.7h.01M501.5 211.7h.01M507.0 211.7h.01M512.6 211.7h.01M518.1 211.7h.01M523.6 211.7h.01M529.1 211.7h.01M534.7 211.7h.01M540.2 211.7h.01M545.7 211.7h.01M551.2 211.7h.01M556.8 211.7h.01M562.3 211.7h.01M567.8 211.7h.01M573.3 211.7h.01M578.9 211.7h.01M584.4 211.7h.01M589.9 211.7h.01M595.4 211.7h.01M601.0 211.7h.01M457.6 203.9h.01M463.2 203.9h.01M468.8 203.9h.01M474.4 203.9h.01M480.0 203.9h.01M485.5 203.9h.01M491.1 203.9h.01M496.7 203.9h.01M502.3 203.9h.01M507.8 203.9h.01M513.4 203.9h.01M519.0 203.9h.01M524.6 203.9h.01M530.1 203.9h.01M535.7 203.9h.01M541.3 203.9h.01M546.9 203.9h.01M552.4 203.9h.01M558.0 203.9h.01M563.6 203.9h.01M569.2 203.9h.01M574.7 203.9h.01M580.3 203.9h.01M585.9 203.9h.01M591.5 203.9h.01M597.1 203.9h.01M458.9 196.0h.01M464.5 196.0h.01M470.1 196.0h.01M475.8 196.0h.01M481.4 196.0h.01M487.0 196.0h.01M492.7 196.0h.01M498.3 196.0h.01M503.9 196.0h.01M509.6 196.0h.01M515.2 196.0h.01M520.8 196.0h.01M526.5 196.0h.01M532.1 196.0h.01M537.8 196.0h.01M543.4 196.0h.01M549.0 196.0h.01M554.7 196.0h.01M560.3 196.0h.01M565.9 196.0h.01M571.6 196.0h.01M577.2 196.0h.01M582.8 196.0h.01M588.5 196.0h.01M594.1 196.0h.01M461.0 188.2h.01M466.7 188.2h.01M472.4 188.2h.01M478.1 188.2h.01M483.8 188.2h.01M489.5 188.2h.01M495.2 188.2h.01M500.9 188.2h.01M506.6 188.2h.01M512.3 188.2h.01M518.0 188.2h.01M523.7 188.2h.01M529.4 188.2h.01M535.1 188.2h.01M540.8 188.2h.01M546.5 188.2h.01M552.2 188.2h.01M557.9 188.2h.01M563.6 188.2h.01M569.3 188.2h.01M575.0 188.2h.01M580.7 188.2h.01M586.4 188.2h.01M592.2 188.2h.01M464.0 180.4h.01M469.7 180.4h.01M475.5 180.4h.01M481.3 180.4h.01M487.1 180.4h.01M492.9 180.4h.01M498.7 180.4h.01M504.4 180.4h.01M510.2 180.4h.01M516.0 180.4h.01M521.8 180.4h.01M527.6 180.4h.01M533.4 180.4h.01M539.1 180.4h.01M544.9 180.4h.01M550.7 180.4h.01M556.5 180.4h.01M562.3 180.4h.01M568.1 180.4h.01M573.8 180.4h.01M579.6 180.4h.01M585.4 180.4h.01M467.9 172.5h.01M473.8 172.5h.01M479.7 172.5h.01M485.5 172.5h.01M491.4 172.5h.01M497.3 172.5h.01M503.1 172.5h.01M509.0 172.5h.01M514.9 172.5h.01M520.8 172.5h.01M526.6 172.5h.01M532.5 172.5h.01M538.4 172.5h.01M544.2 172.5h.01M550.1 172.5h.01M556.0 172.5h.01M561.9 172.5h.01M567.7 172.5h.01M573.6 172.5h.01M579.5 172.5h.01M585.4 172.5h.01M478.8 164.7h.01M484.8 164.7h.01M490.8 164.7h.01M496.7 164.7h.01M502.7 164.7h.01M508.7 164.7h.01M514.7 164.7h.01M520.6 164.7h.01M526.6 164.7h.01M532.6 164.7h.01M538.5 164.7h.01M544.5 164.7h.01M550.5 164.7h.01M556.5 164.7h.01M562.4 164.7h.01M568.4 164.7h.01M574.4 164.7h.01M580.4 164.7h.01M586.3 164.7h.01M478.8 156.8h.01M484.9 156.8h.01M491.0 156.8h.01M497.1 156.8h.01M503.2 156.8h.01M509.2 156.8h.01M515.3 156.8h.01M521.4 156.8h.01M527.5 156.8h.01M485.9 149.0h.01M498.3 149.0h.01M504.5 149.0h.01M510.7 149.0h.01M517.0 149.0h.01M523.2 149.0h.01"/><path class="d-am" d="M340.0 429.1h.01M347.9 429.1h.01M330.3 421.7h.01M337.9 421.7h.01M321.9 414.2h.01M329.1 414.2h.01M336.4 414.2h.01M328.4 406.6h.01M335.5 406.6h.01M321.4 399.0h.01M328.2 399.0h.01M335.1 399.0h.01M321.9 391.2h.01M328.6 391.2h.01M335.2 391.2h.01M322.9 383.5h.01M329.4 383.5h.01M335.8 383.5h.01M342.3 383.5h.01M318.1 375.7h.01M324.4 375.7h.01M330.7 375.7h.01M337.0 375.7h.01M343.3 375.7h.01M349.6 375.7h.01M355.9 375.7h.01M320.3 367.9h.01M326.4 367.9h.01M332.6 367.9h.01M338.8 367.9h.01M344.9 367.9h.01M351.1 367.9h.01M357.2 367.9h.01M322.9 360.0h.01M328.9 360.0h.01M335.0 360.0h.01M341.0 360.0h.01M347.1 360.0h.01M353.1 360.0h.01M359.1 360.0h.01M365.2 360.0h.01M320.1 352.2h.01M326.0 352.2h.01M332.0 352.2h.01M337.9 352.2h.01M343.8 352.2h.01M349.7 352.2h.01M355.7 352.2h.01M361.6 352.2h.01M367.5 352.2h.01M318.0 344.3h.01M323.8 344.3h.01M329.7 344.3h.01M335.5 344.3h.01M341.3 344.3h.01M347.2 344.3h.01M353.0 344.3h.01M358.8 344.3h.01M364.7 344.3h.01M370.5 344.3h.01M316.6 336.5h.01M322.3 336.5h.01M328.1 336.5h.01M333.8 336.5h.01M339.6 336.5h.01M345.3 336.5h.01M351.1 336.5h.01M356.8 336.5h.01M362.6 336.5h.01M368.3 336.5h.01M374.1 336.5h.01M315.8 328.7h.01M321.5 328.7h.01M327.2 328.7h.01M332.9 328.7h.01M338.5 328.7h.01M344.2 328.7h.01M349.9 328.7h.01M355.6 328.7h.01M361.2 328.7h.01M366.9 328.7h.01M372.6 328.7h.01M378.3 328.7h.01M384.0 328.7h.01M389.6 328.7h.01M315.8 320.8h.01M321.4 320.8h.01M327.0 320.8h.01M332.6 320.8h.01M338.2 320.8h.01M343.8 320.8h.01M349.4 320.8h.01M355.0 320.8h.01M360.6 320.8h.01M366.3 320.8h.01M371.9 320.8h.01M377.5 320.8h.01M383.1 320.8h.01M388.7 320.8h.01M394.3 320.8h.01M310.8 313.0h.01M316.3 313.0h.01M321.9 313.0h.01M327.4 313.0h.01M333.0 313.0h.01M338.5 313.0h.01M344.1 313.0h.01M349.6 313.0h.01M355.2 313.0h.01M360.8 313.0h.01M366.3 313.0h.01M371.9 313.0h.01M377.4 313.0h.01M383.0 313.0h.01M388.5 313.0h.01M394.1 313.0h.01M301.0 305.2h.01M306.5 305.2h.01M312.0 305.2h.01M317.5 305.2h.01M323.0 305.2h.01M328.5 305.2h.01M334.0 305.2h.01M339.5 305.2h.01M345.1 305.2h.01M350.6 305.2h.01M356.1 305.2h.01M361.6 305.2h.01M367.1 305.2h.01M372.6 305.2h.01M378.1 305.2h.01M383.6 305.2h.01M389.1 305.2h.01M394.6 305.2h.01M297.5 297.4h.01M303.0 297.4h.01M308.4 297.4h.01M313.9 297.4h.01M319.4 297.4h.01M324.8 297.4h.01M330.3 297.4h.01M335.8 297.4h.01M341.2 297.4h.01M346.7 297.4h.01M352.2 297.4h.01M357.6 297.4h.01M363.1 297.4h.01M368.6 297.4h.01M374.0 297.4h.01M379.5 297.4h.01M385.0 297.4h.01M390.5 297.4h.01M395.9 297.4h.01M294.7 289.6h.01M300.1 289.6h.01M305.6 289.6h.01M311.0 289.6h.01M316.4 289.6h.01M321.9 289.6h.01M327.3 289.6h.01M332.7 289.6h.01M338.2 289.6h.01M343.6 289.6h.01M349.0 289.6h.01M354.5 289.6h.01M359.9 289.6h.01M365.4 289.6h.01M370.8 289.6h.01M376.2 289.6h.01M381.7 289.6h.01M387.1 289.6h.01M392.5 289.6h.01M398.0 289.6h.01M403.4 289.6h.01M287.1 281.8h.01M292.5 281.8h.01M297.9 281.8h.01M303.4 281.8h.01M308.8 281.8h.01M314.2 281.8h.01M319.6 281.8h.01M325.0 281.8h.01M330.4 281.8h.01M335.8 281.8h.01M341.2 281.8h.01M346.7 281.8h.01M352.1 281.8h.01M357.5 281.8h.01M362.9 281.8h.01M368.3 281.8h.01M373.7 281.8h.01M379.1 281.8h.01M384.5 281.8h.01M390.0 281.8h.01M395.4 281.8h.01M400.8 281.8h.01M406.2 281.8h.01M285.6 274.0h.01M291.0 274.0h.01M296.4 274.0h.01M301.8 274.0h.01M307.2 274.0h.01M312.6 274.0h.01M318.0 274.0h.01M323.4 274.0h.01M328.8 274.0h.01M334.2 274.0h.01M339.6 274.0h.01M345.0 274.0h.01M350.4 274.0h.01M355.8 274.0h.01M361.2 274.0h.01M366.6 274.0h.01M372.0 274.0h.01M377.4 274.0h.01M382.8 274.0h.01M388.2 274.0h.01M393.6 274.0h.01M284.8 266.2h.01M290.2 266.2h.01M295.6 266.2h.01M301.0 266.2h.01M306.4 266.2h.01M311.8 266.2h.01M317.1 266.2h.01M322.5 266.2h.01M327.9 266.2h.01M333.3 266.2h.01M338.7 266.2h.01M344.1 266.2h.01M349.5 266.2h.01M354.8 266.2h.01M360.2 266.2h.01M365.6 266.2h.01M371.0 266.2h.01M376.4 266.2h.01M284.6 258.4h.01M290.0 258.4h.01M295.4 258.4h.01M300.8 258.4h.01M306.2 258.4h.01M311.6 258.4h.01M316.9 258.4h.01M322.3 258.4h.01M327.7 258.4h.01M333.1 258.4h.01M338.5 258.4h.01M343.9 258.4h.01M349.2 258.4h.01M354.6 258.4h.01M360.0 258.4h.01M295.9 250.7h.01M301.2 250.7h.01M306.6 250.7h.01M312.0 250.7h.01M317.4 250.7h.01M322.8 250.7h.01M328.2 250.7h.01M333.6 250.7h.01M339.0 250.7h.01M344.4 250.7h.01M349.8 250.7h.01M360.5 250.7h.01M297.0 242.9h.01M302.4 242.9h.01M307.8 242.9h.01M313.2 242.9h.01M318.6 242.9h.01M324.0 242.9h.01M329.4 242.9h.01M334.8 242.9h.01M340.2 242.9h.01M345.6 242.9h.01M351.0 242.9h.01M282.5 235.1h.01M293.3 235.1h.01M298.7 235.1h.01M304.2 235.1h.01M309.6 235.1h.01M315.0 235.1h.01M320.4 235.1h.01M325.8 235.1h.01M331.3 235.1h.01M336.7 235.1h.01M273.9 227.3h.01M301.2 227.3h.01M306.6 227.3h.01M312.1 227.3h.01M317.5 227.3h.01M323.0 227.3h.01M328.4 227.3h.01M271.4 219.5h.01M276.9 219.5h.01M252.9 211.7h.01M258.4 211.7h.01M263.9 211.7h.01M269.4 211.7h.01M275.0 211.7h.01M229.0 203.9h.01M234.6 203.9h.01M240.2 203.9h.01M245.8 203.9h.01M251.3 203.9h.01M256.9 203.9h.01M262.5 203.9h.01M295.9 203.9h.01M323.8 203.9h.01M222.2 196.0h.01M227.8 196.0h.01M233.4 196.0h.01M239.1 196.0h.01M261.6 196.0h.01M267.2 196.0h.01M301.1 196.0h.01M221.4 188.2h.01M227.1 188.2h.01M232.8 188.2h.01M238.5 188.2h.01M284.1 188.2h.01M209.5 180.4h.01M221.1 180.4h.01M226.9 180.4h.01M232.6 180.4h.01M238.4 180.4h.01M244.2 180.4h.01M290.5 180.4h.01M203.7 172.5h.01M215.4 172.5h.01M221.3 172.5h.01M227.1 172.5h.01M233.0 172.5h.01M238.9 172.5h.01M244.8 172.5h.01M285.9 172.5h.01M204.1 164.7h.01M210.0 164.7h.01M216.0 164.7h.01M222.0 164.7h.01M227.9 164.7h.01M233.9 164.7h.01M239.9 164.7h.01M245.9 164.7h.01M251.8 164.7h.01M257.8 164.7h.01M263.8 164.7h.01M269.8 164.7h.01M275.7 164.7h.01M281.7 164.7h.01M287.7 164.7h.01M204.9 156.8h.01M211.0 156.8h.01M217.1 156.8h.01M223.2 156.8h.01M229.3 156.8h.01M235.4 156.8h.01M241.4 156.8h.01M247.5 156.8h.01M253.6 156.8h.01M259.7 156.8h.01M265.8 156.8h.01M271.9 156.8h.01M278.0 156.8h.01M284.0 156.8h.01M290.1 156.8h.01M296.2 156.8h.01M193.8 149.0h.01M200.0 149.0h.01M206.3 149.0h.01M212.5 149.0h.01M218.7 149.0h.01M224.9 149.0h.01M231.1 149.0h.01M237.3 149.0h.01M243.5 149.0h.01M249.8 149.0h.01M256.0 149.0h.01M262.2 149.0h.01M268.4 149.0h.01M274.6 149.0h.01M280.8 149.0h.01M287.0 149.0h.01M293.3 149.0h.01M299.5 149.0h.01M305.7 149.0h.01M195.4 141.2h.01M201.7 141.2h.01M208.1 141.2h.01M214.4 141.2h.01M220.8 141.2h.01M227.1 141.2h.01M233.5 141.2h.01M239.9 141.2h.01M246.2 141.2h.01M252.6 141.2h.01M258.9 141.2h.01M265.3 141.2h.01M271.6 141.2h.01M278.0 141.2h.01M284.4 141.2h.01M290.7 141.2h.01M297.1 141.2h.01M303.4 141.2h.01M197.3 133.4h.01M203.9 133.4h.01M210.4 133.4h.01M216.9 133.4h.01M223.4 133.4h.01M229.9 133.4h.01M236.4 133.4h.01M243.0 133.4h.01M249.5 133.4h.01M256.0 133.4h.01M262.5 133.4h.01M269.0 133.4h.01M275.5 133.4h.01M282.1 133.4h.01M288.6 133.4h.01M295.1 133.4h.01M301.6 133.4h.01M308.1 133.4h.01M314.7 133.4h.01M199.8 125.7h.01M206.5 125.7h.01M213.2 125.7h.01M219.9 125.7h.01M226.6 125.7h.01M233.3 125.7h.01M240.0 125.7h.01M246.7 125.7h.01M253.3 125.7h.01M260.0 125.7h.01M266.7 125.7h.01M273.4 125.7h.01M280.1 125.7h.01M286.8 125.7h.01M293.5 125.7h.01M300.2 125.7h.01M306.9 125.7h.01M313.6 125.7h.01M320.3 125.7h.01M202.6 118.0h.01M209.5 118.0h.01M216.4 118.0h.01M223.3 118.0h.01M230.2 118.0h.01M237.1 118.0h.01M244.1 118.0h.01M251.0 118.0h.01M257.9 118.0h.01M264.8 118.0h.01M271.7 118.0h.01M278.6 118.0h.01M285.5 118.0h.01M292.4 118.0h.01M299.3 118.0h.01M306.2 118.0h.01M313.1 118.0h.01M320.0 118.0h.01M326.9 118.0h.01M333.8 118.0h.01M340.7 118.0h.01M347.6 118.0h.01M206.0 110.3h.01M213.1 110.3h.01M220.2 110.3h.01M227.4 110.3h.01M234.5 110.3h.01M241.6 110.3h.01M248.8 110.3h.01M255.9 110.3h.01M263.0 110.3h.01M270.2 110.3h.01M277.3 110.3h.01M284.4 110.3h.01M291.6 110.3h.01M298.7 110.3h.01M305.8 110.3h.01M313.0 110.3h.01M320.1 110.3h.01M327.2 110.3h.01M341.5 110.3h.01M362.9 110.3h.01M370.0 110.3h.01M209.8 102.8h.01M217.2 102.8h.01M224.5 102.8h.01M231.9 102.8h.01M239.3 102.8h.01M246.7 102.8h.01M254.1 102.8h.01M261.5 102.8h.01M268.9 102.8h.01M276.3 102.8h.01M283.7 102.8h.01M291.1 102.8h.01M298.5 102.8h.01M305.9 102.8h.01M313.3 102.8h.01M320.7 102.8h.01M328.1 102.8h.01M335.5 102.8h.01M342.9 102.8h.01M350.3 102.8h.01M357.7 102.8h.01M365.1 102.8h.01M206.3 95.3h.01M214.0 95.3h.01M221.7 95.3h.01M229.4 95.3h.01M237.1 95.3h.01M244.8 95.3h.01M252.5 95.3h.01M260.2 95.3h.01M267.9 95.3h.01M275.6 95.3h.01M283.3 95.3h.01M291.0 95.3h.01M298.7 95.3h.01M306.4 95.3h.01M321.7 95.3h.01M329.4 95.3h.01M337.1 95.3h.01M344.8 95.3h.01M352.5 95.3h.01M360.2 95.3h.01M367.9 95.3h.01M130.2 87.9h.01M202.6 87.9h.01M210.7 87.9h.01M218.7 87.9h.01M226.8 87.9h.01M234.8 87.9h.01M242.8 87.9h.01M250.9 87.9h.01M258.9 87.9h.01M267.0 87.9h.01M275.0 87.9h.01M283.0 87.9h.01M291.1 87.9h.01M299.1 87.9h.01M323.3 87.9h.01M331.3 87.9h.01M339.3 87.9h.01M347.4 87.9h.01M355.4 87.9h.01M147.9 80.7h.01M207.0 80.7h.01M215.4 80.7h.01M223.9 80.7h.01M232.3 80.7h.01M240.8 80.7h.01M249.2 80.7h.01M257.7 80.7h.01M266.1 80.7h.01M274.6 80.7h.01M283.0 80.7h.01M291.5 80.7h.01M333.7 80.7h.01M342.1 80.7h.01M350.6 80.7h.01M359.0 80.7h.01M140.3 73.5h.01M149.3 73.5h.01M158.2 73.5h.01M184.9 73.5h.01M193.9 73.5h.01M202.8 73.5h.01M211.7 73.5h.01M220.6 73.5h.01M229.5 73.5h.01M238.5 73.5h.01M247.4 73.5h.01M256.3 73.5h.01M265.2 73.5h.01M274.1 73.5h.01M283.1 73.5h.01M292.0 73.5h.01M336.6 73.5h.01M345.5 73.5h.01M150.3 66.5h.01M159.8 66.5h.01M169.3 66.5h.01M178.8 66.5h.01M188.3 66.5h.01M197.7 66.5h.01M207.2 66.5h.01M216.7 66.5h.01M226.2 66.5h.01M235.7 66.5h.01M245.2 66.5h.01M254.7 66.5h.01M264.2 66.5h.01M273.6 66.5h.01M283.1 66.5h.01M292.6 66.5h.01M302.1 66.5h.01M349.5 66.5h.01M359.0 66.5h.01M397.0 66.5h.01M406.5 66.5h.01M148.4 59.6h.01M157.8 59.6h.01M167.2 59.6h.01M176.6 59.6h.01M185.9 59.6h.01M195.3 59.6h.01M204.7 59.6h.01M214.1 59.6h.01M223.4 59.6h.01M232.8 59.6h.01M242.2 59.6h.01M251.6 59.6h.01M260.9 59.6h.01M270.3 59.6h.01M279.7 59.6h.01M289.1 59.6h.01M298.4 59.6h.01M307.8 59.6h.01M345.3 59.6h.01M354.7 59.6h.01M364.1 59.6h.01M392.2 59.6h.01M401.6 59.6h.01M410.9 59.6h.01M165.2 52.9h.01M174.3 52.9h.01M183.5 52.9h.01M192.7 52.9h.01M201.9 52.9h.01M211.0 52.9h.01M220.2 52.9h.01M229.4 52.9h.01M238.6 52.9h.01M247.7 52.9h.01M256.9 52.9h.01M284.4 52.9h.01M302.8 52.9h.01M311.9 52.9h.01M330.3 52.9h.01M357.8 52.9h.01M394.5 52.9h.01M403.7 52.9h.01M412.9 52.9h.01M422.0 52.9h.01M431.2 52.9h.01M181.7 46.3h.01M190.7 46.3h.01M271.4 46.3h.01M280.3 46.3h.01M289.3 46.3h.01M307.2 46.3h.01M325.2 46.3h.01M334.1 46.3h.01M343.1 46.3h.01M352.1 46.3h.01M361.0 46.3h.01M396.9 46.3h.01M405.9 46.3h.01M414.8 46.3h.01M423.8 46.3h.01M432.8 46.3h.01M441.7 46.3h.01M259.3 39.9h.01M268.1 39.9h.01M303.1 39.9h.01M311.8 39.9h.01M329.3 39.9h.01M338.1 39.9h.01M346.8 39.9h.01M399.3 39.9h.01M408.1 39.9h.01M416.8 39.9h.01M425.6 39.9h.01M434.4 39.9h.01M443.1 39.9h.01M451.9 39.9h.01M282.5 33.6h.01M291.0 33.6h.01M308.1 33.6h.01M316.6 33.6h.01M325.1 33.6h.01M342.2 33.6h.01M393.4 33.6h.01M401.9 33.6h.01M410.4 33.6h.01M419.0 33.6h.01M427.5 33.6h.01M436.0 33.6h.01M444.6 33.6h.01M453.1 33.6h.01M461.6 33.6h.01M313.4 27.6h.01M346.5 27.6h.01M354.8 27.6h.01M371.4 27.6h.01M379.7 27.6h.01M388.0 27.6h.01M396.3 27.6h.01M404.6 27.6h.01M412.9 27.6h.01M421.2 27.6h.01M429.5 27.6h.01M437.8 27.6h.01M446.1 27.6h.01M454.4 27.6h.01M462.7 27.6h.01M327.2 22.0h.01M335.2 22.0h.01M351.3 22.0h.01M359.3 22.0h.01M367.3 22.0h.01M383.4 22.0h.01M391.5 22.0h.01M399.5 22.0h.01M407.5 22.0h.01M415.6 22.0h.01M423.6 22.0h.01M431.7 22.0h.01M439.7 22.0h.01M447.7 22.0h.01M455.8 22.0h.01M463.8 22.0h.01"/></g><g class="arcs"><path d="M535.5 287.5Q506.4 168.6 477.2 139"/><path d="M535.5 287.5Q426.1 135.1 316.8 132.8"/><path d="M535.5 287.5Q456.6 264.5 377.8 333.4"/></g><circle class="tg" cx="477.2" cy="139" r="3.2"/><circle class="tg" cx="316.8" cy="132.8" r="3.2"/><circle class="tg" cx="377.8" cy="333.4" r="3.2"/><circle class="pu" cx="535.5" cy="287.5" r="4"/><circle class="pu p2" cx="535.5" cy="287.5" r="4"/><circle class="lu" cx="535.5" cy="287.5" r="5.2"/><text class="lt" x="547.5" y="291.5">LUANDA</text></svg></div></div>
-  <div class="grid3" style="margin-top:2rem">
-    <div class="card fl" data-c="eu"><div class="lab" style="font-size:10px">Aliança</div><h3 class="fd" style="font-size:2.4rem;margin-top:.6rem">Europa</h3></div>
-    <div class="card fl" data-c="af"><div class="lab" style="font-size:10px">Aliança</div><h3 class="fd" style="font-size:2.4rem;margin-top:.6rem">África</h3></div>
-    <div class="card fl" data-c="am"><div class="lab" style="font-size:10px">Aliança</div><h3 class="fd" style="font-size:2.4rem;margin-top:.6rem">América</h3></div>
-  </div>
-</section>
-
-<!-- 7 · Honorários (largura total · sem balança) -->
-<section id="s7" data-sx="0" data-so="0" class="pad" style="padding-top:12vh;padding-bottom:20vh">
-  <p class="lab fl" style="margin-bottom:1.6rem">Modelos de colaboração</p>
-  <h2 class="fd fl" style="font-size:clamp(2.6rem,5.4vw,5.4rem)">Honorários <em style="color:var(--gold2)">transparentes.</em></h2>
-  <p class="fl" style="margin:1.6rem 0 1rem;max-width:44rem;font-size:15px;line-height:1.8;opacity:.72">Os nossos honorários são definidos em função do perfil do cliente, da complexidade do mandato e das condições do mercado. Prezamos pela transparência, equilíbrio e valor real entregue — sempre com abertura para negociação.</p>
-  <p class="lab fl" style="margin:3rem 0 1.2rem;color:var(--ivory);opacity:.6">Avença mensal</p>
-  <div class="grid3" id="plans"></div>
-  <p class="fl" style="margin-top:2.2rem;font-size:12.5px;letter-spacing:.04em;opacity:.55;line-height:1.7">Sessão de diagnóstico inicial gratuita incluída · Confidencialidade garantida · Honorários negociados em função do cliente e do mercado</p>
-</section>
-
-<!-- 8 · Contacto -->
-<section id="s8" data-sx="-1" data-so="1" class="pad" style="min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;padding-top:14vh;padding-bottom:2.5rem">
-  <div class="col" style="margin-left:auto">
-    <p class="lab fl" style="margin-bottom:1.6rem">Fale connosco</p>
-    <h2 class="fd fl" style="font-size:clamp(2.6rem,5.2vw,5.2rem)">Comece com uma <em style="color:var(--gold2)">conversa.</em></h2>
-    <p class="fl" style="margin-top:1.6rem;max-width:30rem;font-size:15px;line-height:1.7;opacity:.72">Sessão de diagnóstico inicial gratuita — 60 minutos, sem compromisso. Avaliamos como podemos ser úteis ao seu negócio.</p>
-    <div class="info fl" style="margin-top:2.4rem"><div class="lab">Endereço</div><p>Av. 4 de Fevereiro<br>15.º Andar, N.º 227<br>Luanda, Angola</p></div>
-    <div class="info fl"><div class="lab">Telefone</div><p><a href="tel:+244933364301">+244 933 364 301</a><br><a href="tel:+244923514369">+244 923 514 369</a></p></div>
-    <div class="info fl"><div class="lab">Email</div><p><a href="mailto:jpires@jpires-advogados.ao">jpires@jpires-advogados.ao</a></p></div>
-    <div class="fl" style="margin-top:1rem"><div class="mapc"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.4"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.6"/></svg><div class="fd" style="font-size:1.5rem">Av. 4 de Fevereiro, 15.º Andar, N.º 227</div><div class="lab" style="font-size:10px">Luanda, Angola</div><iframe id="mapf" title="Localização da JPires – Sociedade de Advogados, RL" loading="lazy"></iframe></div>
-    <a href="https://maps.app.goo.gl/32Y64TYRqf4pokYY6" target="_blank" rel="noopener" class="cta" style="display:inline-block;margin-top:1rem">Abrir localização no Google Maps ↗</a></div>
-    
-    <div class="fl" style="margin-top:2.2rem"><a href="mailto:jpires@jpires-advogados.ao?subject=Sess%C3%A3o%20de%20diagn%C3%B3stico" class="btn">Marcar sessão de diagnóstico <span>→</span></a></div>
-  </div>
-  <div style="display:flex;justify-content:center;border-top:1px solid var(--line);padding-top:1.5rem;margin-top:4rem;font-size:11px;letter-spacing:.12em;opacity:.5;text-align:center;line-height:1.8">
-    <span>JPires – Sociedade de Advogados, RL · Corporate Law · Luanda, Angola · Confidencial</span>
-  </div>
-</section>
-</main>
-
-<script>
-/* ---------- conteúdo ---------- */
-const arrow='<svg class="ar" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
-const SP=(t,s=0)=>{let n=s;return t.split(' ').map(w=>`<span class="w">${[...w].map(c=>`<span class="ch" style="--i:${n++}">${c}</span>`).join('')}</span>`).join(' ')};
-document.getElementById('h1').innerHTML=`<span class="fl" style="display:block">${SP('Corporate Law para')}</span><span class="fl" style="display:block"><em style="color:var(--gold2)">${SP('Angola que cresce',19)}</em></span>`;
-document.getElementById('stmt').innerHTML='A nossa abordagem combina rigor jurídico com compreensão profunda da realidade económica angolana — traduzindo complexidade legal em soluções práticas que protegem e potenciam os nossos clientes.'.split(' ').map(w=>`<span class="sw">${w}</span>`).join(' ');
-const stW=[...document.querySelectorAll('.sw')];
-const row=(n,t,d,big)=>`<div class="row fl ${big?'':'sm'}"><span class="lab">${n}</span><div><h3 class="fd" style="font-size:${big?'clamp(1.7rem,2.8vw,2.6rem)':'clamp(1.35rem,2.1vw,1.9rem)'}">${t}</h3>${d?`<p style="margin-top:.6rem;font-size:14px;line-height:1.7;opacity:.62;max-width:30rem">${d}</p>`:''}</div></div>`;
-document.getElementById('vals').innerHTML=[["Rigor","Excelência técnica em cada mandato."],["Confiança","Confidencialidade e integridade."],["Pragmatismo","Soluções práticas e accionáveis."],["Parceria","Relações de longo prazo."]].map((v,i)=>row('0'+(i+1),v[0],v[1],true)).join('');
-document.getElementById('areas').innerHTML=['Direito Societário & Governance','Fusões, Aquisições & Privatizações','Investimento Estrangeiro & JV','Contratos Comerciais & Regulação','Financiamento & Reestruturação','Resolução de Conflitos'].map((a,i)=>`<a href="#" class="row fl sm"><span class="lab">0${i+1}</span><h3 class="fd" style="font-size:clamp(1.5rem,2.6vw,2.4rem)">${a.replace('&','&amp;')}</h3>${arrow}</a>`).join('');
-document.getElementById('sect').innerHTML=['Oil & Gás e Energia','Mineração e Recursos Naturais','Banca e Serviços Financeiros','Seguros e Resseguros','Instituições Públicas e Estado','Recursos Humanos e Laboral','Segurança Privada','Imobiliário e Construção'].map((a,i)=>row('0'+(i+1),a.replace('&','&amp;'),'',false)).join('');
-document.getElementById('team').innerHTML=[["Dr. José Pires","CEO · Managing Partner"],["Dr. Isaac Gil","Associate Partner"]].map(m=>`<div class="row fl"><div><h3 class="fd" style="font-size:clamp(2rem,3.6vw,3.4rem)">${m[0]}</h3><p class="lab" style="margin-top:.8rem;color:var(--ivory);opacity:.6;font-size:10.5px">${m[1]}</p></div></div>`).join('');
-const plan=(tag,name,items,rec)=>`<div class="card fl ${rec?'rec':''}"><div class="lab" style="min-height:1.2em;font-size:10px">${tag||''}</div><h3 class="fd" style="font-size:2.4rem;margin-top:.6rem">${name}</h3><p class="fd" style="font-style:italic;font-size:1.4rem;color:var(--gold2);margin-top:1.2rem">Sob Consulta</p><p style="font-size:13px;opacity:.6;margin:.3rem 0 1.4rem">Adaptado ao cliente e ao mercado</p><ul style="padding:0">${items.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
-document.getElementById('plans').innerHTML=plan('','Essencial',['Até 8h de assessoria mensal','Revisão de contratos','Consultas urgentes incluídas','Relatório mensal de risco jurídico'])+plan('★ Recomendado','Estratégico',[],true)+plan('Dedicação parcial','Premium',['Presença regular na empresa','Representação em negociações','Gestão jurídica completa','Acesso directo e prioritário','Relatórios executivos mensais']);
-
-
-/* ---------- mapa: destaque por continente + localização ---------- */
-document.querySelectorAll('[data-c]').forEach(r=>{const wm=document.getElementById('wm');r.addEventListener('pointerenter',()=>{wm.className='h-'+r.dataset.c});r.addEventListener('pointerleave',()=>{wm.className=''})});
-document.addEventListener('securitypolicyviolation',e=>{if(/google/.test(e.blockedURI||'')){const f=document.getElementById('mapf');f&&f.remove()}});
-document.getElementById('mapf').src='https://www.google.com/maps?q=Av.+4+de+Fevereiro+227,+Luanda,+Angola&z=16&output=embed';
-
-/* ---------- scroll fluido (sem barra) ---------- */
-const fine=matchMedia('(pointer:fine)').matches;
-const maxS=()=>document.documentElement.scrollHeight-innerHeight,cl=(v,a,b)=>Math.max(a,Math.min(b,v));
-let cur=scrollY,tgt=cur;
-if(fine){
-  addEventListener('wheel',e=>{if(e.ctrlKey)return;e.preventDefault();tgt=cl(tgt+e.deltaY*(e.deltaMode?32:1),0,maxS())},{passive:false});
-  addEventListener('keydown',e=>{const k={ArrowDown:90,ArrowUp:-90,PageDown:innerHeight*.9,PageUp:-innerHeight*.9,' ':(e.shiftKey?-1:1)*innerHeight*.9,Home:-1e7,End:1e7}[e.key];
-    if(k!=null&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName)){e.preventDefault();tgt=cl(tgt+k,0,maxS())}});
-}
-addEventListener('scroll',()=>{if(Math.abs(scrollY-cur)>3){cur=tgt=scrollY}},{passive:true});
-document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const el=document.getElementById(a.dataset.go);tgt=cl(el.offsetTop,0,maxS());if(!fine)scrollTo({top:tgt,behavior:'smooth'})}));
-
-/* ---------- balança 3D ---------- */
-let px=-999,py=-999;addEventListener('pointermove',e=>{px=e.clientX;py=e.clientY});
-const glc=document.getElementById('gl');let gx=0,go=0,gtx=3,gto=1,rot=0,dim=1;
-let gl=null;
-if(window.THREE){try{gl=(function(){
-const T=THREE,R=new T.WebGLRenderer({canvas:glc,antialias:true,alpha:true});
-R.setPixelRatio(Math.min(devicePixelRatio,2));R.toneMapping=T.ACESFilmicToneMapping;R.toneMappingExposure=1.1;R.outputEncoding=T.sRGBEncoding;
-const sc=new T.Scene(),cam=new T.PerspectiveCamera(35,1,.1,100);cam.position.set(0,0,13);
-const es=new T.Scene();es.add(new T.Mesh(new T.BoxGeometry(60,60,60),new T.MeshBasicMaterial({color:0x0c1a15,side:T.BackSide})));
-[[[0,20,0],[-1.57,0,0],[30,30],[3,2.7,2.2]],[[-18,2,6],[0,1.2,0],[8,30],[2.6,2.2,1.6]],[[18,3,-8],[0,-1.2,0],[8,30],[.7,1.1,2.6]],[[0,-3,16],[0,3.14,0],[30,6],[1.4,1.2,.9]]].forEach(([p,r,s,c])=>{const m=new T.MeshBasicMaterial({side:T.DoubleSide});m.color.setRGB(...c);const q=new T.Mesh(new T.PlaneGeometry(...s),m);q.position.set(...p);q.rotation.set(...r);es.add(q)});
-sc.environment=new T.PMREMGenerator(R).fromScene(es,.02).texture;
-const d1=new T.DirectionalLight(0xffe9c4,1.2);d1.position.set(-5,8,8);sc.add(d1);
-const d2=new T.DirectionalLight(0x9fc9b2,.8);d2.position.set(6,3,-8);sc.add(d2);sc.add(new T.AmbientLight(0xffffff,.12));
-const gold=new T.MeshStandardMaterial({color:0xd9b46c,metalness:1,roughness:.24,side:T.DoubleSide});
-const soft=new T.MeshStandardMaterial({color:0xbf9446,metalness:1,roughness:.4});
-const V=(a,b,c)=>new T.Vector3(a,b,c);
-function limb(a,b,r,m){const A=V(...a),B=V(...b),d=B.clone().sub(A),g=new T.Mesh(new T.CylinderGeometry(r,r,d.length(),8),m);g.position.copy(A).add(B).multiplyScalar(.5);g.quaternion.setFromUnitVectors(V(0,1,0),d.normalize());return g}
-const root=new T.Group();sc.add(root);const g=new T.Group();root.add(g);
-// base escalonada
-[[1.3,.12,.06],[1.05,.1,.17],[.8,.1,.27]].forEach(([r,h,y])=>{const m=new T.Mesh(new T.CylinderGeometry(r*.94,r,h,72),gold);m.position.y=y;g.add(m);const t=new T.Mesh(new T.TorusGeometry(r*.97,.014,8,72),soft);t.rotation.x=Math.PI/2;t.position.y=y+h/2;g.add(t)});
-// coluna torneada
-const prof=[[.36,.32],[.24,.5],[.13,.85],[.1,1.5],[.17,1.9],[.11,2.2],[.1,3.0],[.16,3.3],[.1,3.56],[.001,3.6]].map(p=>new T.Vector2(...p));
-g.add(new T.Mesh(new T.LatheGeometry(new T.SplineCurve(prof).getPoints(120),64),gold));
-[1.9,3.3].forEach(y=>{const t=new T.Mesh(new T.TorusGeometry(y===1.9?.17:.16,.025,10,48),soft);t.rotation.x=Math.PI/2;t.position.y=y;g.add(t)});
-// remate
-const fin=new T.Mesh(new T.SphereGeometry(.09,20,14),gold);fin.position.y=4.15;g.add(fin);
-g.add(limb([0,3.8,0],[0,4.1,0],.025,gold));
-const arc=new T.Mesh(new T.TorusGeometry(.24,.028,12,60),gold);arc.position.y=3.78;g.add(arc);
-// travessão
-const bm=new T.Group();bm.position.y=3.78;g.add(bm);
-const L=1.95;
-[-1,1].forEach(s=>{const c=new T.Mesh(new T.CylinderGeometry(.026,.062,L,20),gold);c.rotation.z=-s*Math.PI/2;c.position.x=s*L/2;bm.add(c);
-  const e=new T.Mesh(new T.SphereGeometry(.05,16,12),gold);e.position.x=s*L;bm.add(e);
-  const k=new T.Mesh(new T.OctahedronGeometry(.085),soft);k.position.x=s*L*.55;k.scale.y=.6;bm.add(k)});
-bm.add(new T.Mesh(new T.SphereGeometry(.12,24,16),gold));
-// pratos
-const pans={},hits=[];
-[-1,1].forEach(s=>{
-  const p=new T.Group();p.position.x=s*L;bm.add(p);
-  const mat=gold.clone();mat.emissive=new T.Color(0xd9b46c);mat.emissiveIntensity=0;
-  const ring=new T.Mesh(new T.TorusGeometry(.05,.013,8,20),gold);ring.position.y=-.09;p.add(ring);
-  [90,210,330].forEach(a=>{const r=a*Math.PI/180;p.add(limb([0,-.1,0],[.72*Math.cos(r),-1.62,.72*Math.sin(r)],.0085,soft))});
-  const dp=[[0,-.1],[.2,-.098],[.45,-.06],[.66,0],[.74,.045],[.77,.075],[.73,.08],[.7,.052],[.62,.01],[.43,-.04],[.2,-.075],[0,-.08]].map(q=>new T.Vector2(...q));
-  const dish=new T.Mesh(new T.LatheGeometry(new T.SplineCurve(dp).getPoints(60),72),mat);dish.position.y=-1.68;p.add(dish);
-  const hit=new T.Mesh(new T.SphereGeometry(.95,12,8),new T.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));hit.position.y=-1.5;hit.userData.s=s;p.add(hit);hits.push(hit);
-  pans[s]={p,mat};
-});
-const ray=new T.Raycaster(),nd=new T.Vector2(),wp=new T.Vector3();
-let ang=0,av=0,grab=null,S=1.25,asp=1.7,HW=7;
-function fit(){const w=innerWidth,h=innerHeight;R.setSize(w,h,false);asp=w/h;cam.aspect=asp;cam.updateProjectionMatrix();HW=4.1*asp;S=asp<.85?cl(HW*.95/2.75,.5,1.1):Math.min(1.25,HW*.475/2.75);root.scale.setScalar(S)}
-fit();addEventListener('resize',fit);
-return function(t){
-  const narrow=asp<.85;
-  root.position.x=gx*(narrow?0:HW*.5);root.position.y=-2.25*S+Math.sin(t/1900)*.05;
-  glc.style.opacity=go*dim*(narrow?.4:1);
-  g.rotation.y=rot;cam.lookAt(0,0,0);
-  nd.set(px/innerWidth*2-1,-(py/innerHeight)*2+1);
-  if(!grab){ray.setFromCamera(nd,cam);const h=ray.intersectObjects(hits)[0];if(h&&go>.5)grab={s:h.object.userData.s,y0:py,a0:ang}}
-  else{pans[grab.s].p.localToWorld(wp.set(0,-1.5,0));wp.project(cam);if(Math.hypot(px-(wp.x+1)/2*innerWidth,py-(1-wp.y)/2*innerHeight)>160)grab=null}
-  let tg=Math.sin(t/1800)*.045;
-  if(grab){const u=innerHeight/(2*Math.tan(.3054)*13)*S,v=cl((py-grab.y0)/u/(L*S),-1,1);tg=cl(grab.a0-grab.s*Math.asin(v),-.5,.5)}
-  av+=(tg-ang)*.08;av*=grab?.8:.91;ang+=av;
-  bm.rotation.z=ang;const sw=Math.sin(t/1100)*.03*(grab?.3:1);
-  for(const s of[-1,1]){pans[s].p.rotation.z=-ang+sw*s;const m=pans[s].mat;m.emissiveIntensity+=((grab&&grab.s===s?.45:0)-m.emissiveIntensity)*.15}
-  document.body.style.cursor=grab?'grab':'';
-  R.render(sc,cam);
-}})()}catch(e){console.warn(e)}}
-
-/* ---------- loop ---------- */
-const bar=document.getElementById('bar'),nav=document.querySelector('nav'),fl=[...document.querySelectorAll('.fl')];
-const secs=[...document.querySelectorAll('main section')];
-// posição de repouso de cada elemento (sem transformações)
-function measure(){const y=scrollY;fl.forEach(e=>{const t=e.style.transform;e.style.transform='none';e._D=e.getBoundingClientRect().top+y;e.style.transform=t})}
-measure();addEventListener('load',measure);addEventListener('resize',measure);document.fonts&&document.fonts.ready.then(measure);setTimeout(measure,600);
-const ZT=110,ZB=110;
-function frame(t){
-  if(fine){cur+=(tgt-cur)*.075;if(Math.abs(tgt-cur)<.1)cur=tgt;scrollTo(0,cur)}
-  const y=fine?cur:scrollY,vh=innerHeight,ms=maxS(),navB=nav.getBoundingClientRect().bottom;
-  bar.style.transform=`scaleX(${cl(y/ms,0,1)})`;
-  // declaração: palavras acendem e esbatem junto à navbar / ao fundo
-  const r2=secs[1].getBoundingClientRect(),p=cl(-r2.top/(r2.height-vh),0,1)*1.15,n=stW.length;
-  stW.forEach((w,i)=>{const r=w.getBoundingClientRect(),f=cl((r.top-navB)/ZT,0,1)*cl((vh-r.top)/ZB,0,1);w.style.opacity=(.14+.86*cl((p*n-i)/3+.2,0,1))*f});
-  // elementos: esbatem ao aproximar da navbar e do fundo; em repouso nunca são apagados
-  for(const e of fl){const r=e.getBoundingClientRect(),top=r.top-(e._ty||0),D=e._D;
-    let ft=cl((top-navB)/ZT,0,1),fb=cl((vh-top)/ZB,0,1);
-    if(D!=null){const kt=cl((D-navB)/ZT,0,1),kb=cl((vh-(D-ms))/ZB,0,1);ft=kt>.02?Math.min(1,ft/kt):1;fb=kb>.02?Math.min(1,fb/kb):1}
-    e._ty=(1-fb)*46-(1-ft)*18;e.style.opacity=ft*fb;e.style.transform=`translateY(${e._ty}px)`}
-  // balança: lado oposto ao texto
-  for(const s of secs){const r=s.getBoundingClientRect();if(r.top<=vh*.5&&r.bottom>vh*.5){gtx=+s.dataset.sx;gto=+s.dataset.so}}
-  gx+=(gtx-gx)*.045;go+=(gto-go)*.06;rot+=(y/vh*.9-rot)*.06;
-  if(gl)gl(t);
-  requestAnimationFrame(frame);
-}
-requestAnimationFrame(frame);
-</script>
+  <!-- Script da Animação dos 600 Frames & Interação -->
+  <script src="script.js"></script>
 </body>
 </html>
