@@ -38,7 +38,7 @@
       }
     };
   </script>
-  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-[#1F120B] text-white font-inter selection:bg-[#3BB4F2]/30 selection:text-white">
@@ -721,55 +721,11 @@
             </p>
           </div>
 
-          <!-- Mapa-Múndi Estilizado SVG Inline -->
-          <div class="w-full max-w-5xl mx-auto glass-card-dark rounded-3xl p-6 sm:p-10 shadow-2xl overflow-hidden relative">
-            <div class="w-full aspect-[2/1] relative">
-              <svg viewBox="0 0 1000 500" class="w-full h-full drop-shadow-md select-none" role="img" aria-label="Mapa de alianças na Europa, África e América">
-                <defs>
-                  <filter id="blue-glow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="6" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                  </filter>
-                </defs>
-
-                <!-- Grelha -->
-                <g stroke="white" stroke-opacity="0.04" stroke-width="1" stroke-dasharray="4 6">
-                  <line x1="50" y1="125" x2="950" y2="125" />
-                  <line x1="50" y1="250" x2="950" y2="250" />
-                  <line x1="50" y1="375" x2="950" y2="375" />
-                  <line x1="250" y1="50" x2="250" y2="450" />
-                  <line x1="500" y1="50" x2="500" y2="450" />
-                  <line x1="750" y1="50" x2="750" y2="450" />
-                </g>
-
-                <!-- Ásia -->
-                <path d="M 610 80 Q 720 60 850 80 Q 920 120 900 180 Q 860 240 780 250 Q 740 280 670 260 Q 620 200 610 140 Z" fill="#4A2C1B" opacity="0.45" />
-
-                <!-- Oceania -->
-                <path d="M 780 340 Q 860 320 890 360 Q 890 410 820 420 Q 770 400 780 340 Z" fill="#4A2C1B" opacity="0.45" />
-
-                <!-- América do Norte (Destaque) -->
-                <path d="M 120 100 Q 220 50 340 80 Q 330 150 290 190 Q 240 230 190 220 Q 140 180 120 100 Z" fill="#3BB4F2" fill-opacity="0.85" filter="url(#blue-glow)" />
-
-                <!-- América do Sul (Destaque) -->
-                <path d="M 270 240 Q 350 250 360 310 Q 340 390 300 440 Q 260 410 250 330 Q 250 280 270 240 Z" fill="#3BB4F2" fill-opacity="0.85" filter="url(#blue-glow)" />
-
-                <!-- Europa (Destaque) -->
-                <path d="M 480 100 Q 560 80 600 110 Q 590 160 540 180 Q 490 170 470 140 Z" fill="#3BB4F2" fill-opacity="0.85" filter="url(#blue-glow)" />
-
-                <!-- África (Destaque Principal) -->
-                <path d="M 470 190 Q 570 180 580 260 Q 570 340 540 430 Q 500 440 480 370 Q 430 270 470 190 Z" fill="#3BB4F2" fill-opacity="0.9" filter="url(#blue-glow)" />
-
-                <!-- Luanda Dot -->
-                <circle cx="510" cy="300" r="7" fill="#FFFFFF" filter="url(#blue-glow)" />
-                <circle cx="510" cy="300" r="14" fill="none" stroke="#3BB4F2" stroke-width="2" opacity="0.8">
-                  <animate attributeName="r" values="7;22;7" dur="2.4s" repeatCount="indefinite" />
-                  <animate attributeName="opacity" values="1;0;1" dur="2.4s" repeatCount="indefinite" />
-                </circle>
-                <text x="525" y="305" fill="#FFFFFF" font-family="tnr, sans-serif" font-weight="700" font-size="13">Luanda (Sede)</text>
-              </svg>
-            </div>
+          <!-- Mapa-Múndi Real (Leaflet) -->
+          <div class="w-full max-w-5xl mx-auto glass-card-dark rounded-3xl p-3 sm:p-4 shadow-2xl overflow-hidden relative">
+            <div id="world-map" class="w-full rounded-2xl" style="height: clamp(320px, 55vw, 520px);" role="region" aria-label="Mapa mundial das alianças da JPires"></div>
           </div>
+          
 
         </div>
       </section>
@@ -859,10 +815,50 @@
     </footer>
 
   </div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const map = L.map('world-map', {
+        center: [12, 15],
+        zoom: 2,
+        minZoom: 2,
+        maxZoom: 8,
+        worldCopyJump: true,
+        scrollWheelZoom: false,   // não "rouba" o scroll da página
+        attributionControl: true
+      });
+
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+  attribution: 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, FEMA, USGS, NGA',
+  maxNativeZoom: 16
+}).addTo(map);
+
+// Opcional: nomes de países e cidades por cima
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+  maxNativeZoom: 16
+}).addTo(map);
+
+      // Ativa o zoom com scroll só depois de clicar no mapa
+      map.on('click', () => map.scrollWheelZoom.enable());
+      map.on('mouseout', () => map.scrollWheelZoom.disable());
+
+      // Marcador pulsante em Luanda
+      const luandaIcon = L.divIcon({
+        className: 'luanda-marker',
+        html: '<span class="dot"></span><span class="pulse"></span>',
+        iconSize: [20, 20],
+        iconAnchor: [10, 10]
+      });
+
+      L.marker([-8.8383, 13.2344], { icon: luandaIcon })
+        .addTo(map)
+        .bindTooltip('Luanda (Sede)', { permanent: true, direction: 'right', offset: [12, 0], className: 'luanda-label' });
+    });
+  </script>
 
   <!-- Script da Animação dos 600 Frames & Interação -->
   <script src="script.js"></script>
 
-  <!-- By: DG -->
+  <!-- By Inovation -->
 </body>
 </html>

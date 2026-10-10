@@ -123,3 +123,27 @@ body {
   background: rgba(59, 180, 242, 0.35);
   color: #FFFFFF;
 }
+
+#world-map { background: #1F120B; z-index: 0; }
+.leaflet-container { font-family: 'Inter', sans-serif; }
+#aliancas .glass-card-dark { isolation: isolate; } /* evita o mapa sobrepor a navbar */
+
+.luanda-marker { position: relative; }
+.luanda-marker .dot {
+  position: absolute; inset: 4px; border-radius: 50%;
+  background: #fff; box-shadow: 0 0 12px #3BB4F2;
+}
+.luanda-marker .pulse {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 2px solid #3BB4F2; animation: luanda-pulse 2.4s ease-out infinite;
+}
+@keyframes luanda-pulse {
+  0%   { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
+.luanda-label {
+  background: #2E1B12; color: #fff; border: 1px solid #3BB4F2;
+  font-weight: 700; border-radius: 9999px; padding: 4px 10px;
+}
+.luanda-label::before { display: none; }
