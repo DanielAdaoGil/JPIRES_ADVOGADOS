@@ -838,6 +838,35 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_D
   maxNativeZoom: 16
 }).addTo(map);
 
+// Continentes com parceria e respetivas cores
+const continentesParceiros = {
+  'Africa':        { nome: 'África',           cor: '#3BB4F2' },
+  'Europe':        { nome: 'Europa',           cor: '#8DD6FA' },
+  'North America': { nome: 'América do Norte', cor: '#1B8FD0' },
+  'South America': { nome: 'América do Sul',   cor: '#1B8FD0' }
+};
+
+fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson')
+  .then(r => r.json())
+  .then(data => {
+    L.geoJSON(data, {
+      filter: f => f.properties.CONTINENT in continentesParceiros,
+      style: f => ({
+        color: continentesParceiros[f.properties.CONTINENT].cor,
+        weight: 0.8,
+        fillColor: continentesParceiros[f.properties.CONTINENT].cor,
+        fillOpacity: 0.35
+      }),
+      onEachFeature: (f, layer) => {
+        const c = continentesParceiros[f.properties.CONTINENT];
+        layer.bindTooltip(c.nome, { sticky: true });
+        layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.6 }));
+        layer.on('mouseout',  () => layer.setStyle({ fillOpacity: 0.35 }));
+      }
+    }).addTo(map);
+  })
+  .catch(err => console.error('Erro ao carregar o GeoJSON:', err));
+
       // Ativa o zoom com scroll só depois de clicar no mapa
       map.on('click', () => map.scrollWheelZoom.enable());
       map.on('mouseout', () => map.scrollWheelZoom.disable());
