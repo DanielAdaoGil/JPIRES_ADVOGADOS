@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="favicon.ico"> 
   
   <!-- Tailwind CSS CDN com Configuração de Cores & Fontes do Projeto -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -58,12 +59,10 @@
     <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-5 sm:py-6" role="banner">
       <div class="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         
-        <!-- Marca JPires -->
-        <a href="#inicio" class="group flex flex-col focus:outline-none p-1" aria-label="JPires – Início">
-          <span class="font-tnr font-extrabold text-2xl sm:text-3xl text-white tracking-tight group-hover:text-[#3BB4F2] transition-colors leading-none">
-            JPires
-          </span>
-          <span class="font-inter text-[11px] sm:text-xs text-[#D9C3B0] tracking-wider mt-0.5 font-normal">
+        <!-- Marca JPires (logótipo) -->
+        <a href="#inicio" class="group flex flex-col items-start focus:outline-none p-1" aria-label="JPires – Início">
+          <img src="logo.png" alt="JPires" class="navbar-logo" width="160" height="48" decoding="async">
+          <span class="font-inter text-[11px] sm:text-xs text-[#D9C3B0] tracking-wider mt-1 font-normal">
             Sociedade de Advogados, RL
           </span>
         </a>
@@ -451,7 +450,7 @@
             </div>
 
             <div class="lg:col-span-7 bg-[#EAF6FD]/95 p-6 sm:p-10 lg:p-14">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+              <div id="sectores-lista" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 
                 <div class="group relative p-4 sm:p-5 rounded-2xl bg-white border border-[#2E1B12]/10 hover:border-[#1B8FD0] shadow-sm hover:shadow-md transition-all flex items-center justify-between">
                   <div class="flex items-center gap-3.5 pr-2">
@@ -886,6 +885,7 @@ fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geo
   </script>
 
   <!-- Script da Animação dos 600 Frames & Interação -->
+  <script src="areas-modal.js"></script>
   <script src="script.js"></script>
 
   <!-- By Inovation -->
