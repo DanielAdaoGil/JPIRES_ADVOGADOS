@@ -314,3 +314,141 @@ body.modal-open { overflow: hidden; }
 @media (min-width: 640px) {
   .navbar-logo { height: 52px; max-width: 220px; }
 }
+
+/* ==========================================================================
+   NAVBAR: FUNDO BRANCO + LETRAS DOURADAS
+   ========================================================================== */
+:root {
+  --gold: #9C7A1E;
+  --gold-light: #C9A24B;
+  --gold-dark: #7A5F12;
+}
+
+#navbar {
+  background: #001b39 !important;
+  border-bottom: 1px solid rgba(201, 162, 75, 0.5) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* Subtítulo "Sociedade de Advogados, RL" */
+#navbar a[href="#inicio"] span { color: var(--gold) !important; }
+
+/* Pílula central de links */
+#navbar nav {
+  background: #002147 !important;
+  border: 1px solid var(--gold-light) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+#navbar nav a { color: var(--gold) !important; }
+#navbar nav a:hover {
+  color: var(--gold-dark) !important;
+  background: rgba(201, 162, 75, 0.14) !important;
+}
+
+/* Botão CTA (desktop e mobile) */
+#navbar a[href^="mailto"] {
+  background: var(--gold) !important;
+  color: #FFFFFF !important;
+}
+#navbar a[href^="mailto"]:hover { background: var(--gold-dark) !important; }
+#navbar a[href^="mailto"] svg { color: var(--gold) !important; }
+
+/* Botão hambúrguer */
+#mobile-menu-btn {
+  background: #FFFFFF !important;
+  color: var(--gold) !important;
+  border: 1px solid var(--gold-light) !important;
+}
+
+/* Menu mobile */
+#mobile-menu {
+  background: #FFFFFF !important;
+  border-bottom: 1px solid rgba(201, 162, 75, 0.5) !important;
+}
+#mobile-menu a.mobile-link { color: var(--gold) !important; }
+#mobile-menu a.mobile-link:hover { color: var(--gold-dark) !important; }
+
+/* ==========================================================================
+   MODAL "O QUE FAZEMOS" + CHIPS DE ALIADOS
+   ========================================================================== */
+#areas > .grid > div { cursor: pointer; }
+#areas > .grid > div:focus-visible {
+  outline: 2px solid #3BB4F2;
+  outline-offset: 3px;
+}
+
+.area-modal__intro {
+  margin-top: 18px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.aliado-chip {
+  list-style: none;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  background: rgba(242, 193, 78, 0.12);
+  border: 1px solid rgba(242, 193, 78, 0.55);
+  color: #F2C14E;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+/* ==========================================================================
+   GRADIENTE DOURADO EM TODO O TEXTO DA NAVBAR
+   ========================================================================== */
+#navbar a[href="#inicio"] #legend,
+#navbar nav a,
+#mobile-menu a.mobile-link {
+  background-image: linear-gradient(
+    100deg,
+    #8A6B1E 0%,
+    #D4AF37 25%,
+    #F7E7A1 50%,
+    #D4AF37 75%,
+    #8A6B1E 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent !important;
+}
+
+#navbar a[href="#inicio"] #legend { display: inline-block; }
+#mobile-menu a.mobile-link { width: fit-content; }
+
+/* Hover dos links da pílula: fundo dourado com texto preto (legível) */
+#navbar nav a:hover {
+  -webkit-text-fill-color: #0B0B0B !important;
+}
+
+/* Hover do menu mobile: brilho mais claro */
+#mobile-menu a.mobile-link:hover {
+  filter: brightness(1.25);
+}
+
+/* ==========================================================================
+   MARCADORES DOS PAÍSES ALIADOS (PONTO DOURADO A PULSAR)
+   ========================================================================== */
+.aliado-marker { position: relative; }
+.aliado-marker .dot {
+  position: absolute; inset: 4px; border-radius: 50%;
+  background: #F2C14E; box-shadow: 0 0 12px #D4AF37;
+}
+.aliado-marker .pulse {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 2px solid #D4AF37; animation: luanda-pulse 2.4s ease-out infinite;
+}
+
+.aliado-label {
+  background: #0B0B0B; color: #F2C14E; border: 1px solid #D4AF37;
+  font-weight: 600; font-size: 12px; border-radius: 9999px; padding: 3px 10px;
+  box-shadow: none;
+}
+.aliado-label::before { display: none; }
+
+@media (max-width: 640px) {
+  .aliado-label { font-size: 10px; padding: 2px 8px; }
+}

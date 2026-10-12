@@ -184,10 +184,10 @@ function onScroll() {
   const navbar = document.getElementById('navbar');
   if (navbar) {
     if (window.scrollY > 40) {
-      navbar.classList.add('bg-[#1F120B]/90', 'backdrop-blur-md', 'border-b', 'border-white/10', 'shadow-xl', 'py-3');
+      navbar.classList.add('shadow-xl', 'py-3');
       navbar.classList.remove('py-5', 'sm:py-6');
     } else {
-      navbar.classList.remove('bg-[#1F120B]/90', 'backdrop-blur-md', 'border-b', 'border-white/10', 'shadow-xl', 'py-3');
+      navbar.classList.remove('shadow-xl', 'py-3');
       navbar.classList.add('py-5', 'sm:py-6');
     }
   }
