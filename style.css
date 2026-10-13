@@ -517,3 +517,21 @@ html[lang="zh"] .font-inter {
 html[lang="zh"] * { letter-spacing: 0 !important; }
 
 .lang-menu { max-height: 70vh; overflow-y: auto; }
+
+/* ===== Espaço reservado para a navbar fixa ===== */
+:root { --nav-h: 180px; } /* valor inicial; o JS ajusta ao valor real */
+
+/* Hero começa sempre abaixo da navbar */
+#inicio {
+  padding-top: calc(var(--nav-h) + 12px) !important;
+  height: auto !important;
+  min-height: 100vh !important;
+  max-height: none !important;
+}
+
+/* Links âncora (#sobre, #areas, etc.) param abaixo da navbar */
+section[id],
+#areas,
+#equipa {
+  scroll-margin-top: var(--nav-h) !important;
+}

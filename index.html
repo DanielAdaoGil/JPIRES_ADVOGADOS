@@ -975,6 +975,24 @@ rotulos.push([layer, nomePt]);
         rotulos.push([mk, a.nome]);
       });
 
+
+    // Mede a altura real da navbar e guarda em --nav-h
+      (() => {
+        const nav = document.getElementById('navbar');
+        if (!nav) return;
+        const row = nav.firstElementChild; // linha principal (sem o menu mobile aberto)
+
+        const setNavH = () => {
+          const pad = parseFloat(getComputedStyle(nav).paddingTop) * 2;
+          const h = Math.ceil(row.getBoundingClientRect().height + pad);
+          document.documentElement.style.setProperty('--nav-h', h + 'px');
+        };
+
+        setNavH();
+        window.addEventListener('load', setNavH);   // depois do logo carregar
+        window.addEventListener('resize', setNavH);
+        if ('ResizeObserver' in window) new ResizeObserver(setNavH).observe(row);
+      })();
     }); // <- fecha o DOMContentLoaded
   </script>
 
