@@ -508,3 +508,12 @@ html[lang="ar"] * { letter-spacing: 0 !important; }
 @media (min-width: 1280px) and (max-width: 1535px) {
   #navbar nav a { padding-inline: 10px; font-size: 13px; }
 }
+
+html[lang="zh"] body,
+html[lang="zh"] .font-tnr,
+html[lang="zh"] .font-inter {
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif !important;
+}
+html[lang="zh"] * { letter-spacing: 0 !important; }
+
+.lang-menu { max-height: 70vh; overflow-y: auto; }
