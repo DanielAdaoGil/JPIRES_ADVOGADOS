@@ -335,7 +335,7 @@ body.modal-open { overflow: hidden; }
 
 /* Pílula central de links */
 #navbar nav {
-  background: #002147 !important;
+  background: #001b39 !important;
   border: 1px solid var(--gold-light) !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
@@ -363,7 +363,7 @@ body.modal-open { overflow: hidden; }
 
 /* Menu mobile */
 #mobile-menu {
-  background: #FFFFFF !important;
+  background: #001b39 !important;
   border-bottom: 1px solid rgba(201, 162, 75, 0.5) !important;
 }
 #mobile-menu a.mobile-link { color: var(--gold) !important; }
