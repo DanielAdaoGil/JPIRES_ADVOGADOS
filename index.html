@@ -9,7 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/x-icon" href="favicon.ico"> 
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="style.css?v=5"> 
   
   <!-- Tailwind CSS CDN com Configuração de Cores & Fontes do Projeto -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -81,6 +83,21 @@
 
         <!-- Botão CTA & Hamburger Mobile -->
         <div class="flex items-center gap-3">
+          <!-- Seletor de idioma -->
+          <div id="lang-switcher" class="lang-switcher">
+            <button type="button" id="lang-btn" class="lang-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Idioma">
+              <img id="lang-current-flag" src="https://flagcdn.com/w40/ao.png" alt="" width="24" height="16">
+              <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <ul id="lang-menu" class="lang-menu" role="listbox" hidden>
+              <li><button type="button" role="option" data-lang="pt"><img src="https://flagcdn.com/w40/ao.png" alt="" width="24" height="16"><span>Português</span></button></li>
+              <li><button type="button" role="option" data-lang="en"><img src="https://flagcdn.com/w40/gb.png" alt="" width="24" height="16"><span>English</span></button></li>
+              <li><button type="button" role="option" data-lang="fr"><img src="https://flagcdn.com/w40/fr.png" alt="" width="24" height="16"><span>Français</span></button></li>
+              <li><button type="button" role="option" data-lang="de"><img src="https://flagcdn.com/w40/de.png" alt="" width="24" height="16"><span>Deutsch</span></button></li>
+              <li><button type="button" role="option" data-lang="ar"><img src="https://flagcdn.com/w40/ae.png" alt="" width="24" height="16"><span>العربية</span></button></li>
+            </ul>
+          </div>
+
           <a href="mailto:jpires@jpires-advogados.ao?subject=Pedido%20de%20sess%C3%A3o%20de%20diagn%C3%B3stico" 
              class="group hidden sm:inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-[#3BB4F2] hover:bg-[#8DD6FA] active:scale-95 text-[#1F120B] font-semibold text-xs sm:text-sm transition-all duration-200 shadow-md hover:shadow-[#3BB4F2]/25">
             <span>Marcar Sessão de Diagnóstico</span>
@@ -828,6 +845,12 @@
         attributionControl: true
       });
 
+      const T = (s) => (window.JPI18N ? JPI18N.t(s) : s);
+const rotulos = [];
+document.addEventListener('jp:lang', () => {
+  rotulos.forEach(([layer, pt]) => layer.setTooltipContent(T(pt)));
+});
+
       L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
   attribution: 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, FEMA, USGS, NGA',
   maxNativeZoom: 16
@@ -862,7 +885,8 @@ fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geo
       }),
       onEachFeature: (f, layer) => {
         const c = continentesParceiros[f.properties.CONTINENT];
-        layer.bindTooltip(c.nome, { sticky: true });
+        layer.bindTooltip(T(c.nome), { sticky: true });
+rotulos.push([layer, c.nome]);
         layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.6 }));
         layer.on('mouseout',  () => layer.setStyle({ fillOpacity: 0.35 }));
       }
@@ -878,7 +902,9 @@ fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geo
         fillOpacity: 0.8
       }),
       onEachFeature: (f, layer) => {
-        layer.bindTooltip(paisesAliados[codigoPais(f.properties)], { sticky: true });
+        const nomePt = paisesAliados[codigoPais(f.properties)];
+layer.bindTooltip(T(nomePt), { sticky: true });
+rotulos.push([layer, nomePt]);
         layer.on('mouseover', () => layer.setStyle({ fillOpacity: 1 }));
         layer.on('mouseout',  () => layer.setStyle({ fillOpacity: 0.8 }));
       }
@@ -920,24 +946,24 @@ fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geo
       });
 
       aliados.forEach((a) => {
-        const offset = a.dir === 'left' ? [-10, 0] : a.dir === 'top' ? [0, -10] : [10, 0];
-        L.marker(a.coords, { icon: aliadoIcon })
-          .addTo(map)
-          .bindTooltip(a.nome, {
-            permanent: true,
-            direction: a.dir,
-            offset: offset,
-            className: 'aliado-label'
-          });
-      });
-
-    }); // <- fecha o DOMContentLoaded (tem de ficar aqui, no fim)
+  const offset = a.dir === 'left' ? [-10, 0] : a.dir === 'top' ? [0, -10] : [10, 0];
+  const mk = L.marker(a.coords, { icon: aliadoIcon })
+    .addTo(map)
+    .bindTooltip(T(a.nome), {
+      permanent: true,
+      direction: a.dir,
+      offset: offset,
+      className: 'aliado-label'
+    });
+  rotulos.push([mk, a.nome]);
+}); // <- fecha o DOMContentLoaded (tem de ficar aqui, no fim)
   </script>
 
   <!-- Scripts do site (cada um só uma vez) -->
-  <script src="areas-modal.js?v=4"></script>
-  <script src="areas-pratica-modal.js?v=4"></script>
-  <script src="script.js?v=4"></script>
+  <script src="i18n.js?v=5"></script>
+  <script src="areas-modal.js?v=5"></script>
+  <script src="areas-pratica-modal.js?v=5"></script>
+  <script src="script.js?v=5"></script>
 
   <!-- By Inovation -->
 </body>

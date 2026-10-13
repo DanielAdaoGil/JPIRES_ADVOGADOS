@@ -452,3 +452,59 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 640px) {
   .aliado-label { font-size: 10px; padding: 2px 8px; }
 }
+
+/* ==========================================================================
+   SELETOR DE IDIOMA
+   ========================================================================== */
+.lang-switcher { position: relative; }
+
+.lang-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; border-radius: 9999px;
+  background: #141414; color: #D4AF37;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  cursor: pointer; transition: all .2s ease;
+}
+.lang-btn:hover { border-color: #D4AF37; background: #1c1c1c; }
+.lang-btn:focus-visible { outline: 2px solid #E8C766; outline-offset: 2px; }
+.lang-btn svg { width: 14px; height: 14px; transition: transform .2s ease; }
+.lang-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+.lang-btn img, .lang-menu img {
+  width: 24px; height: 16px; object-fit: cover;
+  border-radius: 3px; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+
+.lang-menu {
+  position: absolute; top: calc(100% + 10px); inset-inline-end: 0;
+  min-width: 180px; list-style: none; margin: 0; padding: 6px;
+  border-radius: 16px; background: #0B0B0B;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  z-index: 70;
+}
+.lang-menu[hidden] { display: none; }
+.lang-menu button {
+  width: 100%; display: flex; align-items: center; gap: 12px;
+  padding: 9px 12px; border-radius: 10px;
+  background: transparent; border: 0; color: #D4AF37;
+  font-size: 14px; font-weight: 600; text-align: start; cursor: pointer;
+}
+.lang-menu button:hover,
+.lang-menu button[aria-selected="true"] { background: rgba(212, 175, 55, 0.14); }
+
+/* ==========================================================================
+   ÁRABE (RTL)
+   ========================================================================== */
+html[lang="ar"] body,
+html[lang="ar"] .font-tnr,
+html[lang="ar"] .font-inter { font-family: 'Cairo', 'Inter', sans-serif !important; }
+html[lang="ar"] * { letter-spacing: 0 !important; }
+[dir="rtl"] .text-left { text-align: right !important; }
+[dir="rtl"] #world-map { direction: ltr; }   /* o mapa não deve inverter */
+[dir="rtl"] .area-modal__list li { text-align: right; }
+
+/* Navbar com textos mais longos (FR/DE) em ecrãs médios */
+@media (min-width: 1280px) and (max-width: 1535px) {
+  #navbar nav a { padding-inline: 10px; font-size: 13px; }
+}

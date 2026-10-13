@@ -143,7 +143,7 @@
 
       dialog.scrollTop = 0;
       lastFocused = document.activeElement;
-      modal.classList.add('is-open');
+      if (window.JPI18N) JPI18N.apply(modal);
       modal.setAttribute('aria-hidden', 'false');
       document.body.classList.add('modal-open');
       closeBtn.focus({ preventScroll: true });
