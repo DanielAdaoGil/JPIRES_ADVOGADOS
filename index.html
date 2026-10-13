@@ -42,7 +42,6 @@
     };
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-[#1F120B] text-white font-inter selection:bg-[#3BB4F2]/30 selection:text-white">
 
@@ -861,13 +860,11 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_D
   maxNativeZoom: 16
 }).addTo(map);
 
-const paisesAliados = {
-  PRT: 'Portugal',
-  BRA: 'Brasil',
-  USA: 'Estados Unidos',
-  GBR: 'Reino Unido',
-  ARE: 'Emirados Árabes Unidos',
-  DEU: 'Alemanha'
+const continentesParceiros = {
+  'Africa':        { nome: 'África',           cor: '#3BB4F2' },
+  'Europe':        { nome: 'Europa',           cor: '#8DD6FA' },
+  'North America': { nome: 'América do Norte', cor: '#1B8FD0' },
+  'South America': { nome: 'América do Sul',   cor: '#1B8FD0' }
 };
 const codigoPais = (p) => (p.ISO_A3 && p.ISO_A3 !== '-99' ? p.ISO_A3 : p.ADM0_A3);
 
@@ -924,9 +921,10 @@ rotulos.push([layer, nomePt]);
         iconAnchor: [10, 10]
       });
 
-            L.marker([-8.8383, 13.2344], { icon: luandaIcon })
+             const luandaMarker = L.marker([-8.8383, 13.2344], { icon: luandaIcon })
         .addTo(map)
-        .bindTooltip('Luanda (Sede)', { permanent: true, direction: 'right', offset: [12, 0], className: 'luanda-label' });
+        .bindTooltip(T('Luanda (Sede)'), { permanent: true, direction: 'right', offset: [12, 0], className: 'luanda-label' });
+      rotulos.push([luandaMarker, 'Luanda (Sede)']);
 
       // Marcadores dos países aliados (capitais)
       const aliados = [
@@ -946,17 +944,19 @@ rotulos.push([layer, nomePt]);
       });
 
       aliados.forEach((a) => {
-  const offset = a.dir === 'left' ? [-10, 0] : a.dir === 'top' ? [0, -10] : [10, 0];
-  const mk = L.marker(a.coords, { icon: aliadoIcon })
-    .addTo(map)
-    .bindTooltip(T(a.nome), {
-      permanent: true,
-      direction: a.dir,
-      offset: offset,
-      className: 'aliado-label'
-    });
-  rotulos.push([mk, a.nome]);
-}); // <- fecha o DOMContentLoaded (tem de ficar aqui, no fim)
+        const offset = a.dir === 'left' ? [-10, 0] : a.dir === 'top' ? [0, -10] : [10, 0];
+        const mk = L.marker(a.coords, { icon: aliadoIcon })
+          .addTo(map)
+          .bindTooltip(T(a.nome), {
+            permanent: true,
+            direction: a.dir,
+            offset: offset,
+            className: 'aliado-label'
+          });
+        rotulos.push([mk, a.nome]);
+      });
+
+    }); // <- fecha o DOMContentLoaded
   </script>
 
   <!-- Scripts do site (cada um só uma vez) -->
